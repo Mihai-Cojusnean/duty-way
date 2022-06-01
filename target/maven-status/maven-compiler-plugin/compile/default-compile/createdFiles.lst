@@ -1,0 +1,17 @@
+org\example\telegramservice\dbservice\entity\User.class
+org\example\telegramservice\service\YamlConfig\ApplicationConfig.class
+org\example\telegramservice\service\BtnManager.class
+org\example\telegramservice\commands\StartCommand.class
+org\example\telegramservice\dbservice\game\Match.class
+org\example\telegramservice\dbservice\repository\UserRepo.class
+org\example\telegramservice\commands\AskLocationCommand.class
+org\example\telegramservice\service\UserService.class
+org\example\telegramservice\commands\FindNearTableCommand.class
+org\example\telegramservice\commands\StartGameCommand.class
+org\example\telegramservice\dbservice\repository\MatchRepo.class
+org\example\telegramservice\commands\CommandGenerator.class
+org\example\telegramservice\service\MessageService.class
+org\example\telegramservice\botconfiguration\Bot.class
+org\example\telegramservice\commands\GameManagement.class
+org\example\telegramservice\service\YamlConfig\LocationsConfig.class
+org\example\telegramservice\TelegramUserServiceApplication.class

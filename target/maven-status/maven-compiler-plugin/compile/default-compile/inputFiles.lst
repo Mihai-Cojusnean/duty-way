@@ -1,0 +1,17 @@
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\commands\GameManagement.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\dbservice\game\Match.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\dbservice\repository\UserRepo.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\botconfiguration\Bot.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\service\YamlConfig\ApplicationConfig.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\TelegramUserServiceApplication.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\commands\StartGameCommand.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\commands\FindNearTableCommand.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\dbservice\repository\MatchRepo.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\commands\StartCommand.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\dbservice\entity\User.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\service\BtnManager.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\service\YamlConfig\LocationsConfig.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\service\MessageService.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\service\UserService.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\commands\CommandGenerator.java
+C:\Users\Mihai Cojusnean\IdeaProjects\CojusneanBot\src\main\java\org\example\telegramservice\commands\AskLocationCommand.java
