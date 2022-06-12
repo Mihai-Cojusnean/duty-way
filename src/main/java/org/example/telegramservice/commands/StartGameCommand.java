@@ -24,7 +24,7 @@ public class StartGameCommand implements CommandGenerator<SendMessage> {
         SendMessage sendMessage = new SendMessage(update.getMessage().getChatId().toString(), String.format(format,
                 "1. " + update.getMessage().getFrom().getFirstName(), match.getMyPts(), match.getMyScore(), "\uD83C\uDFD3",
                 "2. " + match.getOpponentName(), match.getOpponentPts(), match.getOpponentScore(), ""));
-        sendMessage.setReplyMarkup(buttons.getInlineKeyboardMarkup(new String[]{"1.+", "2.+", "↔", "new game"}));
+        sendMessage.setReplyMarkup(buttons.setInlineKeyboardMarkup(new String[][]{{"1.+", "2.+", "↔", "new game"}}));
         return sendMessage;
     }
 

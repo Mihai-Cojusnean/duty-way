@@ -106,7 +106,7 @@ public class GameManagement implements CommandGenerator<EditMessageText> {
         int messageId = update.getCallbackQuery().getMessage().getMessageId();
         message.setChatId(String.valueOf(chatId));
         message.setMessageId(messageId);
-        message.setReplyMarkup(btnManager.getInlineKeyboardMarkup(new String[]{"1.+", "2.+", "↔", "new game"}));
+        message.setReplyMarkup(btnManager.setInlineKeyboardMarkup(new String[][]{{"1.+", "2.+", "↔", "new game"}}));
         String userName = update.getCallbackQuery().getFrom().getFirstName();
         String board = String.format("%s|%s|%s|%s\n%s|%s|%s|%s",
                 "1. " + userName, match.getMyPts(), match.getMyScore(), serving[0],

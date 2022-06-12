@@ -22,10 +22,8 @@ public class UserService {
     }
 
     /* user database */
-    public User getUser(Update update) {
-        User user = userRepo.findByChatId(
-                isNull(update.getMessage()) ?
-                        update.getCallbackQuery().getFrom().getId().toString() : update.getMessage().getChatId().toString());
+    public User getUser(Update update, String chatId) {
+        User user = userRepo.findByChatId(chatId);
 
         if (isNull(user)) user = saveUser(update);
         return user;
@@ -37,7 +35,9 @@ public class UserService {
                 update.getMessage().getChat().getFirstName(),
                 update.getMessage().getChat().getLastName(),
                 update.getMessage().getFrom().getUserName(),
-                update.getMessage().getFrom().getLanguageCode()
+                update.getMessage().getFrom().getLanguageCode(),
+                true,
+                1
         ));
     }
 

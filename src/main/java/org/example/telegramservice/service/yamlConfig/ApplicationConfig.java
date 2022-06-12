@@ -1,4 +1,4 @@
-package org.example.telegramservice.service.YamlConfig;
+package org.example.telegramservice.service.yamlConfig;
 
 import java.util.List;
 

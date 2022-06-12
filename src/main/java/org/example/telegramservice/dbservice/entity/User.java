@@ -20,4 +20,6 @@ public class User {
     String lName;
     String userNickName;
     String languageCode;
+    boolean oracleSelected;
+    int currProblem;
 }

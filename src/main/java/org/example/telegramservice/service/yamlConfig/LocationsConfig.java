@@ -1,4 +1,4 @@
-package org.example.telegramservice.service.YamlConfig;
+package org.example.telegramservice.service.yamlConfig;
 
 public class LocationsConfig {
     private String location;

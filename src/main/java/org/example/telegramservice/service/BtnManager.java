@@ -12,22 +12,26 @@ import java.util.List;
 
 public class BtnManager {
 
-    public InlineKeyboardMarkup getInlineKeyboardMarkup(String[] btnName) {
+    public InlineKeyboardMarkup setInlineKeyboardMarkup(String[][] buttons) {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-        List<InlineKeyboardButton> row = new ArrayList<>();
-        for (String s : btnName) {
-            InlineKeyboardButton inlineBtn = new InlineKeyboardButton();
-            inlineBtn.setText(s);
-            inlineBtn.setCallbackData(s);
-            row.add(inlineBtn);
-        }
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        keyboard.add(row);
+
+        for (String[] button : buttons) {
+            List<InlineKeyboardButton> row = new ArrayList<>();
+            for (String s : button) {
+                InlineKeyboardButton inlineBtn = new InlineKeyboardButton();
+                inlineBtn.setText(s);
+                inlineBtn.setCallbackData(s);
+                row.add(inlineBtn);
+            }
+            keyboard.add(row);
+        }
         markupInline.setKeyboard(keyboard);
+
         return markupInline;
     }
 
-    public ReplyKeyboardMarkup getStickyBtn(String[] btnName) {
+    public ReplyKeyboardMarkup setStickyBtn(String[] btnName) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);

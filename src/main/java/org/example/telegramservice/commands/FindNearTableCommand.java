@@ -3,14 +3,16 @@ package org.example.telegramservice.commands;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import org.example.telegramservice.service.MessageService;
-import org.example.telegramservice.service.YamlConfig.ApplicationConfig;
-import org.example.telegramservice.service.YamlConfig.LocationsConfig;
+import org.example.telegramservice.service.yamlConfig.ApplicationConfig;
+import org.example.telegramservice.service.yamlConfig.LocationsConfig;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 @Component
@@ -18,26 +20,28 @@ public class FindNearTableCommand implements CommandGenerator<SendLocation> {
 
     HashMap<String, Object> locationInfo = new HashMap<>();
 
+    @SneakyThrows
     @Override
     public SendLocation generate(Update update) {
         @NonNull Double userLatitude = update.getMessage().getLocation().getLatitude();
         Double userLongitude = update.getMessage().getLocation().getLongitude();
-        File file = new File("src/main/resources/tables_locations.yaml");
-        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-
-        try {
-            ApplicationConfig config = objectMapper.readValue(file, ApplicationConfig.class);
-            getClosestLocation(config, userLatitude, userLongitude);
-            MessageService message = new MessageService();
-            message.sendMessage((int) locationInfo.get("tables"), (String) locationInfo.get("location name"), update);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
         SendLocation sendLocation = new SendLocation();
+        MessageService message = new MessageService();
+        ApplicationConfig config = getConfig();
+
+        getClosestLocation(config, userLatitude, userLongitude);
+        message.sendMessage((int) locationInfo.get("tables"), (String) locationInfo.get("location name"), update);
         sendLocation.setChatId(update.getMessage().getChatId().toString());
         sendLocation.setLatitude((Double) locationInfo.get("latitude"));
         sendLocation.setLongitude((Double) locationInfo.get("longitude"));
+
         return sendLocation;
+    }
+
+    private ApplicationConfig getConfig() throws IOException {
+        File file = new File("src/main/resources/tables_locations.yaml");
+        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+        return objectMapper.readValue(file, ApplicationConfig.class);
     }
 
     @Override

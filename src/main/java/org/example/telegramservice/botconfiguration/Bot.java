@@ -2,8 +2,11 @@ package org.example.telegramservice.botconfiguration;
 
 import lombok.SneakyThrows;
 import org.example.telegramservice.commands.CommandGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.polls.SendPoll;
 import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -15,6 +18,8 @@ import java.util.Map;
 
 @Component
 public class Bot extends TelegramLongPollingBot {
+    @Autowired
+    Environment env;
     private final Map<String, CommandGenerator<?>> commands = new HashMap<>();
 
     public void register(String[] presentCommands, CommandGenerator<?> generator) {
@@ -24,6 +29,7 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     @SneakyThrows
     public void onUpdateReceived(Update update) {
+        if (update.hasPoll()) return;
         String command =
                 update.hasMessage() ? update.getMessage().getText() :
                         update.hasCallbackQuery() ? update.getCallbackQuery().getData() :
@@ -36,7 +42,7 @@ public class Bot extends TelegramLongPollingBot {
             case "SendMessage" -> execute((SendMessage) message);
             case "SendLocation" -> execute((SendLocation) message);
             case "EditMessageText" -> execute((EditMessageText) message);
-            default -> execute((SendMessage) commands.get("404 - big brain engineer is working on this problem"));
+            case "SendPoll" -> execute((SendPoll) message);
         }
     }
 
@@ -47,6 +53,6 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "1521467599:AAHz2D27gfj2z2M9vJmrZqm3u8U9uQuYh8I";
+        return env.getProperty("botToken");
     }
 }

@@ -17,10 +17,11 @@ public class StartCommand implements CommandGenerator<SendMessage> {
 
     @Override
     public SendMessage generate(Update update) {
+        String chatId = update.getMessage().getChatId().toString();
         BtnManager buttons = new BtnManager();
-        userService.getUser(update);
+        userService.getUser(update, chatId);
         SendMessage sendMessage = new SendMessage(update.getMessage().getChatId().toString(), "hello");
-        sendMessage.setReplyMarkup(buttons.getStickyBtn(new String[]{"Start game", "Near table", "Find opponent"}));
+        sendMessage.setReplyMarkup(buttons.setStickyBtn(new String[]{"Start game", "Near table", "Oracle prob"}));
         return sendMessage;
     }
 
