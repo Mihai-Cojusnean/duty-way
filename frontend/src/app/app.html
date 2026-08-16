@@ -1,6 +1,50 @@
 <main>
-  <h1>My Telegram App</h1>
-  <p>Welcome!</p>
+  <h1>My work schedule</h1>
 
-  <button type="button">Say hello</button>
+  @if (username) {
+  <p>Telegram account: {{ username }}</p>
+  }
+
+  <p>Enter your name, then choose your Excel schedule.</p>
+
+  <label for="personName">Your first and last name</label>
+  <input
+    id="personName"
+    type="text"
+    placeholder="For example: Mihai Popescu"
+    (input)="onNameChanged($event)"
+  >
+
+  <label for="scheduleFile">Excel schedule</label>
+  <input
+    id="scheduleFile"
+    type="file"
+    accept=".xlsx,.xls"
+    (change)="onFileSelected($event)"
+  >
+
+  <button
+    type="button"
+    (click)="findSchedule()"
+    [disabled]="!personName.trim() || !selectedFile"
+  >
+    Find my schedule
+  </button>
+
+  @if (message) {
+  <p>{{ message }}</p>
+  }
+
+  @if (records.length) {
+  <section>
+    <h2>Your schedule</h2>
+
+    @for (record of records; track record.id) {
+    <article>
+      <strong>{{ record.day }} {{ record.dateStr }}</strong>
+      <p>{{ record.hours }} · {{ record.brand }} · {{ record.tabName }}</p>
+    </article>
+    }
+  </section>
+  }
 </main>
