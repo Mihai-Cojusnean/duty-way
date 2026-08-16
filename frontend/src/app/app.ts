@@ -25,6 +25,7 @@ export class App implements OnInit {
   selectedFile?: File;
   records: ScheduleRecord[] = [];
   message = '';
+  selectedBrand: string | null = null;
 
   constructor(
     private telegramService: TelegramService,
@@ -107,10 +108,18 @@ export class App implements OnInit {
     );
 
     this.message = this.records.length
-      ? `${this.records.length} schedule item(s) found.`
+      ? `${this.records.length} shifts`
       : `No schedule found for "${this.personName}".`;
 
     this.changeDetector.detectChanges();
+  }
+
+  openBrandCatalog(brand: string): void {
+    this.selectedBrand = brand;
+  }
+
+  backToSchedule(): void {
+    this.selectedBrand = null;
   }
 
   private cellText(sheet: XLSX.WorkSheet, row: number, col: number): string {
@@ -159,5 +168,25 @@ export class App implements OnInit {
     };
 
     return shortDays[day.trim().toLowerCase()] ?? day.slice(0, 3);
+  }
+
+  isPast(dateStr: string): boolean {
+    const shiftDate = new Date(`${dateStr} ${new Date().getFullYear()}`);
+    shiftDate.setHours(0, 0, 0, 0);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return !Number.isNaN(shiftDate.getTime()) && shiftDate < today;
+  }
+
+  isToday(dateStr: string): boolean {
+    const shiftDate = new Date(`${dateStr} ${new Date().getFullYear()}`);
+    shiftDate.setHours(0, 0, 0, 0);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return !Number.isNaN(shiftDate.getTime()) && shiftDate.getTime() === today.getTime();
   }
 }

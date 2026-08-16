@@ -1,9 +1,32 @@
 <main>
-  <section class="hero">
-    <h1>My shifts</h1>
+  @if (selectedBrand) {
+  <header class="topbar">
+    <button class="back-button" type="button" (click)="backToSchedule()">
+      ← Schedule
+    </button>
+  </header>
 
+  <section class="catalog-page">
+    <h1>{{ selectedBrand }}</h1>
+    <p class="intro">Perfume catalogue</p>
+
+    <div class="empty-catalog">
+      <h2>Products coming soon</h2>
+      <p>Perfumes for {{ selectedBrand }} will appear here.</p>
+    </div>
+  </section>
+  } @else {
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">✦</span>
+      <span>Duty Way</span>
+    </div>
+    <span class="help">My schedule</span>
+  </header>
+
+  <section class="hero">
     @if (username) {
-    <p class="telegram-user">Bonjour {{ username }}</p>
+    <p class="telegram-user">Signed in as {{ username }}</p>
     }
 
     <p class="intro">
@@ -16,7 +39,7 @@
     <input
       id="personName"
       type="text"
-      placeholder="For example: Cherie"
+      placeholder="For example: Mihai Popescu"
       (input)="onNameChanged($event)"
     >
 
@@ -46,11 +69,27 @@
     <h2>Your schedule</h2>
 
     @for (record of records; track record.id) {
-    <article>
-      <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
-      <p>{{ record.hours }} · {{ record.brand }} · {{ record.tabName }}</p>
+    <article
+      [class.past-shift]="isPast(record.dateStr)"
+      [class.today-shift]="isToday(record.dateStr)"
+    >
+      <strong>
+        {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
+      </strong>
+      <p>{{ record.brand }} · {{ record.tabName }}</p>
     </article>
+
+    @if (isToday(record.dateStr)) {
+    <button
+      class="brand-button"
+      type="button"
+      (click)="openBrandCatalog(record.brand)"
+    >
+      {{ record.brand }}
+    </button>
+    }
     }
   </section>
+  }
   }
 </main>

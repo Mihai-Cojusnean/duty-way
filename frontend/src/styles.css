@@ -13,9 +13,8 @@ main {
   min-height: 100vh;
   max-width: 560px;
   margin: 0 auto;
-  padding: 18px 20px 42px;
+  padding: 1px 20px 42px;
   color: #f4f5ff;
-  background-color: #090522;
   background:
     radial-gradient(circle at 50% 14%, rgb(84 116 255 / 25%), transparent 34%),
     linear-gradient(165deg, #090522 0%, #17126e 48%, #5144d6 100%);
@@ -214,4 +213,39 @@ article p {
   text-align: right;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+article.past-shift {
+  border-color: rgb(255 255 255 / 6%);
+  background: rgb(4 5 29 / 35%);
+  opacity: 0.48;
+}
+
+article.past-shift strong {
+  color: #aab0cb;
+}
+
+article.past-shift p {
+  color: #8990ae;
+}
+
+article.today-shift {
+  border-color: rgb(151 166 255 / 70%);
+  background: linear-gradient(
+    90deg,
+    rgb(108 113 245 / 32%),
+    rgb(11 11 65 / 30%)
+  );
+  box-shadow: 0 0 18px rgb(113 122 255 / 18%);
+}
+
+.brand-button {
+  display: block;
+  width: auto;
+  min-width: 110px;
+  margin: 4px auto 8px; /* Top: 4px | Left & Right: auto | Bottom: 8px */
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1;
 }
