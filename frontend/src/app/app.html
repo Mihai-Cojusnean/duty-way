@@ -7,14 +7,73 @@
   </header>
 
   <section class="catalog-page">
-    <h1>{{ selectedBrand }}</h1>
-    <p class="intro">Perfume catalogue</p>
+    <div class="hero-icon">✦</div>
 
-    <div class="empty-catalog">
-      <h2>Products coming soon</h2>
-      <p>Perfumes for {{ selectedBrand }} will appear here.</p>
+    <div class="assigned-brand">
+      <span>Assigned brand</span>
+      <h1>{{ selectedBrand }}</h1>
     </div>
+
+    <label for="catalogSearch">Search perfumes</label>
+    <input
+      id="catalogSearch"
+      type="search"
+      placeholder="Search fragrances..."
+      (input)="onCatalogSearch($event)"
+    >
+
+    <section class="catalog-list">
+      <h2>Perfume catalogue</h2>
+
+      @if (filteredPerfumes.length) {
+      @for (perfume of filteredPerfumes; track perfume.id) {
+      <button
+        class="perfume-row"
+        type="button"
+        (click)="openPerfume(perfume)"
+      >
+          <span>
+            <strong>{{ perfume.name }}</strong>
+            <small>{{ perfume.creator }} · {{ perfume.price }}</small>
+          </span>
+        <span class="add-label">+ Add</span>
+      </button>
+      }
+      } @else {
+      <div class="empty-catalog">
+        <h2>Products coming soon</h2>
+        <p>Perfumes for {{ selectedBrand }} will appear here.</p>
+      </div>
+      }
+    </section>
+
+    <footer class="sales-counter">
+      {{ soldToday }} item(s) sold today
+    </footer>
   </section>
+
+  @if (selectedPerfume) {
+  <div class="modal-backdrop" (click)="closePerfume()">
+    <section class="perfume-modal" (click)="$event.stopPropagation()">
+      <button class="close-modal" type="button" (click)="closePerfume()">
+        ×
+      </button>
+
+      <h2>{{ selectedPerfume.name }}</h2>
+      <p class="perfume-price">{{ selectedPerfume.price }}</p>
+      <p>Creator: {{ selectedPerfume.creator }}</p>
+
+      <h3>Fragrance profile</h3>
+      <p>Notes: {{ selectedPerfume.notes }}</p>
+      <p>Longevity: {{ selectedPerfume.longevity }}</p>
+      <p>Tester location: {{ selectedPerfume.testerLocation }}</p>
+
+      <button class="add-sale-button" type="button" (click)="addSale()">
+        Add to today’s sales
+      </button>
+    </section>
+  </div>
+  }
   } @else {
   <header class="topbar">
     <div class="brand">
@@ -28,17 +87,13 @@
     @if (username) {
     <p class="telegram-user">Signed in as {{ username }}</p>
     }
-
-    <p class="intro">
-      Enter your name and choose your Excel schedule to see your shifts.
-    </p>
   </section>
 
   <section class="form-card">
     <label for="personName">Your first and last name</label>
     <input
       id="personName"
-      type="text"
+      type="text"npm
       placeholder="For example: Mihai Popescu"
       (input)="onNameChanged($event)"
     >

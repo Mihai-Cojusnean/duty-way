@@ -14,6 +14,16 @@ interface ScheduleRecord {
   person: string;
 }
 
+interface Perfume {
+  id: string;
+  name: string;
+  price: string;
+  creator: string;
+  notes: string;
+  longevity: string;
+  testerLocation: string;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
@@ -26,6 +36,24 @@ export class App implements OnInit {
   records: ScheduleRecord[] = [];
   message = '';
   selectedBrand: string | null = null;
+  catalogSearch = '';
+  selectedPerfume: Perfume | null = null;
+  soldToday = 0;
+
+  // We will add perfumes here manually later.
+  catalog: Record<string, Perfume[]> = {
+    BVLGARI: [
+      {
+        id: 'tygar-extrait',
+        name: 'Tygar Extrait',
+        price: '434 €',
+        creator: 'Jacques Cavallier',
+        notes: 'Grapefruit, ambergris, amber, citruses, Peru balsam',
+        longevity: '7h',
+        testerLocation: 'Not specified',
+      },
+    ],
+  };
 
   constructor(
     private telegramService: TelegramService,
@@ -116,16 +144,63 @@ export class App implements OnInit {
 
   openBrandCatalog(brand: string): void {
     this.selectedBrand = brand;
+    this.selectedPerfume = null;
+    this.catalogSearch = '';
+    this.loadTodaySales();
   }
 
   backToSchedule(): void {
     this.selectedBrand = null;
+    this.selectedPerfume = null;
   }
 
   private cellText(sheet: XLSX.WorkSheet, row: number, col: number): string {
     const address = XLSX.utils.encode_cell({ r: row, c: col });
     const cell = sheet[address];
     return cell ? XLSX.utils.format_cell(cell).trim() : '';
+  }
+
+  onCatalogSearch(event: Event): void {
+    this.catalogSearch = (event.target as HTMLInputElement).value;
+  }
+
+  get filteredPerfumes(): Perfume[] {
+    const perfumes = this.selectedBrand ? (this.catalog[this.selectedBrand] ?? []) : [];
+
+    const search = this.catalogSearch.trim().toLowerCase();
+
+    if (!search) {
+      return perfumes;
+    }
+
+    return perfumes.filter((perfume) =>
+      `${perfume.name} ${perfume.creator} ${perfume.notes}`.toLowerCase().includes(search),
+    );
+  }
+
+  openPerfume(perfume: Perfume): void {
+    this.selectedPerfume = perfume;
+  }
+
+  closePerfume(): void {
+    this.selectedPerfume = null;
+  }
+
+  addSale(): void {
+    this.soldToday += 1;
+    localStorage.setItem(this.salesStorageKey(), String(this.soldToday));
+    this.closePerfume();
+  }
+
+  private loadTodaySales(): void {
+    this.soldToday = Number(localStorage.getItem(this.salesStorageKey())) || 0;
+  }
+
+  private salesStorageKey(): string {
+    const date = new Date().toISOString().slice(0, 10);
+    const userId = this.telegramService.getUser()?.id ?? 'local-user';
+
+    return `duty-way-sales-${userId}-${this.selectedBrand}-${date}`;
   }
 
   private getBrandForColumn(sheet: XLSX.WorkSheet, col: number): string {
