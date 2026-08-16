@@ -1,9 +1,9 @@
 <main>
   <section class="hero">
-    <h1>Find your work schedule</h1>
+    <h1>My shifts</h1>
 
     @if (username) {
-    <p class="telegram-user">Signed in as {{ username }}</p>
+    <p class="telegram-user">Bonjour {{ username }}</p>
     }
 
     <p class="intro">
@@ -16,7 +16,7 @@
     <input
       id="personName"
       type="text"
-      placeholder="For example: Mihai Popescu"
+      placeholder="For example: Cherie"
       (input)="onNameChanged($event)"
     >
 
@@ -47,7 +47,7 @@
 
     @for (record of records; track record.id) {
     <article>
-      <strong>{{ record.day }} {{ record.dateStr }}</strong>
+      <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
       <p>{{ record.hours }} · {{ record.brand }} · {{ record.tabName }}</p>
     </article>
     }

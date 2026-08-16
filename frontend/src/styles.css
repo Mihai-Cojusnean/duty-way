@@ -187,20 +187,31 @@ h2 {
 }
 
 article {
-  margin: 10px 0;
-  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 7px 0;
+  padding: 10px 12px;
   border: 1px solid rgb(255 255 255 / 13%);
-  border-radius: 13px;
+  border-radius: 10px;
   background: rgb(11 11 65 / 30%);
 }
 
 article strong {
+  flex: 0 0 auto;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 article p {
-  margin: 6px 0 0;
+  min-width: 0;
+  flex: 1;
+  margin: 0;
+  overflow: hidden;
   color: #bdc4e8;
-  font-size: 14px;
+  font-size: 12px;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

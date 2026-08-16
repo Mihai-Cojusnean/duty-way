@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { TelegramService } from './core/telegram.service';
 
@@ -17,7 +17,7 @@ interface ScheduleRecord {
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App implements OnInit {
   username = '';
@@ -26,7 +26,10 @@ export class App implements OnInit {
   records: ScheduleRecord[] = [];
   message = '';
 
-  constructor(private telegramService: TelegramService) {}
+  constructor(
+    private telegramService: TelegramService,
+    private changeDetector: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.telegramService.init();
@@ -93,21 +96,21 @@ export class App implements OnInit {
             dateNumber: this.extractDayNumber(dateStr),
             startHourMinutes: this.extractStartMinutes(hours),
             hours,
-            person
+            person,
           });
         }
       }
     }
 
     this.records = records.sort(
-      (a, b) =>
-        a.dateNumber - b.dateNumber ||
-        a.startHourMinutes - b.startHourMinutes
+      (a, b) => a.dateNumber - b.dateNumber || a.startHourMinutes - b.startHourMinutes,
     );
 
     this.message = this.records.length
       ? `${this.records.length} schedule item(s) found.`
       : `No schedule found for "${this.personName}".`;
+
+    this.changeDetector.detectChanges();
   }
 
   private cellText(sheet: XLSX.WorkSheet, row: number, col: number): string {
@@ -142,5 +145,19 @@ export class App implements OnInit {
 
     const hourMatch = start.match(/\d+/);
     return hourMatch ? Number(hourMatch[0]) * 60 : 9999;
+  }
+
+  shortDay(day: string): string {
+    const shortDays: Record<string, string> = {
+      lundi: 'Lun',
+      mardi: 'Mar',
+      mercredi: 'Mer',
+      jeudi: 'Jeu',
+      vendredi: 'Ven',
+      samedi: 'Sam',
+      dimanche: 'Dim',
+    };
+
+    return shortDays[day.trim().toLowerCase()] ?? day.slice(0, 3);
   }
 }
