@@ -1,42 +1,57 @@
 <main>
-  <h1>My work schedule</h1>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">✦</span>
+      <span>Duty Way</span>
+    </div>
+    <span class="help">My schedule</span>
+  </header>
 
-  @if (username) {
-  <p>Telegram account: {{ username }}</p>
-  }
+  <section class="hero">
+    <div class="hero-icon">▣</div>
+    <h1>Find your work schedule</h1>
 
-  <p>Enter your name, then choose your Excel schedule.</p>
+    @if (username) {
+    <p class="telegram-user">Signed in as {{ username }}</p>
+    }
 
-  <label for="personName">Your first and last name</label>
-  <input
-    id="personName"
-    type="text"
-    placeholder="For example: Mihai Popescu"
-    (input)="onNameChanged($event)"
-  >
+    <p class="intro">
+      Enter your name and choose your Excel schedule to see your shifts.
+    </p>
+  </section>
 
-  <label for="scheduleFile">Excel schedule</label>
-  <input
-    id="scheduleFile"
-    type="file"
-    accept=".xlsx,.xls"
-    (change)="onFileSelected($event)"
-  >
+  <section class="form-card">
+    <label for="personName">Your first and last name</label>
+    <input
+      id="personName"
+      type="text"
+      placeholder="For example: Mihai Popescu"
+      (input)="onNameChanged($event)"
+    >
 
-  <button
-    type="button"
-    (click)="findSchedule()"
-    [disabled]="!personName.trim() || !selectedFile"
-  >
-    Find my schedule
-  </button>
+    <label for="scheduleFile">Excel schedule</label>
+    <input
+      id="scheduleFile"
+      type="file"
+      accept=".xlsx,.xls"
+      (change)="onFileSelected($event)"
+    >
+
+    <button
+      type="button"
+      (click)="findSchedule()"
+      [disabled]="!personName.trim() || !selectedFile"
+    >
+      Find my schedule
+    </button>
+  </section>
 
   @if (message) {
-  <p>{{ message }}</p>
+  <p class="status-message">{{ message }}</p>
   }
 
   @if (records.length) {
-  <section>
+  <section class="results">
     <h2>Your schedule</h2>
 
     @for (record of records; track record.id) {
