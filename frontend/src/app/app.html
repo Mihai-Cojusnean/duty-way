@@ -7,11 +7,9 @@
   </header>
 
   <section class="catalog-page">
-    <div class="hero-icon">✦</div>
-
     <div class="assigned-brand">
-      <span>Assigned brand</span>
-      <h1>{{ selectedBrand }}</h1>
+      <span>Brand</span>
+      <h2>{{ selectedBrand }}</h2>
     </div>
 
     <label for="catalogSearch">Search perfumes</label>
@@ -34,7 +32,7 @@
       >
           <span>
             <strong>{{ perfume.name }}</strong>
-            <small>{{ perfume.creator }} · {{ perfume.price }}</small>
+            <small>{{ perfume.creator }} &nbsp;&nbsp;·&nbsp;&nbsp; {{ perfume.price }}</small>
           </span>
         <span class="add-label">+ Add</span>
       </button>
@@ -94,7 +92,7 @@
     <input
       id="personName"
       type="text"npm
-      placeholder="For example: Mihai Popescu"
+      placeholder="For example: Mihai Cojusnean"
       (input)="onNameChanged($event)"
     >
 

@@ -52,7 +52,7 @@ main {
 
 .hero {
   max-width: 390px;
-  margin: 44px auto 24px;
+  margin: 0 auto 10px;
   text-align: center;
 }
 
@@ -272,6 +272,11 @@ article.today-shift {
   border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 12px;
   background: rgb(255 255 255 / 7%);
+}
+
+.assigned-brand h2 {
+  margin: 4px 0 0 0;
+  line-height: 1.2;
 }
 
 .assigned-brand span {
