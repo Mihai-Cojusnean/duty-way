@@ -28,6 +28,9 @@
       <button
         class="perfume-row"
         type="button"
+        [style.background-image]="perfume.imageUrl
+    ? 'linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url(' + perfume.imageUrl + ')'
+    : 'none'"
         (click)="openPerfume(perfume)"
       >
           <span>
@@ -52,22 +55,62 @@
 
   @if (selectedPerfume) {
   <div class="modal-backdrop" (click)="closePerfume()">
-    <section class="perfume-modal" (click)="$event.stopPropagation()">
-      <button class="close-modal" type="button" (click)="closePerfume()">
-        ×
-      </button>
+    <section
+      class="perfume-modal"
+      [style.background-image]="selectedPerfume.imageUrl
+      ? 'linear-gradient(rgba(10, 10, 25, 0.88), rgba(10, 10, 25, 0.94)), url(' + selectedPerfume.imageUrl + ')'
+      : 'none'"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Header -->
+      <header class="modal-header">
+        <div>
+          <h2>{{ selectedPerfume.name }}</h2>
+          <span class="creator">by {{ selectedPerfume.creator }}</span>
+        </div>
+        <button class="close-modal" type="button" (click)="closePerfume()">×</button>
+      </header>
 
-      <h2>{{ selectedPerfume.name }}</h2>
-      <p class="perfume-price">{{ selectedPerfume.price }}</p>
-      <p>Creator: {{ selectedPerfume.creator }}</p>
+      <!-- Price Options Display -->
+      <div class="price-pills">
+        <div class="price-pill">
+          <span class="cost">{{ selectedPerfume.price }}</span>
+        </div>
+      </div>
 
-      <h3>Fragrance profile</h3>
-      <p>Notes: {{ selectedPerfume.notes }}</p>
-      <p>Longevity: {{ selectedPerfume.longevity }}</p>
-      <p>Tester location: {{ selectedPerfume.testerLocation }}</p>
+      <!-- Description -->
+      @if (selectedPerfume.description) {
+      <div class="section-block">
+        <label>Description</label>
+        <p class="description-text">{{ selectedPerfume.description }}</p>
+      </div>
+      }
 
+      <!-- Fragrance Notes Chips -->
+      <div class="section-block">
+        <label>Fragrance Notes</label>
+        <div class="chips-container">
+          @for (note of selectedPerfume.notes.split(','); track note) {
+          <span class="note-chip">{{ note.trim() }}</span>
+          }
+        </div>
+      </div>
+
+      <!-- Performance Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">⏱️ Longevity</span>
+          <span class="stat-value">{{ selectedPerfume.longevity }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">💨 Sillage</span>
+          <span class="stat-value">{{ selectedPerfume.sillage }}</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
       <button class="add-sale-button" type="button" (click)="addSale()">
-        Add to today’s sales
+        + Add
       </button>
     </section>
   </div>
@@ -121,11 +164,30 @@
   <section class="results">
     <h2>Your schedule</h2>
 
+    <!-- Collapsible Section for Past Shifts -->
+    <details class="past-shifts-collapsible">
+      <summary class="collapse-header">
+        <span>Show previous shifts</span>
+      </summary>
+
+      <div class="collapsible-body">
+        @for (record of records; track record.id) {
+        @if (isPast(record.dateStr)) {
+        <article class="past-shift">
+          <strong>
+            {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
+          </strong>
+          <p>{{ record.brand }} · {{ record.tabName }}</p>
+        </article>
+        }
+        }
+      </div>
+    </details>
+
+    <!-- Active / Today / Future Shifts -->
     @for (record of records; track record.id) {
-    <article
-      [class.past-shift]="isPast(record.dateStr)"
-      [class.today-shift]="isToday(record.dateStr)"
-    >
+    @if (!isPast(record.dateStr)) {
+    <article [class.today-shift]="isToday(record.dateStr)">
       <strong>
         {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
       </strong>
@@ -140,6 +202,7 @@
     >
       {{ record.brand }}
     </button>
+    }
     }
     }
   </section>

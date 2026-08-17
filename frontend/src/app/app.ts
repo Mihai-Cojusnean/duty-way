@@ -19,9 +19,11 @@ interface Perfume {
   name: string;
   price: string;
   creator: string;
+  description: string;
   notes: string;
   longevity: string;
-  testerLocation: string;
+  sillage: string;
+  imageUrl?: string;
 }
 
 @Component({
@@ -39,6 +41,7 @@ export class App implements OnInit {
   catalogSearch = '';
   selectedPerfume: Perfume | null = null;
   soldToday = 0;
+  perfumeNotesList: string[] = [];
 
   // We will add perfumes here manually later.
   catalog: Record<string, Perfume[]> = {
@@ -46,20 +49,31 @@ export class App implements OnInit {
       {
         id: 'tygar-extrait',
         name: 'Tygar Extrait',
-        price: '125ml - 434€\u2003|\u200360ml - 315€',
+        price: '125ml - 421€\u2003|\u200360ml - 315€',
         creator: 'Jacques Cavallier',
-        notes: 'Grapefruit, ambergris, amber, citruses, Peru balsam',
+        description:
+          'Un voyage nocturne dans l’État de Kerala, surnommé « le jardin d’épices de l’Inde ».' +
+          'Un parfum au contraste saisissant, une déclinaison olfactive hautement concentrée de' +
+          ' Le Gemme Tygar Eau de Parfum. Élaboré autour d’accords de pamplemousse intense et ' +
+          'd’ambre gris exceptionnel, il magnifie les notes boisées et hespéridées intenses avec' +
+          ' une profondeur et une sensualité raffinées',
+        notes: 'Grapefruit, Ambergris, Amber, Citruses, Peru balsam',
         longevity: '7h',
-        testerLocation: 'Not specified',
+        sillage: 'Strong',
+        imageUrl:
+          'https://static.galerieslafayette.com/cdn-cgi/image/width=2200,height=2400,quality=85,format=auto,fit=pad,background=white/media/images/hp_mod_139/hp_mod_139864263/sku_sr_139864264/202601231624/tygar_extrait_de_parfum-3.jpg',
       },
       {
         id: 'amunae',
         name: 'Amunae',
         price: '125ml - 324€',
         creator: 'Sophie Labbé',
-        notes: 'Jasmine, aldehydes, musk, ambrette, oak, olibanum',
+        description: '',
+        notes: 'Jasmine, Aldehydes, Musk, Ambrette, Oak, Olibanum',
         longevity: '7h',
-        testerLocation: 'Not specified',
+        sillage: 'Strong',
+        imageUrl:
+          'https://media.douglas.at/medias/NLOrwl1227552-2-dgl-AT.jpg?context=bWFzdGVyfGltYWdlc3w1NDM3MDJ8aW1hZ2UvanBlZ3xhR0ppTDJnMk1TODJORFE0TWpBNU5UWTVNemcxTkM5T1RFOXlkMnd4TWpJM05UVXlYekpmWkdkc0xVRlVMbXB3Wnd8YzA5NGYxMWMzZjFhMmE1Njg1MzdkZjAxNTFhMTA3YTJkY2NmNDFiZjc0NjA1YWRlYTg0MjA5ZTRiMzMyYThkZg&grid=true',
       },
     ],
   };
@@ -187,8 +201,17 @@ export class App implements OnInit {
     );
   }
 
-  openPerfume(perfume: Perfume): void {
+  // openPerfume(perfume: Perfume): void {
+  //   this.selectedPerfume = perfume;
+  // }
+
+  openPerfume(perfume: Perfume) {
     this.selectedPerfume = perfume;
+
+    // Convert comma-separated string into an array of trimmed note strings
+    this.perfumeNotesList = perfume.notes
+      ? perfume.notes.split(',').map((note) => note.trim())
+      : [];
   }
 
   closePerfume(): void {

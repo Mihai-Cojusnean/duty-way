@@ -303,6 +303,20 @@ article.today-shift {
   text-transform: uppercase;
 }
 
+/*.perfume-row {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: space-between;*/
+/*  width: 100%;*/
+/*  margin: 0;*/
+/*  padding: 12px;*/
+/*  border: 1px solid rgb(255 255 255 / 18%);*/
+/*  border-radius: 0;*/
+/*  border-bottom: 0;*/
+/*  background: rgb(7 7 45 / 35%);*/
+/*  box-shadow: none;*/
+/*  text-align: left;*/
+/*}*/
 .perfume-row {
   display: flex;
   align-items: center;
@@ -313,9 +327,18 @@ article.today-shift {
   border: 1px solid rgb(255 255 255 / 18%);
   border-radius: 0;
   border-bottom: 0;
-  background: rgb(7 7 45 / 35%);
+
+  /* Image Background Styling */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Fallback dark background if image fails to load */
+  background-color: rgb(7 7 45 / 35%);
+
   box-shadow: none;
   text-align: left;
+  color: #ffffff; /* Ensures text stays bright over images */
 }
 
 .perfume-row:first-of-type {
@@ -427,3 +450,120 @@ article.today-shift {
 .add-sale-button {
   margin-top: 22px;
 }
+
+.past-shifts-collapsible {
+  margin-bottom: 16px;
+  border-left: 2px solid rgba(255, 255, 255, 0.15); /* Reddit-style vertical thread line */
+  padding-left: 12px;
+}
+
+.collapse-header {
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+
+.collapse-header:hover {
+  color: #fff;
+}
+
+.collapsible-body {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/*.perfume-modal {*/
+/*  background: #121324;*/
+/*  color: #ffffff;*/
+/*  border-radius: 20px;*/
+/*  padding: 24px;*/
+/*  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;*/
+/*  border: 1px solid rgba(255, 255, 255, 0.12);*/
+/*  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  gap: 18px;*/
+/*}*/
+
+.perfume-modal {
+  position: relative;
+  background-color: #121324; /* Fallback color */
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+/* Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.modal-header h2 { margin: 0; font-size: 1.4rem; font-weight: 700; }
+.creator { color: #a1a1aa; font-size: 0.85rem; }
+
+/* Price Pills */
+.price-pills { display: flex; gap: 10px; }
+.price-pill {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+.cost { font-weight: 700; color: #60a5fa; }
+
+/* Labels & Chips */
+label { display: block; font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; margin-bottom: 6px; letter-spacing: 0.5px; }
+.chips-container { display: flex; flex-wrap: wrap; gap: 6px; }
+.note-chip {
+  background: rgba(96, 165, 250, 0.12);
+  color: #93c5fd;
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+/* Stats Grid */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-card {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.stat-label { font-size: 0.75rem; color: #a1a1aa; }
+.stat-value { font-weight: 600; margin-top: 2px; }
+
+/* Primary Button */
+.add-sale-button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-sale-button:active { background: #4338ca; }
