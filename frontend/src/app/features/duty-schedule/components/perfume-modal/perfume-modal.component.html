@@ -1,0 +1,52 @@
+<div class="modal-backdrop" (click)="close.emit()">
+  <section
+    class="perfume-modal"
+    [style.background-image]="bgOverlayStyle()"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="modal-header">
+      <div>
+        <h2>{{ perfume().name }}</h2>
+        <span class="creator">by {{ perfume().creator }}</span>
+      </div>
+      <button class="close-modal" type="button" (click)="close.emit()">×</button>
+    </header>
+
+    <div class="price-pills">
+      <div class="price-pill">
+        <span class="cost">{{ perfume().price }}</span>
+      </div>
+    </div>
+
+    @if (perfume().description) {
+    <div class="section-block">
+      <label>Description</label>
+      <p class="description-text">{{ perfume().description }}</p>
+    </div>
+    }
+
+    <div class="section-block">
+      <label>Fragrance Notes</label>
+      <div class="chips-container">
+        @for (note of fragranceNotes(); track note) {
+        <span class="note-chip">{{ note }}</span>
+        }
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">⏱️ Longevity</span>
+        <span class="stat-value">{{ perfume().longevity }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">💨 Sillage</span>
+        <span class="stat-value">{{ perfume().sillage }}</span>
+      </div>
+    </div>
+
+    <button class="add-sale-button" type="button" (click)="addSale.emit(perfume())">
+      + Add
+    </button>
+  </section>
+</div>

@@ -1,0 +1,111 @@
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">✦</span>
+    <span>Duty Way</span>
+  </div>
+  <span class="help">My schedule</span>
+</header>
+
+@if (username()) {
+<section class="hero">
+  <p class="telegram-user">Signed in as {{ username() }}</p>
+</section>
+}
+
+<section class="form-card">
+  <label for="personName">Your first and last name</label>
+  <input
+    id="personName"
+    type="text"
+    placeholder="For example: Mihai Cojusnean"
+    [value]="personName()"
+    (input)="onNameInput($event)"
+  />
+
+  <label for="scheduleFile">Excel schedule</label>
+  <input
+    id="scheduleFile"
+    type="file"
+    accept=".xlsx,.xls"
+    (change)="onFileChange($event)"
+  />
+
+  <button
+    type="button"
+    (click)="submitSearch.emit()"
+    [disabled]="isSubmitDisabled()"
+  >
+    Find my schedule
+  </button>
+</section>
+
+@if (message()) {
+<p class="status-message" role="status">{{ message() }}</p>
+}
+
+@if (records().length) {
+<section class="results">
+  <h2>Your schedule</h2>
+
+  @if (pastDays().length) {
+  <details class="past-shifts-collapsible">
+    <summary class="collapse-header">
+      <span>Show previous shifts ({{ pastDays().length }})</span>
+    </summary>
+
+    <div class="collapsible-body">
+      @for (day of pastDays(); track day.id) {
+      <section class="schedule-day past-shift">
+        <header class="schedule-day-header">
+          <strong>{{ day.day }} {{ day.dateStr }}</strong>
+          @if (day.shifts.length > 1) {
+          <span>{{ day.shifts.length }} shifts</span>
+          }
+        </header>
+
+        @for (shift of day.shifts; track shift.id) {
+        <div class="shift-row">
+          <strong>{{ shift.hours }}</strong>
+          <span>{{ shift.brand }} · {{ shift.tabName }}</span>
+        </div>
+        }
+      </section>
+      }
+    </div>
+  </details>
+  }
+
+  @for (day of upcomingDays(); track day.id) {
+  <section class="schedule-day" [class.today-shift]="day.isToday">
+    <header class="schedule-day-header">
+      <strong class="day-title">
+        <span>{{ day.day }}</span>
+        <span>{{ day.dateStr }}</span>
+      </strong>
+      @if (day.shifts.length > 1) {
+      <span>{{ day.shifts.length }} shifts</span>
+      }
+    </header>
+
+    @for (shift of day.shifts; track shift.id) {
+    <div class="shift-row">
+      <strong>{{ shift.hours }}</strong>
+      <span>{{ shift.brand }} · {{ shift.tabName }}</span>
+    </div>
+    }
+  </section>
+
+  @if (day.isToday) {
+  @for (shift of day.shifts; track shift.id) {
+  <button
+    class="brand-button"
+    type="button"
+    (click)="openBrand.emit(shift.brand)"
+  >
+    {{ shift.brand }}
+  </button>
+  }
+  }
+  }
+</section>
+}

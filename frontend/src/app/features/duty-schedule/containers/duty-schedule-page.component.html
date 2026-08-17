@@ -1,0 +1,21 @@
+<main class="page-container">
+  @if (store.selectedBrand(); as brand) {
+  <app-brand-catalog
+    [brandName]="brand"
+    [perfumes]="store.brandPerfumes()"
+    [soldCount]="store.soldTodayCount()"
+    (backToSchedule)="store.clearBrand()"
+    (recordSale)="store.addSale($event)"
+  ></app-brand-catalog>
+  } @else {
+  <app-schedule-finder
+    [username]="store.username()"
+    [message]="store.statusMessage()"
+    [records]="store.scheduleRecords()"
+    (nameChanged)="store.setPersonName($event)"
+    (fileSelected)="store.setFile($event)"
+    (submitSearch)="store.loadSchedule()"
+    (openBrand)="store.selectBrand($event)"
+  ></app-schedule-finder>
+  }
+</main>

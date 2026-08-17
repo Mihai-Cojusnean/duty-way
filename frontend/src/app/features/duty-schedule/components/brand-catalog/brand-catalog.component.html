@@ -1,0 +1,56 @@
+<header class="topbar">
+  <button class="back-button" type="button" (click)="backToSchedule.emit()">
+    ← Schedule
+  </button>
+</header>
+
+<section class="catalog-page">
+  <div class="assigned-brand">
+    <span>Brand</span>
+    <h2>{{ brandName() }}</h2>
+  </div>
+
+  <label for="catalogSearch">Search perfumes</label>
+  <input
+    id="catalogSearch"
+    type="search"
+    placeholder="Search fragrances..."
+    [value]="searchQuery()"
+    (input)="onSearch($event)"
+  />
+
+  <section class="catalog-list">
+    <h2>Perfume catalogue</h2>
+
+    @for (perfume of filteredPerfumes(); track perfume.id) {
+    <button
+      class="perfume-row"
+      type="button"
+      [style.background-image]="getCardBg(perfume.imageUrl)"
+      (click)="selectedPerfume.set(perfume)"
+    >
+        <span>
+          <strong>{{ perfume.name }}</strong>
+          <small>{{ perfume.creator }} &nbsp;&nbsp;·&nbsp;&nbsp; {{ perfume.price }}</small>
+        </span>
+      <span class="add-label">+ Add</span>
+    </button>
+    } @empty {
+    <div class="empty-catalog">
+      <h2>Products coming soon</h2>
+      <p>Perfumes for {{ brandName() }} will appear here.</p>
+    </div>
+    }
+  </section>
+
+  <footer class="sales-counter">
+    {{ soldCount() }} item(s) sold today
+  </footer>
+</section>
+
+@if (selectedPerfume(); as perfume) {
+<app-perfume-modal
+  [perfume]="perfume"
+  (close)="selectedPerfume.set(null)"
+  (addSale)="onSaleAdded($event)"></app-perfume-modal>
+}

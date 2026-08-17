@@ -1,0 +1,45 @@
+import { Component, ChangeDetectionStrategy, input, output, signal, computed } from '@angular/core';
+import { Perfume } from '../../models/duty.models';
+import { PerfumeModalComponent } from '../perfume-modal/perfume-modal.component';
+
+@Component({
+  selector: 'app-brand-catalog',
+  standalone: true,
+  imports: [PerfumeModalComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './brand-catalog.component.html',
+  styleUrl: './brand-catalog.component.css',
+})
+export class BrandCatalogComponent {
+  readonly brandName = input.required<string>();
+  readonly perfumes = input.required<Perfume[]>();
+  readonly soldCount = input<number>(0);
+
+  readonly backToSchedule = output<void>();
+  readonly recordSale = output<Perfume>();
+
+  readonly searchQuery = signal<string>('');
+  readonly selectedPerfume = signal<Perfume | null>(null);
+
+  readonly filteredPerfumes = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    if (!query) return this.perfumes();
+
+    return this.perfumes().filter((p) =>
+      `${p.name} ${p.creator} ${p.notes}`.toLowerCase().includes(query),
+    );
+  });
+
+  onSearch(event: Event): void {
+    this.searchQuery.set((event.target as HTMLInputElement).value);
+  }
+
+  onSaleAdded(perfume: Perfume): void {
+    this.recordSale.emit(perfume);
+    this.selectedPerfume.set(null);
+  }
+
+  getCardBg(url?: string): string {
+    return url ? `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url(${url})` : 'none';
+  }
+}
