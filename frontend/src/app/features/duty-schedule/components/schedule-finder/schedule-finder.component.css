@@ -281,29 +281,3 @@ article.today-shift {
   color: #bcc5ee;
   font-size: 11px;
 }
-
-.shift-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-bottom: 1px solid rgb(255 255 255 / 8%);
-  font-size: 12px;
-}
-
-.shift-row:last-child {
-  border-bottom: 0;
-}
-
-.shift-row strong {
-  min-width: 72px;
-  color: #ffffff;
-  white-space: nowrap;
-}
-
-.shift-row span {
-  overflow: hidden;
-  color: #c0c8eb;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}

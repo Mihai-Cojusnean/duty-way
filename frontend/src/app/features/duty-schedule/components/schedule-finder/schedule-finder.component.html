@@ -47,64 +47,33 @@
 <section class="results">
   <h2>Your schedule</h2>
 
-  @if (pastDays().length) {
+  @if (pastShifts().length) {
   <details class="past-shifts-collapsible">
     <summary class="collapse-header">
-      <span>Show previous shifts ({{ pastDays().length }})</span>
+      <span>Show previous shifts ({{ pastShifts().length }})</span>
     </summary>
 
     <div class="collapsible-body">
-      @for (day of pastDays(); track day.id) {
-      <section class="schedule-day past-shift">
-        <header class="schedule-day-header">
-          <strong>{{ day.day }} {{ day.dateStr }}</strong>
-          @if (day.shifts.length > 1) {
-          <span>{{ day.shifts.length }} shifts</span>
-          }
-        </header>
-
-        @for (shift of day.shifts; track shift.id) {
-        <div class="shift-row">
-          <strong>{{ shift.hours }}</strong>
-          <span>{{ shift.brand }} · {{ shift.tabName }}</span>
-        </div>
-        }
-      </section>
+      @for (record of pastShifts(); track record.id) {
+      <article class="past-shift">
+        <strong>{{ record.day }} {{ record.dateStr }} · {{ record.hours }}</strong>
+        <p>{{ record.brand }} · {{ record.tabName }}</p>
+      </article>
       }
     </div>
   </details>
   }
 
-  @for (day of upcomingDays(); track day.id) {
-  <section class="schedule-day" [class.today-shift]="day.isToday">
-    <header class="schedule-day-header">
-      <strong class="day-title">
-        <span>{{ day.day }}</span>
-        <span>{{ day.dateStr }}</span>
-      </strong>
-      @if (day.shifts.length > 1) {
-      <span>{{ day.shifts.length }} shifts</span>
-      }
-    </header>
+  @for (record of upcomingShifts(); track record.id) {
+  <article [class.today-shift]="record.isToday">
+    <strong>{{ record.day }} {{ record.dateStr }} · {{ record.hours }}</strong>
+    <p>{{ record.brand }} · {{ record.tabName }}</p>
+  </article>
 
-    @for (shift of day.shifts; track shift.id) {
-    <div class="shift-row">
-      <strong>{{ shift.hours }}</strong>
-      <span>{{ shift.brand }} · {{ shift.tabName }}</span>
-    </div>
-    }
-  </section>
-
-  @if (day.isToday) {
-  @for (shift of day.shifts; track shift.id) {
-  <button
-    class="brand-button"
-    type="button"
-    (click)="openBrand.emit(shift.brand)"
-  >
-    {{ shift.brand }}
+  @if (record.isToday) {
+  <button class="brand-button" type="button" (click)="openBrand.emit(record.brand)">
+    {{ record.brand }}
   </button>
-  }
   }
   }
 </section>
