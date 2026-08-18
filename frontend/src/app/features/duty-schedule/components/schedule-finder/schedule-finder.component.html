@@ -1,8 +1,14 @@
 <header class="topbar">
-  <div class="brand">
+  <button
+    class="brand"
+    type="button"
+    aria-label="Open Duty Way"
+    (click)="openBrand.emit('Duty Way')"
+  >
     <span class="brand-mark" aria-hidden="true">✦</span>
     <span>Duty Way</span>
-  </div>
+  </button>
+
   <span class="help">My schedule</span>
 </header>
 
@@ -12,29 +18,36 @@
 </section>
 }
 
-<section class="form-card">
-  <label for="personName">Your first and last name</label>
+<section class="form-card" aria-labelledby="search-heading">
+  <h3 id="search-heading">Find your schedule</h3>
+
   <input
     id="personName"
     type="text"
-    placeholder="For example: Mihai Cojusnean"
+    autocomplete="name"
+    aria-label="Your first and last name"
+    placeholder="Your first and last name"
     [value]="personName()"
     (input)="onNameInput($event)"
   />
 
-  <label for="scheduleFile">Excel schedule</label>
   <input
     id="scheduleFile"
+    class="visually-hidden"
     type="file"
     accept=".xlsx,.xls"
     (change)="onFileChange($event)"
   />
 
+  <label class="file-input" for="scheduleFile">
+    <span>{{ selectedFile()?.name ?? 'Excel schedule' }}</span>
+    <span class="file-input-button">Choose file</span>
+  </label>
+
   <button
     type="button"
-    (click)="submitSearch.emit()"
     [disabled]="isSubmitDisabled()"
-  >
+    (click)="submitSearch.emit()">
     Find my schedule
   </button>
 </section>
@@ -43,38 +56,62 @@
 <p class="status-message" role="status">{{ message() }}</p>
 }
 
-@if (records().length) {
-<section class="results">
-  <h2>Your schedule</h2>
+@if (records().length > 0) {
+<section class="results" aria-labelledby="schedule-heading">
+  <h2 id="schedule-heading">Your schedule</h2>
 
-  @if (pastShifts().length) {
+  @if (pastShiftGroups().length > 0) {
   <details class="past-shifts-collapsible">
     <summary class="collapse-header">
-      <span>Show previous shifts ({{ pastShifts().length }})</span>
+      Show previous shifts ({{ totalPastShiftCount() }})
     </summary>
 
     <div class="collapsible-body">
-      @for (record of pastShifts(); track record.id) {
-      <article class="past-shift">
-        <strong>{{ record.day }} {{ record.dateStr }} · {{ record.hours }}</strong>
-        <p>{{ record.brand }} · {{ record.tabName }}</p>
-      </article>
+      @for (group of pastShiftGroups(); track group.date) {
+      <div
+        class="shift-group"
+        [class.multi-shift-group]="group.isMultiShift"
+      >
+        @for (record of group.shifts; track record.id) {
+        <article class="past-shift">
+          <strong>
+            {{ shortDay(record.day) }} {{ record.dateStr }} ·
+            {{ record.hours }}
+          </strong>
+          <p>{{ record.brand }} · {{ record.tabName }}</p>
+        </article>
+        }
+      </div>
       }
     </div>
   </details>
   }
 
-  @for (record of upcomingShifts(); track record.id) {
-  <article [class.today-shift]="record.isToday">
-    <strong>{{ record.day }} {{ record.dateStr }} · {{ record.hours }}</strong>
-    <p>{{ record.brand }} · {{ record.tabName }}</p>
-  </article>
+  @for (group of upcomingShiftGroups(); track group.date) {
+  <div
+    class="shift-group"
+    [class.multi-shift-group]="group.isMultiShift"
+  >
+    @for (record of group.shifts; track record.id) {
+    <article [class.today-shift]="record.isToday">
+      <strong>
+        {{ shortDay(record.day) }} {{ record.dateStr }} ·
+        {{ record.hours }}
+      </strong>
+      <p>{{ record.brand }} · {{ record.tabName }}</p>
+    </article>
 
-  @if (record.isToday) {
-  <button class="brand-button" type="button" (click)="openBrand.emit(record.brand)">
-    {{ record.brand }}
-  </button>
-  }
+    @if (record.isToday) {
+    <button
+      class="brand-button"
+      type="button"
+      [attr.aria-label]="'Open ' + record.brand"
+      (click)="openBrand.emit(record.brand)">
+      {{ record.brand }}
+    </button>
+    }
+    }
+  </div>
   }
 </section>
 }
