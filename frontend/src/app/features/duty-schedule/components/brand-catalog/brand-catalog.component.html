@@ -10,11 +10,11 @@
     <h2>{{ brandName() }}</h2>
   </div>
 
-  <label for="catalogSearch">Search perfumes</label>
+  <label for="catalogSearch"></label>
   <input
     id="catalogSearch"
     type="search"
-    placeholder="Search fragrances..."
+    placeholder="Search perfumes..."
     [value]="searchQuery()"
     (input)="onSearch($event)"
   />

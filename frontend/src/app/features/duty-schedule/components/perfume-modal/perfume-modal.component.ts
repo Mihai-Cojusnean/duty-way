@@ -23,8 +23,6 @@ export class PerfumeModalComponent {
 
   readonly bgOverlayStyle = computed(() => {
     const url = this.perfume().imageUrl;
-    return url
-      ? `linear-gradient(rgba(10, 10, 25, 0.88), rgba(10, 10, 25, 0.94)), url(${url})`
-      : 'none';
+    return url ? `url("${url}")` : 'none';
   });
 }

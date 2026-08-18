@@ -25,7 +25,7 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
 .modal-header {
@@ -128,18 +128,90 @@ label {
   margin-top: 2px;
 }
 
-.add-sale-button {
-  background: #4f46e5;
-  color: white;
-  border: none;
-  padding: 14px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
+.perfume-meta,
+.quick-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.add-sale-button:active {
-  background: #4338ca;
+.quick-stats strong {
+  color: #ffffff;
+}
+
+.quick-stats span {
+  padding: 4px 8px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 5%);
+  color: #aeb7d9;
+  font-size: 0.72rem;
+}
+
+.description-text {
+  font-size: 0.875rem;
+  color: #d3d7f6;
+  margin: 0;
+}
+
+.performance-line {
+  display: flex;
+  gap: 14px;
+  padding: 8px 0;
+  color: #b7bfdc;
+  font-size: 0.78rem;
+}
+
+.performance-line strong {
+  color: #ffffff;
+}
+
+.pros-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pros-list li {
+  color: #d9e0fb;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.pros-list li::first-letter {
+  color: #47d7a4;
+}
+
+
+
+
+
+.perfume-modal {
+  isolation: isolate;
+}
+
+.perfume-modal::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgb(5 6 20 / 60%) 0%,
+    rgb(5 6 20 / 84%) 42%,
+    rgb(5 6 20 / 96%) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.perfume-modal > * {
+  position: relative;
+  z-index: 1;
+}
+
+.close-modal {
+  z-index: 2;
 }

@@ -7,8 +7,16 @@
     <header class="modal-header">
       <div>
         <h2>{{ perfume().name }}</h2>
-        <span class="creator">by {{ perfume().creator }}</span>
+
+        <div class="perfume-meta">
+          <span class="creator">by {{ perfume().creator }}</span>
+          <div class="performance-line">
+            <span><strong>{{ perfume().longevity }}</strong> longevity</span>
+            <span><strong>{{ perfume().sillage }}</strong> sillage</span>
+          </div>
+        </div>
       </div>
+
       <button class="close-modal" type="button" (click)="close.emit()">×</button>
     </header>
 
@@ -33,20 +41,16 @@
         }
       </div>
     </div>
+    @if (perfume().pros?.length) {
+    <div class="section-block">
+      <label>Highlights</label>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <span class="stat-label">⏱️ Longevity</span>
-        <span class="stat-value">{{ perfume().longevity }}</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">💨 Sillage</span>
-        <span class="stat-value">{{ perfume().sillage }}</span>
-      </div>
+      <ul class="pros-list">
+        @for (pro of perfume().pros; track pro) {
+        <li>✓ {{ pro }}</li>
+        }
+      </ul>
     </div>
-
-    <button class="add-sale-button" type="button" (click)="addSale.emit(perfume())">
-      + Add
-    </button>
+    }
   </section>
 </div>

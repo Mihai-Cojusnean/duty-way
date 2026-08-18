@@ -22,6 +22,7 @@ export interface Perfume {
   readonly longevity: string;
   readonly sillage: string;
   readonly imageUrl?: string;
+  readonly pros: string[]
 }
 
 export type CatalogMap = Record<string, Perfume[]>;
