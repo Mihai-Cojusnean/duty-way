@@ -77,18 +77,12 @@ export class ScheduleStore {
 
   constructor() {
     this.telegramService.init();
-    // const user = this.telegramService.getUser();
-
-    const user = {
-      id: 972344705,
-      first_name: 'TestUser',
-    } as any;
+    const user = this.telegramService.getUser();
 
     if (user) {
       this.username.set(user.username ? `@${user.username}` : user.first_name);
       this.loadShiftsFromDatabase(user.id.toString());
     } else {
-      // Expected behavior when no user exists
       this.username.set('Guest');
       this.scheduleRecords.set([]);
       this.statusMessage.set('Please open this app via Telegram to load your schedule.');
