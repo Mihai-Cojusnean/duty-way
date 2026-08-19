@@ -18,7 +18,8 @@ export class ShiftService {
 
   // Load saved data when the Mini App opens
   getUserData(): Observable<any> {
-    const telegramId = this.telegramUser?.id || '123456'; // Fallback ID for browser dev
+    console.log(this.telegramUser);
+    const telegramId = this.telegramUser?.id || '12345678'; // Fallback ID for browser dev
     return this.http.get(`${this.apiUrl}?telegramId=${telegramId}`);
   }
 
@@ -31,7 +32,7 @@ export class ShiftService {
     const user = this.telegramUser;
 
     const payload = {
-      telegramId: user?.id || '123456',
+      telegramId: user?.id || '12345678',
       username: user?.username || 'testuser',
       language: user?.language_code || 'en',
       buttonClicked,
@@ -39,6 +40,7 @@ export class ShiftService {
       shifts,
     };
 
+    console.log(JSON.stringify(payload));
     return this.http.post(this.apiUrl, payload);
   }
 }
