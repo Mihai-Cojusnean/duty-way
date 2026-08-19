@@ -184,7 +184,33 @@ label {
   color: #47d7a4;
 }
 
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
+.modal-header h2 {
+  margin: 0;
+}
+
+.close-modal {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.perfume-meta,
+.performance-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.perfume-meta {
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
 
 
 
