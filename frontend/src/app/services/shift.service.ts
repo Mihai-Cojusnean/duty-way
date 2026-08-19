@@ -18,8 +18,8 @@ export class ShiftService {
 
   // Load saved data when the Mini App opens
   getUserData(): Observable<any> {
-    console.log(this.telegramUser);
-    const telegramId = this.telegramUser?.id || '12345678'; // Fallback ID for browser dev
+    const telegramId = 972344705;
+    // const telegramId = this.telegramUser?.id;
     return this.http.get(`${this.apiUrl}?telegramId=${telegramId}`);
   }
 

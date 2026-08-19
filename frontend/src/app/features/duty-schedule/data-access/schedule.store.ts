@@ -77,13 +77,21 @@ export class ScheduleStore {
 
   constructor() {
     this.telegramService.init();
-    const user = this.telegramService.getUser();
+    // const user = this.telegramService.getUser();
+
+    const user = {
+      id: 972344705,
+      first_name: 'TestUser',
+    } as any;
 
     if (user) {
       this.username.set(user.username ? `@${user.username}` : user.first_name);
-
-      // Attempt to load shifts from the database for existing user
       this.loadShiftsFromDatabase(user.id.toString());
+    } else {
+      // Expected behavior when no user exists
+      this.username.set('Guest');
+      this.scheduleRecords.set([]);
+      this.statusMessage.set('Please open this app via Telegram to load your schedule.');
     }
   }
 
@@ -121,20 +129,27 @@ export class ScheduleStore {
   private loadShiftsFromDatabase(userId: string): void {
     this.statusMessage.set('Loading schedule from database...');
 
-    // Assuming your ShiftService has a method to fetch by userId or telegram ID
     this.shiftService.getUserData().subscribe({
-      next: (records: ScheduleRecord[]) => {
-        if (records && records.length > 0) {
-          // Re-calculate date properties (isPast, isToday) in case dates have changed relative to today
-          const updatedRecords = records.map((record) => ({
+      next: (response: any) => {
+        console.log('Raw DB Response:', response);
+
+        // Handle cases where response might be wrapped in an object or directly an array
+        const rawRecords: ScheduleRecord[] = Array.isArray(response)
+          ? response
+          : (response?.data ?? response?.shifts ?? []);
+
+        if (rawRecords.length > 0) {
+          const updatedRecords = rawRecords.map((record) => ({
             ...record,
             isPast: this.checkIsPast(record.dateStr),
             isToday: this.checkIsToday(record.dateStr),
           }));
 
+          // Set the signal to trigger template update
           this.scheduleRecords.set(updatedRecords);
-          this.statusMessage.set(`${updatedRecords.length} shifts loaded from database.`);
+          this.statusMessage.set(`${updatedRecords.length} shifts`);
         } else {
+          this.scheduleRecords.set([]);
           this.statusMessage.set('No saved shifts found in database.');
         }
       },
