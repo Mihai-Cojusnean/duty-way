@@ -2,6 +2,7 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { TelegramService } from '../../../core/telegram.service';
 import { Perfume, ScheduleRecord, CatalogMap } from '../models/duty.models';
+import { ShiftService } from '../../../services/shift.service';
 
 const INITIAL_CATALOG: CatalogMap = {
   BVLGARI: [
@@ -73,9 +74,11 @@ export class ScheduleStore {
     return brand ? (this.catalog()[brand] ?? []) : [];
   });
 
-  constructor() {
+  constructor(private shiftService: ShiftService) {
     this.telegramService.init();
     const user = this.telegramService.getUser();
+
+    shiftService.saveUserData(['a'], 'a', "b")
     if (user) {
       this.username.set(user.username ? `@${user.username}` : user.first_name);
     }
