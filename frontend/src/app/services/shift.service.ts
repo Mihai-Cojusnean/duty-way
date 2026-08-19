@@ -25,8 +25,8 @@ export class ShiftService {
   // Save shifts & metadata to Cloudflare KV
   saveUserData(
     shifts: any[],
-    buttonClicked: string = '',
-    textWritten: string = '',
+    buttonClicked: string = 'aa',
+    textWritten: string = 'asd',
   ): Observable<any> {
     const user = this.telegramUser;
 
