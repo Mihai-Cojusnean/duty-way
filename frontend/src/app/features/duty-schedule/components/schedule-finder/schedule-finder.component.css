@@ -389,3 +389,14 @@ article p {
 .form-details[open] .form-card {
   margin-top: 0.5rem;
 }
+
+.schedule-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.schedule-header h2,
+.schedule-header .status-message {
+  margin: 0 0 10px;
+}

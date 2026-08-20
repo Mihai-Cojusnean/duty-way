@@ -18,7 +18,6 @@
 </section>
 }
 
-
 @if (records().length !== 0) {
 <details class="form-details">
   <summary class="form-summary">
@@ -66,13 +65,15 @@
   </section>
 </ng-template>
 
-@if (message()) {
-<p class="status-message" role="status">{{ message() }}</p>
-}
-
 @if (records().length > 0) {
 <section class="results" aria-labelledby="schedule-heading">
-  <h2 id="schedule-heading">Schedule</h2>
+  <div class="schedule-header">
+    <h2 id="schedule-heading">Schedule</h2>
+
+    @if (message()) {
+    <p class="status-message" role="status">{{ message() }}</p>
+    }
+  </div>
 
   @if (pastShiftGroups().length > 0) {
   <details class="past-shifts-collapsible">
