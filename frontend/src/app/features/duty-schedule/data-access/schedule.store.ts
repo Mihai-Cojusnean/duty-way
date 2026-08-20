@@ -76,18 +76,17 @@ export class ScheduleStore {
   });
 
   constructor(private userService: UserService) {
-    // this.telegramService.init();
-    // const user = this.telegramService.getUser();
-    //
-    // if (user) {
-    //   this.username.set(user.username ? `@${user.username}` : user.first_name);
-    //   this.loadShiftsFromDatabase(user.id.toString());
-    // } else {
-    //   this.username.set('Guest');
-    //   this.scheduleRecords.set([]);
-    //   this.statusMessage.set('Please open this app via Telegram to load your schedule.');
-    // }
-    this.loadShiftsFromDatabase();
+    this.telegramService.init();
+    const user = this.telegramService.getUser();
+
+    if (user) {
+      this.username.set(user.username ? `@${user.username}` : user.first_name);
+      this.loadShiftsFromDatabase();
+    } else {
+      this.username.set('Guest');
+      this.scheduleRecords.set([]);
+      this.statusMessage.set('Please open this app via Telegram to load your schedule.');
+    }
   }
 
   setPersonName(name: string): void {
