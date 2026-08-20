@@ -18,8 +18,9 @@
 </section>
 }
 
+@if (username()) {
 <section class="form-card" aria-labelledby="search-heading">
-  <h3 id="search-heading">Find your schedule</h3>
+  <h3 id="search-heading">Find schedule</h3>
 
   <input
     id="personName"
@@ -51,14 +52,14 @@
     Find my schedule
   </button>
 </section>
-
+}
 @if (message()) {
 <p class="status-message" role="status">{{ message() }}</p>
 }
 
 @if (records().length > 0) {
 <section class="results" aria-labelledby="schedule-heading">
-  <h2 id="schedule-heading">Your schedule</h2>
+  <h2 id="schedule-heading">Schedule</h2>
 
   @if (pastShiftGroups().length > 0) {
   <details class="past-shifts-collapsible">

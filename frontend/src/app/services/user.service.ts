@@ -1,30 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { User } from '../features/duty-schedule/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ShiftService {
-  // Replace with your actual live URL
+export class UserService {
   private apiUrl = 'https://duty-way-api.duty-way.workers.dev/api/user';
+  public user: User | undefined;
 
   constructor(private http: HttpClient) {}
 
-  // Get Telegram WebApp user object safely
   private get telegramUser() {
-    return (window as any).Telegram?.WebApp?.initDataUnsafe?.user;
+    return window.Telegram?.WebApp?.initDataUnsafe?.user;
   }
 
-  // Load saved data when the Mini App opens
-  getUserData(): Observable<any> {
-    const telegramId = 972344705;
-    // const telegramId = this.telegramUser?.id;
-    return this.http.get(`${this.apiUrl}?telegramId=${telegramId}`);
+  getUser(): Observable<User> {
+    let telegramId = this.telegramUser?.id;
+    if (!telegramId) {
+      telegramId = 972344705;
+    }
+
+    return this.http.get<User>(`${this.apiUrl}?telegramId=${telegramId}`).pipe(
+      tap((userData: User) => {
+        this.user = userData;
+      }),
+    );
   }
 
-  // Save shifts & metadata to Cloudflare KV
-  saveUserData(
+  saveUser(
     shifts: any[],
     buttonClicked: string = 'aa',
     textWritten: string = 'asd',
@@ -40,7 +45,6 @@ export class ShiftService {
       shifts,
     };
 
-    console.log(JSON.stringify(payload));
     return this.http.post(this.apiUrl, payload);
   }
 }

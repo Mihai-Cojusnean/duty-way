@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { DutySchedulePageComponent } from './features/duty-schedule/containers/duty-schedule-page.component';
-import { ShiftService } from './services/shift.service';
+import { UserService } from './services/user.service';
+import { User } from './features/duty-schedule/interfaces/user.interface';
 
 @Component({
   selector: 'app-root',
@@ -11,35 +12,28 @@ import { ShiftService } from './services/shift.service';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
-  userShifts: any[] = [];
-  username: string = '';
+  user?: User;
 
-  constructor(private shiftService: ShiftService) {}
+  constructor(private userService: UserService) {}
 
-  ngOnInit() {
-    // Notify Telegram that the Mini App is ready and expanded
-    const tg = (window as any).Telegram?.WebApp;
+  ngOnInit(): void {
+    const tg = window.Telegram?.WebApp;
+
     if (tg) {
       tg.ready();
       tg.expand();
+    } else {
+      console.warn('Running outside Telegram');
     }
 
-    // Fetch previously saved user shifts & profile
-    this.shiftService.getUserData().subscribe({
-      next: (res) => {
-        if (res?.shifts) {
-          this.userShifts = res.shifts;
-          this.username = res.profile?.username || '';
-          console.log('Loaded user data from Cloudflare KV:', res);
-        }
-      },
-      error: (err) => console.error('Failed to load user data:', err),
+    this.userService.getUser().subscribe({
+      next: (user) => (this.user = user),
+      error: (err) => console.error('Failed to load user', err),
     });
   }
 
-  // Example trigger when user updates shifts or clicks a action
   onSaveButtonClicked(buttonName: string, shiftsData: any[]) {
-    this.shiftService.saveUserData(shiftsData, buttonName).subscribe({
+    this.userService.saveUser(shiftsData, buttonName).subscribe({
       next: (res) => console.log('Successfully saved to KV!'),
       error: (err) => console.error('Error saving:', err),
     });

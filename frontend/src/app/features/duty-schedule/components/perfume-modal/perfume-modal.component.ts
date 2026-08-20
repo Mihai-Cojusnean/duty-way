@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { Perfume } from '../../models/duty.models';
+import { Perfume } from '../../interfaces/duty.interface';
 
 @Component({
   selector: 'app-perfume-modal',

@@ -1,8 +1,8 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { TelegramService } from '../../../core/telegram.service';
-import { Perfume, ScheduleRecord, CatalogMap } from '../models/duty.models';
-import { ShiftService } from '../../../services/shift.service';
+import { Perfume, ScheduleRecord, CatalogMap } from '../interfaces/duty.interface';
+import { UserService } from '../../../services/user.service';
 
 const INITIAL_CATALOG: CatalogMap = {
   BVLGARI: [
@@ -57,7 +57,7 @@ const INITIAL_CATALOG: CatalogMap = {
 @Injectable({ providedIn: 'root' })
 export class ScheduleStore {
   private readonly telegramService = inject(TelegramService);
-  private readonly shiftService = inject(ShiftService);
+  private readonly shiftService = inject(UserService);
 
   // State Signals
   readonly username = signal<string>('');
@@ -76,17 +76,18 @@ export class ScheduleStore {
   });
 
   constructor() {
-    this.telegramService.init();
-    const user = this.telegramService.getUser();
-
-    if (user) {
-      this.username.set(user.username ? `@${user.username}` : user.first_name);
-      this.loadShiftsFromDatabase(user.id.toString());
-    } else {
-      this.username.set('Guest');
-      this.scheduleRecords.set([]);
-      this.statusMessage.set('Please open this app via Telegram to load your schedule.');
-    }
+    // this.telegramService.init();
+    // const user = this.telegramService.getUser();
+    //
+    // if (user) {
+    //   this.username.set(user.username ? `@${user.username}` : user.first_name);
+    //   this.loadShiftsFromDatabase(user.id.toString());
+    // } else {
+    //   this.username.set('Guest');
+    //   this.scheduleRecords.set([]);
+    //   this.statusMessage.set('Please open this app via Telegram to load your schedule.');
+    // }
+    this.loadShiftsFromDatabase();
   }
 
   setPersonName(name: string): void {
@@ -108,22 +109,13 @@ export class ScheduleStore {
     this.selectedBrand.set(null);
   }
 
-  addSale(perfume: Perfume): void {
-    const brand = this.selectedBrand();
-    if (!brand) return;
-
-    const newCount = this.soldTodayCount() + 1;
-    this.soldTodayCount.set(newCount);
-    localStorage.setItem(this.getSalesStorageKey(brand), String(newCount));
-  }
-
   /**
    * Fetches user shifts from the backend/database service
    */
-  private loadShiftsFromDatabase(userId: string): void {
+  private loadShiftsFromDatabase(): void {
     this.statusMessage.set('Loading schedule from database...');
 
-    this.shiftService.getUserData().subscribe({
+    this.shiftService.getUser().subscribe({
       next: (response: any) => {
         console.log('Raw DB Response:', response);
 
@@ -213,17 +205,8 @@ export class ScheduleStore {
 
     this.scheduleRecords.set(sorted);
     this.statusMessage.set(
-      sorted.length ? `${sorted.length} shifts found` : `No schedule found for "${name}".`,
+      sorted.length ? `${sorted.length} shifts` : `No shifts found for "${name}".`,
     );
-
-    this.shiftService.saveUserData(sorted, 'button', 'text').subscribe({
-      next: (response) => {
-        console.log('Saved to Cloudflare KV:', response);
-      },
-      error: (error) => {
-        console.error('Failed to save:', error);
-      },
-    });
   }
 
   private loadTodaySales(brand: string): void {

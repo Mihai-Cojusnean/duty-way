@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
-import { ScheduleRecord } from '../../models/duty.models';
+import { ScheduleRecord } from '../../interfaces/duty.interface';
 
 export interface ShiftGroup {
   date: string;
