@@ -18,7 +18,7 @@
 </section>
 }
 
-@if (username()) {
+@if (username() === 'guest' || records().length === 0) {
 <section class="form-card" aria-labelledby="search-heading">
   <input
     id="personName"
