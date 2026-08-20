@@ -75,7 +75,7 @@ export class ScheduleStore {
     return brand ? (this.catalog()[brand] ?? []) : [];
   });
 
-  constructor() {
+  constructor(private userService: UserService) {
     // this.telegramService.init();
     // const user = this.telegramService.getUser();
     //
@@ -109,9 +109,6 @@ export class ScheduleStore {
     this.selectedBrand.set(null);
   }
 
-  /**
-   * Fetches user shifts from the backend/database service
-   */
   private loadShiftsFromDatabase(): void {
     this.statusMessage.set('Loading schedule from database...');
 
@@ -207,8 +204,16 @@ export class ScheduleStore {
     this.statusMessage.set(
       sorted.length ? `${sorted.length} shifts` : `No shifts found for "${name}".`,
     );
+
+    this.saveSchedule(sorted);
   }
 
+  public saveSchedule(sorted: ScheduleRecord[]) {
+    this.userService.saveUser(sorted).subscribe({
+      next: (res) => console.log('Successfully saved to KV!'),
+      error: (err) => console.error('Error saving:', err),
+    });
+  }
   private loadTodaySales(brand: string): void {
     const stored = localStorage.getItem(this.getSalesStorageKey(brand));
     this.soldTodayCount.set(stored ? Number(stored) : 0);

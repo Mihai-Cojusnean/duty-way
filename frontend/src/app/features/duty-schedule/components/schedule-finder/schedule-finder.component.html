@@ -18,9 +18,8 @@
 </section>
 }
 
+@if (username()) {
 <section class="form-card" aria-labelledby="search-heading">
-  <h3 id="search-heading">Find schedule</h3>
-
   <input
     id="personName"
     type="text"
@@ -51,6 +50,7 @@
     Find my schedule
   </button>
 </section>
+}
 
 @if (message()) {
 <p class="status-message" role="status">{{ message() }}</p>

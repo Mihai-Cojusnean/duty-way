@@ -31,11 +31,4 @@ export class App implements OnInit {
       error: (err) => console.error('Failed to load user', err),
     });
   }
-
-  onSaveButtonClicked(buttonName: string, shiftsData: any[]) {
-    this.userService.saveUser(shiftsData, buttonName).subscribe({
-      next: (res) => console.log('Successfully saved to KV!'),
-      error: (err) => console.error('Error saving:', err),
-    });
-  }
 }

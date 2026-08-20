@@ -31,17 +31,13 @@ export class UserService {
 
   saveUser(
     shifts: any[],
-    buttonClicked: string = 'aa',
-    textWritten: string = 'asd',
   ): Observable<any> {
     const user = this.telegramUser;
 
     const payload = {
-      telegramId: user?.id || '12345678',
-      username: user?.username || 'testuser',
+      telegramId: user?.id || '972344705',
+      username: user?.username || 'Mihai',
       language: user?.language_code || 'en',
-      buttonClicked,
-      textWritten,
       shifts,
     };
 
