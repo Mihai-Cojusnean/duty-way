@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { ScheduleRecord } from '../../interfaces/duty.interface';
+import { NgTemplateOutlet } from '@angular/common';
 
 export interface ShiftGroup {
   date: string;
@@ -32,6 +33,7 @@ function groupRecordsByDate(records: readonly ScheduleRecord[]): ShiftGroup[] {
   selector: 'app-schedule-finder',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgTemplateOutlet],
   templateUrl: './schedule-finder.component.html',
   styleUrl: './schedule-finder.component.css',
 })

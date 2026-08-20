@@ -352,3 +352,40 @@ article p {
     transition: none;
   }
 }
+
+
+.form-details {
+  margin-bottom: 1rem;
+}
+
+.form-summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.5rem 0;
+  user-select: none;
+  list-style: none; /* Removes default browser arrow */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-summary::-webkit-details-marker {
+  display: none; /* Removes WebKit default arrow */
+}
+
+/* Rotate arrow when open */
+.form-details[open] .summary-arrow {
+  transform: rotate(90deg);
+}
+
+.summary-arrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+/* Add slight top margin to form card when expanded */
+.form-details[open] .form-card {
+  margin-top: 0.5rem;
+}

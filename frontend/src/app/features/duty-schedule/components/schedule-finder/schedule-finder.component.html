@@ -18,39 +18,53 @@
 </section>
 }
 
-@if (username() === 'guest' || records().length === 0) {
-<section class="form-card" aria-labelledby="search-heading">
-  <input
-    id="personName"
-    type="text"
-    autocomplete="name"
-    aria-label="Your first and last name"
-    placeholder="Your first and last name"
-    [value]="personName()"
-    (input)="onNameInput($event)"
-  />
 
-  <input
-    id="scheduleFile"
-    class="visually-hidden"
-    type="file"
-    accept=".xlsx,.xls"
-    (change)="onFileChange($event)"
-  />
+@if (records().length !== 0) {
+<details class="form-details">
+  <summary class="form-summary">
+    <span class="summary-arrow" aria-hidden="true">▶</span>
+    Upload new schedule / Search
+  </summary>
 
-  <label class="file-input" for="scheduleFile">
-    <span>{{ selectedFile()?.name ?? 'Excel schedule' }}</span>
-    <span class="file-input-button">Choose file</span>
-  </label>
-
-  <button
-    type="button"
-    [disabled]="isSubmitDisabled()"
-    (click)="submitSearch.emit()">
-    Find my schedule
-  </button>
-</section>
+  <ng-container *ngTemplateOutlet="scheduleForm"></ng-container>
+</details>
+} @else {
+<ng-container *ngTemplateOutlet="scheduleForm"></ng-container>
 }
+
+<ng-template #scheduleForm>
+  <section class="form-card" aria-labelledby="search-heading">
+    <input
+      id="personName"
+      type="text"
+      autocomplete="name"
+      aria-label="Your first and last name"
+      placeholder="Your first and last name"
+      [value]="username() !== 'Guest' ? username() : ''"
+      (input)="onNameInput($event)"
+    />
+
+    <input
+      id="scheduleFile"
+      class="visually-hidden"
+      type="file"
+      accept=".xlsx,.xls"
+      (change)="onFileChange($event)"
+    />
+
+    <label class="file-input" for="scheduleFile">
+      <span>{{ selectedFile()?.name ?? 'Excel schedule' }}</span>
+      <span class="file-input-button">Choose file</span>
+    </label>
+
+    <button
+      type="button"
+      [disabled]="isSubmitDisabled()"
+      (click)="submitSearch.emit()">
+      Find my schedule
+    </button>
+  </section>
+</ng-template>
 
 @if (message()) {
 <p class="status-message" role="status">{{ message() }}</p>
