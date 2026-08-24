@@ -30,6 +30,37 @@ export class BrandCatalogComponent {
     );
   });
 
+  readonly expandedCollection = signal<string | null>(null);
+  readonly expandedPerfumeId = signal<string | number | null>(null);
+
+  // Group perfumes by collection/category dynamically
+  readonly collections = computed(() => {
+    const perfumesList = this.filteredPerfumes();
+    const grouped = new Map<string, Perfume[]>();
+
+    for (const p of perfumesList) {
+      // Falls back to brandName if collection field isn't defined
+      const key = p.collection || this.brandName();
+      if (!grouped.has(key)) grouped.set(key, []);
+      grouped.get(key)!.push(p);
+    }
+
+    return Array.from(grouped.entries()).map(([name, perfumes]) => ({
+      name,
+      perfumes,
+    }));
+  });
+
+  toggleCollection(name: string): void {
+    this.expandedCollection.update((curr) => (curr === name ? null : name));
+    this.expandedPerfumeId.set(null); // Reset child selection when toggling collection
+  }
+
+  // Add this toggle method:
+  togglePerfume(id: string | number): void {
+    this.expandedPerfumeId.update((current) => (current === id ? null : id));
+  }
+
   onSearch(event: Event): void {
     this.searchQuery.set((event.target as HTMLInputElement).value);
   }

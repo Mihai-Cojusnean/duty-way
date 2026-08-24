@@ -71,7 +71,7 @@
     <h2 id="schedule-heading">Schedule</h2>
 
     @if (message()) {
-    <p class="status-message" role="status">{{ message() }}</p>
+    <p class="status-message" role="status"> {{ message() }}</p>
     }
   </div>
 
@@ -116,6 +116,7 @@
       <p>{{ record.brand }} · {{ record.tabName }}</p>
     </article>
 
+<!--here-->
     @if (record.isToday) {
     <button
       class="brand-button"
@@ -130,3 +131,21 @@
   }
 </section>
 }
+
+
+<!--@if (record.isToday) {-->
+<!--<button-->
+<!--  class="brand-button"-->
+<!--  type="button"-->
+<!--  [attr.aria-label]="'Open ' + record.brand"-->
+<!--  (click)="openBrand.emit(record.brand)">-->
+<!--  {{ record.brand }}-->
+<!--</button>-->
+<!--}-->
+<!--<button-->
+<!--  class="brand-button"-->
+<!--  type="button"-->
+<!--  [attr.aria-label]="'Open ' + record.brand"-->
+<!--  (click)="openBrand.emit(record.brand)">-->
+<!--  {{ record.brand }}-->
+<!--</button>-->

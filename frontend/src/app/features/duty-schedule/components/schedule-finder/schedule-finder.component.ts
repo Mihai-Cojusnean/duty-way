@@ -50,9 +50,11 @@ export class ScheduleFinderComponent {
   readonly nameChanged = output<string>();
   readonly submitSearch = output<void>();
 
-  readonly isSubmitDisabled = computed(
-    () => !this.personName().trim() || this.selectedFile() === null,
-  );
+  readonly isSubmitDisabled = computed(() => {
+    const name = this.personName().trim() || this.username()?.trim() || '';
+
+    return !name || this.selectedFile() === null;
+  });
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -77,8 +79,9 @@ export class ScheduleFinderComponent {
     this.nameChanged.emit(name);
   }
 
-  onFileChange({ target }: Event): void {
-    const file = (target as HTMLInputElement).files?.item(0) ?? null;
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
 
     this.selectedFile.set(file);
 

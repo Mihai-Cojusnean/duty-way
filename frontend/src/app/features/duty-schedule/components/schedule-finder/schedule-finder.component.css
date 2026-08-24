@@ -385,7 +385,6 @@ article p {
   transition: transform 0.2s ease;
 }
 
-/* Add slight top margin to form card when expanded */
 .form-details[open] .form-card {
   margin-top: 0.5rem;
 }

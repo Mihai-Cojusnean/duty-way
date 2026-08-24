@@ -22,19 +22,58 @@
   <section class="catalog-list">
     <h2>Perfume catalogue</h2>
 
-    @for (perfume of filteredPerfumes(); track perfume.id) {
-    <button
-      class="perfume-row"
-      type="button"
-      [style.background-image]="getCardBg(perfume.imageUrl)"
-      (click)="selectedPerfume.set(perfume)"
-    >
+    @for (col of collections(); track col.name) {
+    <!-- Level 1: Collection Header -->
+    <div class="accordion-group">
+      <button
+        type="button"
+        class="accordion-header collection-row"
+        (click)="toggleCollection(col.name)"
+        [attr.aria-expanded]="expandedCollection() === col.name"
+      >
         <span>
-          <strong>{{ perfume.name }}</strong>
-          <small>{{ perfume.creator }} &nbsp;&nbsp;·&nbsp;&nbsp; {{ perfume.price }}</small>
+          <strong>{{ col.name }}</strong>
+          <small>{{ col.perfumes.length }} Fragrances</small>
         </span>
-      <span class="add-label">+ Add</span>
-    </button>
+        <span class="toggle-icon">{{ expandedCollection() === col.name ? '−' : '+' }}</span>
+      </button>
+
+      <!-- Level 2: Perfume List -->
+      @if (expandedCollection() === col.name) {
+      <div class="accordion-content perfume-list">
+        @for (perfume of col.perfumes; track perfume.id) {
+        <div class="perfume-subitem">
+          <button
+            type="button"
+            class="accordion-header perfume-row"
+            [style.background-image]="getCardBg(perfume.imageUrl)"
+            (click)="togglePerfume(perfume.id)"
+          >
+                <span>
+                  <strong>{{ perfume.name }}</strong>
+                  <small>{{ perfume.creator }} &nbsp;&nbsp;·&nbsp;&nbsp; {{ perfume.price }}</small>
+                </span>
+            <span class="toggle-icon">{{ expandedPerfumeId() === perfume.id ? '−' : '+' }}</span>
+          </button>
+
+          <!-- Level 3: Perfume Description / Details -->
+          @if (expandedPerfumeId() === perfume.id) {
+          <div class="accordion-content perfume-details">
+            <p class="description">{{ perfume.notes }}</p>
+            <button
+              type="button"
+              class="action-btn"
+              (click)="selectedPerfume.set(perfume); recordSale.emit(perfume)"
+            >
+              + Add to Order
+            </button>
+          </div>
+          }
+        </div>
+        }
+      </div>
+      }
+    </div>
     } @empty {
     <div class="empty-catalog">
       <h2>Products coming soon</h2>

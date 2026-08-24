@@ -17,6 +17,7 @@ export interface Perfume {
   readonly name: string;
   readonly price: string;
   readonly creator: string;
+  readonly collection: string;
   readonly description: string;
   readonly notes: string;
   readonly longevity: string;

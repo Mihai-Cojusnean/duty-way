@@ -11,6 +11,7 @@ const INITIAL_CATALOG: CatalogMap = {
       name: 'Tygar Extrait',
       price: '125ml - 421€\u2003|\u200360ml - 315€',
       creator: 'Jacques Cavallier',
+      collection: 'Le gemme',
       description:
         'Un voyage nocturne dans l’État de Kerala, surnommé « le jardin d’épices de l’Inde ». ' +
         'Une déclinaison olfactive hautement concentrée de Le Gemme Tygar Eau de Parfum. ' +
@@ -36,6 +37,7 @@ const INITIAL_CATALOG: CatalogMap = {
       name: 'Amunae',
       price: '125ml - 324€',
       creator: 'Sophie Labbé',
+      collection: 'Le gemme',
       description: '',
       notes: 'Jasmine, Aldehydes, Musk, Ambrette, Oak, Olibanum',
       longevity: '7h',
@@ -49,6 +51,32 @@ const INITIAL_CATALOG: CatalogMap = {
         'Suave, masculine, and sophisticated character',
         'Beautifully blended and memorable',
         'Strong sillage for a fresh fragrance',
+      ],
+    },
+    {
+      id: 'baciami',
+      name: 'Baciami',
+      price: '125ml - 421€\u2003|\u200360ml - 315€',
+      creator: 'Jacques Cavallier',
+      collection: 'Allegra',
+      description:
+        'Un voyage nocturne dans l’État de Kerala, surnommé « le jardin d’épices de l’Inde ». ' +
+        'Une déclinaison olfactive hautement concentrée de Le Gemme Tygar Eau de Parfum. ' +
+        'Élaboré autour d’accords de pamplemousse intense et d’ambre gris exceptionnel, il ' +
+        'magnifie les notes boisées et hespéridées intenses avec une profondeur et une ' +
+        'sensualité raffinées',
+      notes: 'Grapefruit, Ambergris, Amber, Citruses, Peru balsam',
+      longevity: '7h',
+      sillage: 'Strong',
+      imageUrl: 'https://fimgs.net/himg/o.DXPPaVxpeWO.png',
+      pros: [
+        'Parfum estival luxueux',
+        'Les notes d’agrumes et de bois se marient à merveille',
+        'Ouverture réaliste et juteuse de pamplemousse',
+        'Profil d’ambroxan doux et de haute qualité',
+        'Caractère élégant, masculin et sophistiqué',
+        'Composition harmonieuse et mémorable',
+        'Sillage puissant pour un parfum frais',
       ],
     },
   ],
