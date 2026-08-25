@@ -213,3 +213,15 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.perfume-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.perfume-price {
+  color: #bbc2e8;
+}

@@ -1,74 +1,41 @@
 <header class="topbar">
-  <button class="back-button" type="button" (click)="backToSchedule.emit()">
-    ← Schedule
-  </button>
+  <button class="back-button" type="button" (click)="backToSchedule.emit()"> ← Schedule</button>
 </header>
-
 <section class="catalog-page">
   <div class="assigned-brand">
     <span>Brand</span>
     <h2>{{ brandName() }}</h2>
   </div>
-
   <label for="catalogSearch"></label>
-  <input
-    id="catalogSearch"
-    type="search"
-    placeholder="Search perfumes..."
-    [value]="searchQuery()"
-    (input)="onSearch($event)"
-  />
-
+  <input id="catalogSearch" type="search" placeholder="Search perfumes..." [value]="searchQuery()"
+         (input)="onSearch($event)"/>
   <section class="catalog-list">
-    <h2>Perfume catalogue</h2>
-
-    @for (col of collections(); track col.name) {
+    <h2>Perfume catalogue</h2> @for (col of collections(); track col.name) {
     <!-- Level 1: Collection Header -->
     <div class="accordion-group">
-      <button
-        type="button"
-        class="accordion-header collection-row"
-        (click)="toggleCollection(col.name)"
-        [attr.aria-expanded]="expandedCollection() === col.name"
-      >
+      <button type="button" class="accordion-header collection-row" (click)="toggleCollection(col.name)"
+              [attr.aria-expanded]="expandedCollection() === col.name">
         <span>
           <strong>{{ col.name }}</strong>
           <small>{{ col.perfumes.length }} Fragrances</small>
         </span>
         <span class="toggle-icon">{{ expandedCollection() === col.name ? '−' : '+' }}</span>
       </button>
-
-      <!-- Level 2: Perfume List -->
       @if (expandedCollection() === col.name) {
-      <div class="accordion-content perfume-list">
-        @for (perfume of col.perfumes; track perfume.id) {
+      <div class="accordion-content perfume-list"> @for (perfume of col.perfumes; track perfume.id) {
         <div class="perfume-subitem">
-          <button
-            type="button"
-            class="accordion-header perfume-row"
-            [style.background-image]="getCardBg(perfume.imageUrl)"
-            (click)="togglePerfume(perfume.id)"
-          >
-                <span>
-                  <strong>{{ perfume.name }}</strong>
-                  <small>{{ perfume.creator }} &nbsp;&nbsp;·&nbsp;&nbsp; {{ perfume.price }}</small>
-                </span>
-            <span class="toggle-icon">{{ expandedPerfumeId() === perfume.id ? '−' : '+' }}</span>
+          <button type="button" class="accordion-header perfume-row"
+                  [style.background-image]="getCardBg(perfume.imageUrl)"
+                  (click)="selectedPerfume.set(perfume); recordSale.emit(perfume)">
+            <span class="perfume-info">
+              <strong>{{ perfume.name }}</strong>
+              <small>{{ perfume.creator }}</small>
+            </span>
+            <span class="perfume-right">
+              <span class="perfume-price">{{ perfume.price }}</span>
+              <span class="toggle-icon">{{ expandedPerfumeId() === perfume.id ? '−' : '+' }}</span>
+            </span>
           </button>
-
-          <!-- Level 3: Perfume Description / Details -->
-          @if (expandedPerfumeId() === perfume.id) {
-          <div class="accordion-content perfume-details">
-            <p class="description">{{ perfume.notes }}</p>
-            <button
-              type="button"
-              class="action-btn"
-              (click)="selectedPerfume.set(perfume); recordSale.emit(perfume)"
-            >
-              + Add to Order
-            </button>
-          </div>
-          }
         </div>
         }
       </div>
@@ -77,19 +44,13 @@
     } @empty {
     <div class="empty-catalog">
       <h2>Products coming soon</h2>
-      <p>Perfumes for {{ brandName() }} will appear here.</p>
     </div>
     }
   </section>
-
   <footer class="sales-counter">
     {{ soldCount() }} item(s) sold today
   </footer>
 </section>
-
 @if (selectedPerfume(); as perfume) {
-<app-perfume-modal
-  [perfume]="perfume"
-  (close)="selectedPerfume.set(null)"
-  (addSale)="onSaleAdded($event)"></app-perfume-modal>
-}
+<app-perfume-modal [perfume]="perfume" (close)="selectedPerfume.set(null)"
+                   (addSale)="onSaleAdded($event)"></app-perfume-modal> }
