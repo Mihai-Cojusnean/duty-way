@@ -419,3 +419,15 @@ article p {
   color: #dbe4ff;
   font-size: 0.82rem;
 }
+
+.brand-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+
+.brand-buttons .brand-button {
+  margin: 0;
+}

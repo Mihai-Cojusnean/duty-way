@@ -166,6 +166,7 @@
     class="shift-group"
     [class.multi-shift-group]="group.isMultiShift"
   >
+    @let todayBrands = uniqueTodayBrands(group.shifts);
     @for (record of group.shifts; track record.id) {
     <article [class.today-shift]="record.isToday">
       <strong>
@@ -174,30 +175,25 @@
       </strong>
       <p>{{ record.brand }} · {{ record.tabName }}</p>
     </article>
-
-<!--here-->
-    @if (record.isToday) {
-    <button
-      class="brand-button"
-      type="button"
-      [attr.aria-label]="'Open ' + record.brand"
-      (click)="openBrand.emit(record.brand)">
-      {{ record.brand }}
-    </button>
     }
-    <button
-      class="brand-button"
-      type="button"
-      [attr.aria-label]="'Open ' + record.brand"
-      (click)="openBrand.emit(record.brand)">
-      {{ record.brand }}
-    </button>
+    @if (todayBrands.length) {
+    <div class="brand-buttons">
+      @for (brand of todayBrands; track brand) {
+      <button
+        class="brand-button"
+        type="button"
+        [attr.aria-label]="'Open ' + brand"
+        (click)="openBrand.emit(brand)"
+      >
+        {{ brand }}
+      </button>
+      }
+    </div>
     }
   </div>
   }
 </section>
 }
-
 
 <!--@if (record.isToday) {-->
 <!--<button-->
@@ -208,10 +204,3 @@
 <!--  {{ record.brand }}-->
 <!--</button>-->
 <!--}-->
-<!--<button-->
-<!--  class="brand-button"-->
-<!--  type="button"-->
-<!--  [attr.aria-label]="'Open ' + record.brand"-->
-<!--  (click)="openBrand.emit(record.brand)">-->
-<!--  {{ record.brand }}-->
-<!--</button>-->

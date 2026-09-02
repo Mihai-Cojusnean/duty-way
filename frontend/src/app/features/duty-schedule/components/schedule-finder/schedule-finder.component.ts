@@ -103,4 +103,16 @@ export class ScheduleFinderComponent {
       month: 'short',
     }).format(new Date(`${date}T12:00:00`));
   }
+
+  uniqueTodayBrands(records: readonly ScheduleRecord[]): readonly string[] {
+    const brands = new Map<string, string>();
+
+    for (const record of records) {
+      if (record.isToday && record.brand.trim()) {
+        brands.set(record.brand.trim().toLowerCase(), record.brand.trim());
+      }
+    }
+
+    return [...brands.values()];
+  }
 }
