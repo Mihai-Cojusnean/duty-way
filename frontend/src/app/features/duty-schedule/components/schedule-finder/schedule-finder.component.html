@@ -27,11 +27,7 @@
 
 <ng-template #scheduleForm>
   <section class="form-card" aria-labelledby="search-heading">
-    @if (assignedWorkName()) {
-    <p class="assigned-work-name">
-      Schedule for <strong>{{ assignedWorkName() }}</strong>
-    </p>
-    } @else {
+    @if (!assignedWorkName()) {
     <p class="assigned-work-name">
       Your work name has not been assigned yet.
     </p>
