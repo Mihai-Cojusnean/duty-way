@@ -176,7 +176,6 @@
       <p>{{ record.brand }} · {{ record.tabName }}</p>
     </article>
     }
-    @if (todayBrands.length) {
     <div class="brand-buttons">
       @for (brand of todayBrands; track brand) {
       <button
@@ -189,18 +188,22 @@
       </button>
       }
     </div>
-    }
   </div>
   }
 </section>
 }
 
-<!--@if (record.isToday) {-->
-<!--<button-->
-<!--  class="brand-button"-->
-<!--  type="button"-->
-<!--  [attr.aria-label]="'Open ' + record.brand"-->
-<!--  (click)="openBrand.emit(record.brand)">-->
-<!--  {{ record.brand }}-->
-<!--</button>-->
+<!--@if (todayBrands.length) {-->
+<!--<div class="brand-buttons">-->
+<!--  @for (brand of todayBrands; track brand) {-->
+<!--  <button-->
+<!--    class="brand-button"-->
+<!--    type="button"-->
+<!--    [attr.aria-label]="'Open ' + brand"-->
+<!--    (click)="openBrand.emit(brand)"-->
+<!--  >-->
+<!--    {{ brand }}-->
+<!--  </button>-->
+<!--  }-->
+<!--</div>-->
 <!--}-->
