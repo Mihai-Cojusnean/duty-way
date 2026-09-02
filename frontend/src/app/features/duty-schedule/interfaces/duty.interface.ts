@@ -32,3 +32,14 @@ export interface PerfumePrice {
 }
 
 export type CatalogMap = Record<string, Perfume[]>;
+
+export interface ChangedShift {
+  readonly previous: ScheduleRecord;
+  readonly current: ScheduleRecord;
+}
+
+export interface ScheduleDiff {
+  readonly added: readonly ScheduleRecord[];
+  readonly removed: readonly ScheduleRecord[];
+  readonly changed: readonly ChangedShift[];
+}

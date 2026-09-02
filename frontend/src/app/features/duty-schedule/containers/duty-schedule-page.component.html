@@ -11,6 +11,7 @@
     [username]="store.username()"
     [message]="store.statusMessage()"
     [records]="store.scheduleRecords()"
+    [scheduleDiff]="store.scheduleDiff()"
     (nameChanged)="store.setPersonName($event)"
     (fileSelected)="store.setFile($event)"
     (submitSearch)="store.loadSchedule()"

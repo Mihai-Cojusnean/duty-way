@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
-import { ScheduleRecord } from '../../interfaces/duty.interface';
+import { ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
 import { NgTemplateOutlet } from '@angular/common';
 
 export interface ShiftGroup {
@@ -49,6 +49,7 @@ export class ScheduleFinderComponent {
   readonly fileSelected = output<File>();
   readonly nameChanged = output<string>();
   readonly submitSearch = output<void>();
+  readonly scheduleDiff = input<ScheduleDiff | null>(null);
 
   readonly isSubmitDisabled = computed(() => {
     const name = this.personName().trim() || this.username()?.trim() || '';

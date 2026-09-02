@@ -1,8 +1,9 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { TelegramService } from '../../../core/telegram.service';
-import { CatalogMap, ScheduleRecord } from '../interfaces/duty.interface';
+import { CatalogMap, ScheduleDiff, ScheduleRecord } from '../interfaces/duty.interface';
 import { UserService } from '../../../services/user.service';
+import { User } from '../interfaces/user.interface';
 
 const INITIAL_CATALOG: CatalogMap = {
   BVLGARI: [
@@ -458,13 +459,14 @@ const INITIAL_CATALOG: CatalogMap = {
 @Injectable({ providedIn: 'root' })
 export class ScheduleStore {
   private readonly telegramService = inject(TelegramService);
-  private readonly shiftService = inject(UserService);
+  private readonly userService = inject(UserService);
 
   // State Signals
   readonly username = signal<string>('');
   readonly personName = signal<string>('');
   readonly selectedFile = signal<File | null>(null);
   readonly scheduleRecords = signal<ScheduleRecord[]>([]);
+  readonly scheduleDiff = signal<ScheduleDiff | null>(null);
   readonly statusMessage = signal<string>('');
   readonly selectedBrand = signal<string | null>(null);
   readonly soldTodayCount = signal<number>(0);
@@ -476,7 +478,7 @@ export class ScheduleStore {
     return brand ? (this.catalog()[brand] ?? []) : [];
   });
 
-  constructor(private userService: UserService) {
+  constructor() {
     this.telegramService.init();
     const user = this.telegramService.getUser();
 
@@ -496,7 +498,6 @@ export class ScheduleStore {
 
   setFile(file: File): void {
     this.selectedFile.set(file);
-    this.scheduleRecords.set([]);
     this.statusMessage.set('');
   }
 
@@ -512,14 +513,11 @@ export class ScheduleStore {
   private loadShiftsFromDatabase(): void {
     this.statusMessage.set('Loading schedule from database...');
 
-    this.shiftService.getUser().subscribe({
-      next: (response: any) => {
+    this.userService.getUser().subscribe({
+      next: (response: User) => {
         console.log('Raw DB Response:', response);
 
-        // Handle cases where response might be wrapped in an object or directly an array
-        const rawRecords: ScheduleRecord[] = Array.isArray(response)
-          ? response
-          : (response?.data ?? response?.shifts ?? []);
+        const rawRecords = response.shifts ?? [];
 
         if (rawRecords.length > 0) {
           const updatedRecords = rawRecords.map((record) => ({
@@ -600,7 +598,13 @@ export class ScheduleStore {
       (a, b) => a.dateNumber - b.dateNumber || a.startHourMinutes - b.startHourMinutes,
     );
 
+    const previousRecords = this.scheduleRecords();
+
     this.scheduleRecords.set(sorted);
+    this.scheduleDiff.set(
+      previousRecords.length ? this.compareSchedules(previousRecords, sorted) : null,
+    );
+
     this.statusMessage.set(
       sorted.length ? `${sorted.length} shifts` : `No shifts found for "${name}".`,
     );
@@ -608,12 +612,44 @@ export class ScheduleStore {
     this.saveSchedule(sorted);
   }
 
-  public saveSchedule(sorted: ScheduleRecord[]) {
+  private saveSchedule(sorted: ScheduleRecord[]): void {
     this.userService.saveUser(sorted).subscribe({
       next: (res) => console.log('Successfully saved to KV!'),
       error: (err) => console.error('Error saving:', err),
     });
   }
+
+  private compareSchedules(
+    previous: readonly ScheduleRecord[],
+    current: readonly ScheduleRecord[],
+  ): ScheduleDiff {
+    const previousByKey = new Map(previous.map((record) => [this.shiftKey(record), record]));
+
+    const currentByKey = new Map(current.map((record) => [this.shiftKey(record), record]));
+
+    const added = current.filter((record) => !previousByKey.has(this.shiftKey(record)));
+
+    const removed = previous.filter((record) => !currentByKey.has(this.shiftKey(record)));
+
+    const changed = current.flatMap((record) => {
+      const oldRecord = previousByKey.get(this.shiftKey(record));
+
+      if (!oldRecord || oldRecord.hours === record.hours) {
+        return [];
+      }
+
+      return [{ previous: oldRecord, current: record }];
+    });
+
+    return { added, removed, changed };
+  }
+
+  private shiftKey(record: ScheduleRecord): string {
+    return [record.tabName, record.dateStr, record.brand]
+      .map((value) => value.trim().toLowerCase())
+      .join('|');
+  }
+
   private loadTodaySales(brand: string): void {
     const stored = localStorage.getItem(this.getSalesStorageKey(brand));
     this.soldTodayCount.set(stored ? Number(stored) : 0);

@@ -65,7 +65,7 @@
   </section>
 </ng-template>
 
-@if (records().length > 0) {
+@if (records().length > 0 || scheduleDiff()) {
 <section class="results" aria-labelledby="schedule-heading">
   <div class="schedule-header">
     <h2 id="schedule-heading">Schedule</h2>
@@ -74,6 +74,55 @@
     <p class="status-message" role="status"> {{ message() }}</p>
     }
   </div>
+
+  @if (scheduleDiff(); as diff) {
+  <section class="schedule-changes">
+    <h2>Latest changes</h2>
+
+    @if (!diff.added.length && !diff.removed.length && !diff.changed.length) {
+    <p class="no-changes">No changes compared with your previous schedule.</p>
+    }
+
+    @if (diff.added.length) {
+    <div class="change-group">
+      <h3>Added</h3>
+      @for (record of diff.added; track record.id) {
+      <p class="change-row added">
+        <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
+        <span>{{ record.brand }} · {{ record.hours }}</span>
+      </p>
+      }
+    </div>
+    }
+
+    @if (diff.changed.length) {
+    <div class="change-group">
+      <h3>Changed</h3>
+      @for (change of diff.changed; track change.current.id) {
+      <p class="change-row changed">
+        <strong>{{ shortDay(change.current.day) }} {{ change.current.dateStr }}</strong>
+        <span>
+          {{ change.current.brand }} ·
+          {{ change.previous.hours }} → {{ change.current.hours }}
+        </span>
+      </p>
+      }
+    </div>
+    }
+
+    @if (diff.removed.length) {
+    <div class="change-group">
+      <h3>Removed</h3>
+      @for (record of diff.removed; track record.id) {
+      <p class="change-row removed">
+        <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
+        <span>{{ record.brand }} · {{ record.hours }}</span>
+      </p>
+      }
+    </div>
+    }
+  </section>
+  }
 
   @if (pastShiftGroups().length > 0) {
   <details class="past-shifts-collapsible">
