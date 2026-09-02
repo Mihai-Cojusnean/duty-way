@@ -57,17 +57,20 @@
   justify-content: space-between;
   width: 100%;
   margin: 0;
-  padding: 12px;
+  padding: 12px 12px 12px 40px;
+
   border: 1px solid rgb(255 255 255 / 18%);
   border-radius: 0;
   border-bottom: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: rgb(7 7 45 / 35%);
   box-shadow: none;
+
   text-align: left;
   color: #ffffff;
+
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  background-color: rgb(7 7 45 / 35%);
 }
 
 .perfume-row:first-of-type {
@@ -166,13 +169,6 @@
   border-bottom: 0;
 }
 
-.perfume-row {
-  padding-left: 20px; /* Indent level 2 */
-  background-size: cover;
-  background-position: center;
-  background-color: rgb(7 7 45 / 35%);
-}
-
 .perfume-row strong,
 .perfume-row small {
   display: block;
@@ -212,14 +208,6 @@
   color: #ffffff;
   font-weight: 600;
   cursor: pointer;
-}
-
-.perfume-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-left: auto;
-  white-space: nowrap;
 }
 
 .perfume-price {
