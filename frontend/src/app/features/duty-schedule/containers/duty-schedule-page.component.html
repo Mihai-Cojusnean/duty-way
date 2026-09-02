@@ -8,11 +8,9 @@
   ></app-brand-catalog>
   } @else {
   <app-schedule-finder
-    [username]="store.username()"
     [message]="store.statusMessage()"
     [records]="store.scheduleRecords()"
     [scheduleDiff]="store.scheduleDiff()"
-    [assignedWorkName]="store.personName()"
     (fileSelected)="store.setFile($event)"
     (submitSearch)="store.loadSchedule()"
     (openBrand)="store.selectBrand($event)"

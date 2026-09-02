@@ -464,8 +464,8 @@ export class ScheduleStore {
   private readonly apiService = inject(ApiService);
 
   // State Signals
-  readonly username = signal<string>('');
-  readonly personName = signal<string>('');
+  username = '';
+  personName = '';
   readonly selectedFile = signal<File | null>(null);
   readonly scheduleRecords = signal<ScheduleRecord[]>([]);
   readonly scheduleDiff = signal<ScheduleDiff | null>(null);
@@ -493,8 +493,8 @@ export class ScheduleStore {
       console.log('Current user:', currentUser);
 
       if (!currentUser.workName) {
-        this.username.set('Telegram user');
-        this.personName.set('Telegram user');
+        this.username = 'Not assigned';
+        this.personName = 'Not assigned';
         this.scheduleRecords.set([]);
         this.statusMessage.set(
           'Your work name has not been assigned yet. Please contact an administrator.',
@@ -502,15 +502,15 @@ export class ScheduleStore {
         return;
       }
 
-      this.username.set(currentUser.workName);
-      this.personName.set(currentUser.workName);
+      this.username = currentUser.workName;
+      this.personName = currentUser.workName;
 
       this.loadShiftsFromDatabase();
     } catch (error) {
       console.error('Failed to initialize secure session', error);
 
-      this.username.set('Guest');
-      this.personName.set('Guest');
+      this.username = 'Guest';
+      this.personName = 'Guest';
       this.scheduleRecords.set([]);
       this.statusMessage.set('Please open this app through Telegram to load your schedule.');
     }
@@ -563,7 +563,7 @@ export class ScheduleStore {
 
   async loadSchedule(): Promise<void> {
     const file = this.selectedFile();
-    const name = this.personName().trim();
+    const name = this.personName.trim();
 
     if (!file || !name) {
       this.statusMessage.set('Enter your name and choose an Excel file first.');

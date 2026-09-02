@@ -12,17 +12,11 @@
   <span class="help">My schedule</span>
 </header>
 
-@if (username()) {
-<section class="hero">
-  <p class="telegram-user">Signed in as {{ username() }}</p>
-</section>
-}
-
 @if (records().length !== 0) {
 <details class="form-details">
   <summary class="form-summary">
     <span class="summary-arrow" aria-hidden="true">▶</span>
-    Upload new schedule / Search
+    Upload new schedule
   </summary>
 
   <ng-container *ngTemplateOutlet="scheduleForm"></ng-container>
@@ -60,7 +54,7 @@
       type="button"
       [disabled]="isSubmitDisabled()"
       (click)="submitSearch.emit()">
-      Find my schedule
+      Submit
     </button>
   </section>
 </ng-template>

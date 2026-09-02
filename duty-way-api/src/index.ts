@@ -184,7 +184,7 @@ async function authenticateTelegramUser(
 		.run();
 
 	const user = await env.DB.prepare(
-		'SELECT role FROM app_users WHERE telegram_user_id = ?',
+		'SELECT role, work_name FROM app_users WHERE telegram_user_id = ?',
 	)
 		.bind(telegramId)
 		.first<{ role: Role; work_name: string | null }>();
