@@ -490,18 +490,11 @@ export class ScheduleStore {
     try {
       const currentUser = await this.apiService.getCurrentUser();
 
-      if (!currentUser.workName) {
-        this.username.set('Telegram user');
-        this.scheduleRecords.set([]);
-        this.statusMessage.set(
-          'Your work name has not been assigned yet. Please contact an administrator.',
-        );
-        return;
-      }
+      console.log('Current user:', currentUser);
 
-      this.username.set(currentUser.workName);
       if (!currentUser.workName) {
         this.username.set('Telegram user');
+        this.personName.set('Telegram user');
         this.scheduleRecords.set([]);
         this.statusMessage.set(
           'Your work name has not been assigned yet. Please contact an administrator.',
@@ -511,10 +504,13 @@ export class ScheduleStore {
 
       this.username.set(currentUser.workName);
       this.personName.set(currentUser.workName);
+
       this.loadShiftsFromDatabase();
     } catch (error) {
       console.error('Failed to initialize secure session', error);
+
       this.username.set('Guest');
+      this.personName.set('Guest');
       this.scheduleRecords.set([]);
       this.statusMessage.set('Please open this app through Telegram to load your schedule.');
     }
