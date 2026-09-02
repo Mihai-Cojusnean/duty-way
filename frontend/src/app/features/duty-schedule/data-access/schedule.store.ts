@@ -4,6 +4,7 @@ import { TelegramService } from '../../../core/telegram.service';
 import { CatalogMap, ScheduleDiff, ScheduleRecord } from '../interfaces/duty.interface';
 import { UserService } from '../../../services/user.service';
 import { User } from '../interfaces/user.interface';
+import { ApiService } from '../../../core/api.service';
 
 const INITIAL_CATALOG: CatalogMap = {
   BVLGARI: [
@@ -460,6 +461,7 @@ const INITIAL_CATALOG: CatalogMap = {
 export class ScheduleStore {
   private readonly telegramService = inject(TelegramService);
   private readonly userService = inject(UserService);
+  private readonly apiService = inject(ApiService);
 
   // State Signals
   readonly username = signal<string>('');
@@ -479,21 +481,37 @@ export class ScheduleStore {
   });
 
   constructor() {
-    this.telegramService.init();
-    const user = this.telegramService.getUser();
-
-    if (user) {
-      this.username.set(user.username ? `@${user.username}` : user.first_name);
-      this.loadShiftsFromDatabase();
-    } else {
-      this.username.set('Guest');
-      this.scheduleRecords.set([]);
-      this.statusMessage.set('Please open this app via Telegram to load your schedule.');
-    }
+    void this.initialize();
   }
 
-  setPersonName(name: string): void {
-    this.personName.set(name);
+  private async initialize(): Promise<void> {
+    this.telegramService.init();
+
+    try {
+      const currentUser = await this.apiService.getCurrentUser();
+
+      this.username.set(
+        currentUser.telegramUser.username
+          ? `@${currentUser.telegramUser.username}`
+          : 'Telegram user',
+      );
+
+      if (!currentUser.workName) {
+        this.scheduleRecords.set([]);
+        this.statusMessage.set(
+          'Your work name has not been assigned yet. Please contact an administrator.',
+        );
+        return;
+      }
+
+      this.personName.set(currentUser.workName);
+      this.loadShiftsFromDatabase();
+    } catch (error) {
+      console.error('Failed to initialize secure session', error);
+      this.username.set('Guest');
+      this.scheduleRecords.set([]);
+      this.statusMessage.set('Please open this app through Telegram to load your schedule.');
+    }
   }
 
   setFile(file: File): void {

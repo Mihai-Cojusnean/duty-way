@@ -12,7 +12,7 @@
     [message]="store.statusMessage()"
     [records]="store.scheduleRecords()"
     [scheduleDiff]="store.scheduleDiff()"
-    (nameChanged)="store.setPersonName($event)"
+    [assignedWorkName]="store.personName()"
     (fileSelected)="store.setFile($event)"
     (submitSearch)="store.loadSchedule()"
     (openBrand)="store.selectBrand($event)"

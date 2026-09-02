@@ -42,20 +42,15 @@ export class ScheduleFinderComponent {
   readonly message = input<string>();
   readonly records = input.required<ScheduleRecord[]>();
 
-  readonly personName = signal('');
   readonly selectedFile = signal<File | null>(null);
-
+  readonly assignedWorkName = input<string>('');
   readonly openBrand = output<string>();
   readonly fileSelected = output<File>();
-  readonly nameChanged = output<string>();
   readonly submitSearch = output<void>();
   readonly scheduleDiff = input<ScheduleDiff | null>(null);
-
-  readonly isSubmitDisabled = computed(() => {
-    const name = this.personName().trim() || this.username()?.trim() || '';
-
-    return !name || this.selectedFile() === null;
-  });
+  readonly isSubmitDisabled = computed(
+    () => !this.assignedWorkName().trim() || !this.selectedFile(),
+  );
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -73,12 +68,6 @@ export class ScheduleFinderComponent {
   readonly upcomingShiftGroups = computed(() => groupRecordsByDate(this.shiftsByPeriod().upcoming));
 
   readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
-
-  onNameInput({ target }: Event): void {
-    const name = (target as HTMLInputElement).value;
-    this.personName.set(name);
-    this.nameChanged.emit(name);
-  }
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;

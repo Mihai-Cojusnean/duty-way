@@ -33,15 +33,15 @@
 
 <ng-template #scheduleForm>
   <section class="form-card" aria-labelledby="search-heading">
-    <input
-      id="personName"
-      type="text"
-      autocomplete="name"
-      aria-label="Your first and last name"
-      placeholder="Your first and last name"
-      [value]="username() !== 'Guest' ? username() : ''"
-      (input)="onNameInput($event)"
-    />
+    @if (assignedWorkName()) {
+    <p class="assigned-work-name">
+      Schedule for <strong>{{ assignedWorkName() }}</strong>
+    </p>
+    } @else {
+    <p class="assigned-work-name">
+      Your work name has not been assigned yet.
+    </p>
+    }
 
     <input
       id="scheduleFile"

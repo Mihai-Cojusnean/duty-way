@@ -9,6 +9,7 @@ interface TelegramUser {
 interface AuthenticatedUser {
 	readonly telegramUser: TelegramUser;
 	readonly role: Role;
+	readonly workName: string | null;
 }
 
 interface UserRecord {
@@ -70,6 +71,7 @@ export default {
 					{
 						telegramUser: currentUser.telegramUser,
 						role: currentUser.role,
+						workName: currentUser.workName,
 					},
 					corsHeaders,
 				);
@@ -185,11 +187,12 @@ async function authenticateTelegramUser(
 		'SELECT role FROM app_users WHERE telegram_user_id = ?',
 	)
 		.bind(telegramId)
-		.first<{ role: Role }>();
+		.first<{ role: Role; work_name: string | null }>();
 
 	return {
 		telegramUser,
 		role: user?.role === 'admin' ? 'admin' : 'user',
+		workName: user?.work_name ?? null,
 	};
 }
 

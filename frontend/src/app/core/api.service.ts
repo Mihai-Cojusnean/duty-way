@@ -9,6 +9,7 @@ export interface CurrentUser {
     readonly username?: string;
     readonly language_code?: string;
   };
+  readonly workName: string | null;
   readonly role: AppRole;
 }
 
