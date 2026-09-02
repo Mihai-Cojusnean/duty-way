@@ -10,7 +10,7 @@ import {
 import { UserService } from '../../../services/user.service';
 import { User } from '../interfaces/user.interface';
 import { ApiService } from '../../../core/api.service';
-import { SalesService } from '../../../core/sales.service';
+import { SalesHistoryEntry, SalesService } from '../../../core/sales.service';
 
 const INITIAL_CATALOG: CatalogMap = {
   BVLGARI: [
@@ -507,6 +507,12 @@ export class ScheduleStore {
   readonly soldTodayCount = signal<number>(0);
   readonly todaySalesTotalCents = signal<number>(0);
   readonly catalog = signal<CatalogMap>(INITIAL_CATALOG);
+  readonly salesHistory = signal<readonly SalesHistoryEntry[]>([]);
+  readonly previousSalesHistory = computed(() => {
+    const today = new Date().toISOString().slice(0, 10);
+
+    return this.salesHistory().filter((entry) => entry.date !== today);
+  });
 
   // Computed Projections
   readonly brandPerfumes = computed(() => {
@@ -539,6 +545,7 @@ export class ScheduleStore {
       this.username.set(currentUser.workName);
       this.personName.set(currentUser.workName);
       this.loadTodaySales();
+      this.loadSalesHistory();
 
       this.loadShiftsFromDatabase();
     } catch (error) {
@@ -730,6 +737,17 @@ export class ScheduleStore {
       },
       error: (error: unknown) => {
         console.error('Failed to load today sales', error);
+      },
+    });
+  }
+
+  private loadSalesHistory(): void {
+    this.salesService.getRecentHistory().subscribe({
+      next: (history) => {
+        this.salesHistory.set(history);
+      },
+      error: (error: unknown) => {
+        console.error('Failed to load sales history', error);
       },
     });
   }

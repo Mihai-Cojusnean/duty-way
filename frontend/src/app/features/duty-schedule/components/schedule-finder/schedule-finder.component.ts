@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
 import { NgTemplateOutlet } from '@angular/common';
+import { SalesHistoryEntry } from '../../../../core/sales.service';
 
 export interface ShiftGroup {
   date: string;
@@ -53,6 +54,7 @@ export class ScheduleFinderComponent {
   );
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
+  readonly salesHistory = input<readonly SalesHistoryEntry[]>([]);
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -91,5 +93,13 @@ export class ScheduleFinderComponent {
       style: 'currency',
       currency: 'EUR',
     }).format(amountCents / 100);
+  }
+
+  formatSalesDate(date: string): string {
+    return new Intl.DateTimeFormat('en-GB', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+    }).format(new Date(`${date}T12:00:00`));
   }
 }

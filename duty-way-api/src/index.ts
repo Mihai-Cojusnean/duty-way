@@ -157,6 +157,27 @@ export default {
 				);
 			}
 
+			if (request.method === 'GET' && url.pathname === '/api/sales/history') {
+				const requestedDays = Number(url.searchParams.get('days') ?? '7');
+				const days =
+					Number.isInteger(requestedDays) &&
+					requestedDays >= 1 &&
+					requestedDays <= 31
+						? requestedDays
+						: 7;
+
+				return json(
+					{
+						days: await getSalesHistory(
+							env,
+							String(currentUser.telegramUser.id),
+							days,
+						),
+					},
+					corsHeaders,
+				);
+			}
+
 			if (request.method === 'POST' && url.pathname === '/api/sales') {
 				const body = await request.json().catch(() => null);
 
@@ -440,6 +461,44 @@ function isSaleRequest(value: unknown): value is SaleRequest {
 		'currency' in value &&
 		value.currency === 'EUR'
 	);
+}
+
+async function getSalesHistory(
+	env: Env,
+	telegramUserId: string,
+	days: number,
+): Promise<
+	readonly {
+		date: string;
+		count: number;
+		totalCents: number;
+		currency: 'EUR';
+	}[]
+> {
+	const result = await env.DB.prepare(
+		`SELECT
+      date(sold_at) AS date,
+      COUNT(*) AS count,
+      COALESCE(SUM(amount_cents), 0) AS total_cents
+    FROM sales
+    WHERE telegram_user_id = ?
+      AND date(sold_at) >= date('now', ?)
+    GROUP BY date(sold_at)
+    ORDER BY date(sold_at) DESC`,
+	)
+		.bind(telegramUserId, `-${days - 1} days`)
+		.all<{
+			date: string;
+			count: number;
+			total_cents: number;
+		}>();
+
+	return result.results.map((row) => ({
+		date: row.date,
+		count: row.count,
+		totalCents: row.total_cents,
+		currency: 'EUR' as const,
+	}));
 }
 
 function json(

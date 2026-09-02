@@ -67,6 +67,24 @@
     }
   </div>
 
+  @if (salesHistory().length) {
+  <details class="sales-history">
+    <summary>Previous sales</summary>
+
+    <div class="sales-history-list">
+      @for (day of salesHistory(); track day.date) {
+      <div class="sales-history-row">
+        <span>{{ formatSalesDate(day.date) }}</span>
+        <span>
+        {{ day.count }} {{ day.count === 1 ? 'item' : 'items' }}
+        · {{ formatEuro(day.totalCents) }}
+      </span>
+      </div>
+      }
+    </div>
+  </details>
+  }
+
   @if (scheduleDiff(); as diff) {
   <section class="schedule-changes">
     <h2>Latest changes</h2>

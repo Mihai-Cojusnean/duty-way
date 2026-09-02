@@ -1,10 +1,17 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PerfumeSale } from '../features/duty-schedule/interfaces/duty.interface';
 import { TelegramService } from './telegram.service';
 
 export interface SalesSummary {
+  readonly count: number;
+  readonly totalCents: number;
+  readonly currency: 'EUR';
+}
+
+export interface SalesHistoryEntry {
+  readonly date: string;
   readonly count: number;
   readonly totalCents: number;
   readonly currency: 'EUR';
@@ -54,5 +61,16 @@ export class SalesService {
     return new HttpHeaders({
       'X-Telegram-Init-Data': this.telegramService.getInitData(),
     });
+  }
+
+  getRecentHistory(days = 7): Observable<readonly SalesHistoryEntry[]> {
+    const params = new HttpParams().set('days', String(days));
+
+    return this.http
+      .get<{ readonly days: readonly SalesHistoryEntry[] }>(`${this.apiUrl}/api/sales/history`, {
+        headers: this.authHeaders,
+        params,
+      })
+      .pipe(map((response) => response.days));
   }
 }
