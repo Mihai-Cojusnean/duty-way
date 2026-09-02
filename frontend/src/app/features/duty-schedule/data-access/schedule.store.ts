@@ -9,8 +9,9 @@ import {
 } from '../interfaces/duty.interface';
 import { UserService } from '../../../services/user.service';
 import { User } from '../interfaces/user.interface';
-import { ApiService } from '../../../core/api.service';
+import { ApiService, AppRole } from '../../../core/api.service';
 import { SalesHistoryEntry, SalesService } from '../../../core/sales.service';
+import { AdminService, AdminUser } from '../../../core/admin.service';
 
 const INITIAL_CATALOG: CatalogMap = {
   BVLGARI: [
@@ -495,6 +496,7 @@ export class ScheduleStore {
   private readonly userService = inject(UserService);
   private readonly apiService = inject(ApiService);
   private readonly salesService = inject(SalesService);
+  private readonly adminService = inject(AdminService);
 
   // State Signals
   readonly username = signal<string>('');
@@ -513,6 +515,11 @@ export class ScheduleStore {
 
     return this.salesHistory().filter((entry) => entry.date !== today);
   });
+  readonly appRole = signal<AppRole | null>(null);
+  readonly adminUsers = signal<readonly AdminUser[]>([]);
+  readonly viewedAdminUser = signal<AdminUser | null>(null);
+
+  readonly isViewingAdminSchedule = computed(() => this.viewedAdminUser() !== null);
 
   // Computed Projections
   readonly brandPerfumes = computed(() => {
@@ -529,6 +536,11 @@ export class ScheduleStore {
 
     try {
       const currentUser = await this.apiService.getCurrentUser();
+      this.appRole.set(currentUser.role);
+
+      if (currentUser.role === 'admin') {
+        this.loadAdminUsers();
+      }
 
       console.log('Current user:', currentUser);
 
@@ -569,6 +581,61 @@ export class ScheduleStore {
 
   clearBrand(): void {
     this.selectedBrand.set(null);
+  }
+
+  selectAdminSchedule(telegramUserId: string): void {
+    if (!telegramUserId) {
+      this.showMySchedule();
+      return;
+    }
+
+    const selectedUser = this.adminUsers().find((user) => user.telegram_user_id === telegramUserId);
+
+    if (!selectedUser) {
+      return;
+    }
+
+    this.statusMessage.set(`Loading ${selectedUser.work_name}'s schedule...`);
+
+    this.adminService.getUserSchedule(telegramUserId).subscribe({
+      next: (response) => {
+        const records = response.shifts.map((record) => ({
+          ...record,
+          isPast: this.checkIsPast(record.dateStr),
+          isToday: this.checkIsToday(record.dateStr),
+        }));
+
+        this.viewedAdminUser.set(response.user);
+        this.scheduleDiff.set(null);
+        this.scheduleRecords.set(records);
+        this.statusMessage.set(
+          records.length
+            ? `Viewing ${response.user.work_name}'s schedule`
+            : `${response.user.work_name} has no saved schedule.`,
+        );
+      },
+      error: (error: unknown) => {
+        console.error('Failed to load admin schedule', error);
+        this.statusMessage.set('Could not load this schedule.');
+      },
+    });
+  }
+
+  showMySchedule(): void {
+    this.viewedAdminUser.set(null);
+    this.scheduleDiff.set(null);
+    this.loadShiftsFromDatabase();
+  }
+
+  private loadAdminUsers(): void {
+    this.adminService.getUsers().subscribe({
+      next: (users) => {
+        this.adminUsers.set(users);
+      },
+      error: (error: unknown) => {
+        console.error('Failed to load admin users', error);
+      },
+    });
   }
 
   private loadShiftsFromDatabase(): void {

@@ -11,3 +11,37 @@
   margin: 0 auto;
   padding: 1px 20px 42px;
 }
+
+.admin-schedule-picker {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 12px;
+  background: rgb(10 11 34 / 62%);
+}
+
+.admin-schedule-picker label {
+  color: #cbd5f5;
+  font-size: 0.8rem;
+}
+
+.admin-schedule-picker select {
+  width: 100%;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 8px;
+  padding: 9px;
+  background: #121324;
+  color: #fff;
+}
+
+.admin-schedule-picker p {
+  margin: 0;
+  color: #aeb7d9;
+  font-size: 0.82rem;
+}
+
+.admin-schedule-picker button {
+  margin-left: 8px;
+}

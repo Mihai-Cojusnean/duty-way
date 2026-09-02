@@ -228,10 +228,56 @@ export default {
 				}
 
 				const result = await env.DB.prepare(
-					'SELECT telegram_user_id, role, created_at FROM app_users ORDER BY created_at DESC LIMIT 100',
-				).all<{ telegram_user_id: string; role: Role; created_at: string }>();
+					`SELECT telegram_user_id, work_name, role
+     FROM app_users
+     WHERE work_name IS NOT NULL
+     ORDER BY work_name COLLATE NOCASE`,
+				).all<{
+					telegram_user_id: string;
+					work_name: string;
+					role: Role;
+				}>();
 
 				return json({ users: result.results }, corsHeaders);
+			}
+
+			const adminScheduleMatch = url.pathname.match(
+				/^\/api\/admin\/users\/(\d+)\/schedule$/,
+			);
+
+			if (request.method === 'GET' && adminScheduleMatch) {
+				if (currentUser.role !== 'admin') {
+					return json({ error: 'Admin access required.' }, corsHeaders, 403);
+				}
+
+				const telegramUserId = adminScheduleMatch[1];
+
+				const user = await env.DB.prepare(
+					`SELECT telegram_user_id, work_name, role
+     FROM app_users
+     WHERE telegram_user_id = ?`,
+				)
+					.bind(telegramUserId)
+					.first<{
+						telegram_user_id: string;
+						work_name: string | null;
+						role: Role;
+					}>();
+
+				if (!user) {
+					return json({ error: 'User not found.' }, corsHeaders, 404);
+				}
+
+				const savedSchedule =
+					(await env.USER_SHIFTS.get<UserRecord>(telegramUserId, 'json')) ?? {};
+
+				return json(
+					{
+						user,
+						shifts: savedSchedule.shifts ?? [],
+					},
+					corsHeaders,
+				);
 			}
 
 			return json({ error: 'Endpoint not found.' }, corsHeaders, 404);

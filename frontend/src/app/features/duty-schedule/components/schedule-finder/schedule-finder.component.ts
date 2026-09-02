@@ -55,6 +55,7 @@ export class ScheduleFinderComponent {
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
   readonly salesHistory = input<readonly SalesHistoryEntry[]>([]);
+  readonly isReadOnly = input<boolean>(false);
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];

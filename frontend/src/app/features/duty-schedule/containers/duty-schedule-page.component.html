@@ -8,7 +8,36 @@
     (recordSale)="store.recordSale($event)"
   ></app-brand-catalog>
   } @else {
+  @if (store.appRole() === 'admin') {
+  <section class="admin-schedule-picker">
+    <label for="adminUser">View a team member’s schedule</label>
+
+    <select
+      id="adminUser"
+      [value]="store.viewedAdminUser()?.telegram_user_id ?? ''"
+      (change)="store.selectAdminSchedule($any($event.target).value)"
+    >
+      <option value="">My schedule</option>
+
+      @for (user of store.adminUsers(); track user.telegram_user_id) {
+      <option [value]="user.telegram_user_id">
+        {{ user.work_name }}
+      </option>
+      }
+    </select>
+
+    @if (store.viewedAdminUser(); as user) {
+    <p>
+      Viewing <strong>{{ user.work_name }}</strong>
+      <button type="button" (click)="store.showMySchedule()">
+        Back to my schedule
+      </button>
+    </p>
+    }
+  </section>
+  }
   <app-schedule-finder
+    [isReadOnly]="store.isViewingAdminSchedule()"
     [username]="store.username()"
     [message]="store.statusMessage()"
     [records]="store.scheduleRecords()"
