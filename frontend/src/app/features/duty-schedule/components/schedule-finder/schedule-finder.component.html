@@ -169,6 +169,13 @@
       {{ record.brand }}
     </button>
     }
+    <button
+      class="brand-button"
+      type="button"
+      [attr.aria-label]="'Open ' + record.brand"
+      (click)="openBrand.emit(record.brand)">
+      {{ record.brand }}
+    </button>
     }
   </div>
   }
