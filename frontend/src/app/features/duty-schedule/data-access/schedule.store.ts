@@ -490,13 +490,8 @@ export class ScheduleStore {
     try {
       const currentUser = await this.apiService.getCurrentUser();
 
-      this.username.set(
-        currentUser.telegramUser.username
-          ? `@${currentUser.telegramUser.username}`
-          : 'Telegram user',
-      );
-
       if (!currentUser.workName) {
+        this.username.set('Telegram user');
         this.scheduleRecords.set([]);
         this.statusMessage.set(
           'Your work name has not been assigned yet. Please contact an administrator.',
@@ -504,6 +499,17 @@ export class ScheduleStore {
         return;
       }
 
+      this.username.set(currentUser.workName);
+      if (!currentUser.workName) {
+        this.username.set('Telegram user');
+        this.scheduleRecords.set([]);
+        this.statusMessage.set(
+          'Your work name has not been assigned yet. Please contact an administrator.',
+        );
+        return;
+      }
+
+      this.username.set(currentUser.workName);
       this.personName.set(currentUser.workName);
       this.loadShiftsFromDatabase();
     } catch (error) {
