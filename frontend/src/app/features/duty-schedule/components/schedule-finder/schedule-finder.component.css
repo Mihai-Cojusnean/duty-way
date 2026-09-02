@@ -395,3 +395,46 @@ article p {
 .brand-buttons .brand-button {
   margin: 0;
 }
+
+.past-shift {
+  padding: 10px 12px;
+}
+
+/* Flexbox container for top line */
+.shift-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Ensure the date text doesn't overflow */
+.shift-header > strong {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Sales info styling on the right */
+.shift-sales {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.sale-amount {
+  color: #7ce4a0; /* Green highlight for money */
+  font-weight: 700;
+}
+
+.sale-count {
+  color: #aeb7e5;
+  font-size: 12px;
+}
+
+.shift-details {
+  margin: 4px 0 0 0;
+  color: #aeb7e5;
+  font-size: 13px;
+}

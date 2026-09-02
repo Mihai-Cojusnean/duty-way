@@ -116,27 +116,27 @@
 
     <div class="collapsible-body">
       @for (group of pastShiftGroups(); track group.date) {
-      <div
-        class="shift-group"
-        [class.multi-shift-group]="group.isMultiShift"
-      >
+      <div class="shift-group" [class.multi-shift-group]="group.isMultiShift">
         @for (record of group.shifts; track record.id) {
         <article class="past-shift">
-          <strong>
-            {{ shortDay(record.day) }} {{ record.dateStr }} ·
-            {{ record.hours }}
-          </strong>
-          <p>{{ record.brand }} · {{ record.tabName }}</p>
+          <!-- Header row containing Date/Hours on the left & Sales on the right -->
+          <div class="shift-header">
+            <strong>
+              {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
+            </strong>
+
+            @if (salesForShiftGroup(group.shifts); as sale) {
+            <span class="shift-sales">
+                  <strong class="sale-amount">{{ formatEuro(sale.totalCents) }}</strong>
+                  <span class="sale-count">· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
+                </span>
+            }
+          </div>
+
+          <p class="shift-details">{{ record.brand }} · {{ record.tabName }}</p>
         </article>
         }
       </div>
-
-      @if (salesForShiftGroup(group.shifts); as sale) {
-      <p class="shift-sales">
-        <strong>{{ formatEuro(sale.totalCents) }}</strong>
-        <span>· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
-      </p>
-      }
       }
     </div>
   </details>
