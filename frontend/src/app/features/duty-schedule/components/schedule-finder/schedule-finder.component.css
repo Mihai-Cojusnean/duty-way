@@ -145,7 +145,8 @@ summary:focus-visible {
 }
 
 .shift-group {
-  margin: 0.625rem 0; /* 10px above and below */
+  margin: 0.625rem 0;
+
 }
 
 article {
@@ -218,7 +219,7 @@ article p {
   margin-top: 0.5rem;
 }
 
-.collapsible-body .shift-group {
+.collapsible-body {
   margin: 0;
 }
 
@@ -400,7 +401,6 @@ article p {
   padding: 10px 12px;
 }
 
-/* Flexbox container for top line */
 .shift-header {
   display: flex;
   align-items: center;
@@ -414,13 +414,11 @@ article p {
   color: #ffffff;
 }
 
-/* Sales info styling on the right */
 .shift-sales {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 13px;
-  white-space: nowrap;
+  white-space: nowrap; /* Keeps sales badge intact */
 }
 
 .sale-amount {
@@ -437,4 +435,49 @@ article p {
   margin: 4px 0 0 0;
   color: #aeb7e5;
   font-size: 13px;
+  /* Truncate long place names on small screens */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shift-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.brand-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0; /* Prevents buttons from shrinking */
+}
+
+.brand-button {
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.brand-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.shift-details {
+  margin: 4px 0 0 0;
+  color: #aeb7e5;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

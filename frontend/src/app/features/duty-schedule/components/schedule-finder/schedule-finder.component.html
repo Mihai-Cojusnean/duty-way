@@ -143,38 +143,35 @@
   }
 
   @for (group of upcomingShiftGroups(); track group.date) {
-  <div
-    class="shift-group"
-    [class.multi-shift-group]="group.isMultiShift"
-  >
+  <div class="shift-group" [class.multi-shift-group]="group.isMultiShift">
     @let todayBrands = uniqueTodayBrands(group.shifts);
+
     @for (record of group.shifts; track record.id) {
     <article [class.today-shift]="record.isToday">
-      <strong>
-        {{ shortDay(record.day) }} {{ record.dateStr }} ·
-        {{ record.hours }}
-      </strong>
-      @if (salesForShiftGroup(group.shifts); as sale) {
-      <p class="shift-sales">
-        <strong>{{ formatEuro(sale.totalCents) }}</strong>
-        <span>· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
-      </p>
-      }
-      <p>{{ record.brand }} · {{ record.tabName }}</p>
+      <!-- Line 1: Date/Hours on Left, Buttons on Right -->
+      <div class="shift-header">
+        <strong>
+          {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
+        </strong>
+
+        <div class="brand-buttons">
+          @for (brand of todayBrands; track brand) {
+          <button
+            class="brand-button"
+            type="button"
+            [attr.aria-label]="'Open ' + brand"
+            (click)="openBrand.emit(brand)"
+          >
+            {{ brand }}
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- Line 2: Brand and Location -->
+      <p class="shift-details">{{ record.brand }} · {{ record.tabName }}</p>
     </article>
     }
-    <div class="brand-buttons">
-      @for (brand of todayBrands; track brand) {
-      <button
-        class="brand-button"
-        type="button"
-        [attr.aria-label]="'Open ' + brand"
-        (click)="openBrand.emit(brand)"
-      >
-        {{ brand }}
-      </button>
-      }
-    </div>
   </div>
   }
 </section>
