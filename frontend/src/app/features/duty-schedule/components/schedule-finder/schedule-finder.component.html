@@ -147,6 +147,12 @@
     class="shift-group"
     [class.multi-shift-group]="group.isMultiShift"
   >
+    @if (salesForShiftGroup(group.shifts); as sale) {
+    <p class="shift-sales">
+      <strong>{{ formatEuro(sale.totalCents) }}</strong>
+      <span>· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
+    </p>
+    }
     @let todayBrands = uniqueTodayBrands(group.shifts);
     @for (record of group.shifts; track record.id) {
     <article [class.today-shift]="record.isToday">
@@ -175,12 +181,6 @@
       </button>
       }
     </div>
-    @if (salesForShiftGroup(group.shifts); as sale) {
-    <span class="shift-sales">
-                  <strong class="sale-amount">{{ formatEuro(sale.totalCents) }}</strong>
-                  <span class="sale-count">· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
-                </span>
-    }
   </div>
   }
 </section>
