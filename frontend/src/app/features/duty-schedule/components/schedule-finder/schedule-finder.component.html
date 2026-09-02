@@ -90,17 +90,18 @@
           {{ change.previous.hours }} → {{ change.current.hours }}
         </span>
       </p>
-      @if (diff.removed.length) {
-      <div class="change-group">
-        <h3>Removed</h3>
-        @for (record of diff.removed; track record.id) {
-        <p class="change-row removed">
-          <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
-          <span>{{ record.brand }} · {{ record.hours }}</span>
-        </p>
-        }
-      </div>
       }
+    </div>
+    }
+
+    @if (diff.removed.length) {
+    <div class="change-group">
+      <h3>Removed</h3>
+      @for (record of diff.removed; track record.id) {
+      <p class="change-row removed">
+        <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
+        <span>{{ record.brand }} · {{ record.hours }}</span>
+      </p>
       }
     </div>
     }
@@ -174,6 +175,12 @@
       </button>
       }
     </div>
+    @if (salesForShiftGroup(group.shifts); as sale) {
+    <span class="shift-sales">
+                  <strong class="sale-amount">{{ formatEuro(sale.totalCents) }}</strong>
+                  <span class="sale-count">· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
+                </span>
+    }
   </div>
   }
 </section>
