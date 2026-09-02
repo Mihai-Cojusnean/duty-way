@@ -34,6 +34,21 @@ interface UserUpdate {
 	readonly shifts?: readonly unknown[];
 }
 
+interface SaleRequest {
+	readonly brand: string;
+	readonly perfumeId: string;
+	readonly perfumeName: string;
+	readonly priceLabel: string;
+	readonly amountCents: number;
+	readonly currency: 'EUR';
+}
+
+interface SalesSummary {
+	readonly count: number;
+	readonly totalCents: number;
+	readonly currency: 'EUR';
+}
+
 const textEncoder = new TextEncoder();
 const maxInitDataAgeSeconds = 24 * 60 * 60;
 
@@ -127,6 +142,63 @@ export default {
 				await env.USER_SHIFTS.put(telegramId, JSON.stringify(updatedData));
 
 				return json({ success: true, data: updatedData }, corsHeaders);
+			}
+
+			if (request.method === 'GET' && url.pathname === '/api/sales/summary') {
+				const brand = url.searchParams.get('brand')?.trim() || undefined;
+
+				return json(
+					await getTodaySalesSummary(
+						env,
+						String(currentUser.telegramUser.id),
+						brand,
+					),
+					corsHeaders,
+				);
+			}
+
+			if (request.method === 'POST' && url.pathname === '/api/sales') {
+				const body = await request.json().catch(() => null);
+
+				if (!isSaleRequest(body)) {
+					return json({ error: 'Invalid sale data.' }, corsHeaders, 400);
+				}
+
+				const saleId = crypto.randomUUID();
+				const telegramUserId = String(currentUser.telegramUser.id);
+
+				await env.DB.prepare(
+					`INSERT INTO sales (
+      id,
+      telegram_user_id,
+      brand,
+      perfume_id,
+      perfume_name,
+      price_label,
+      amount_cents,
+      currency
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+				)
+					.bind(
+						saleId,
+						telegramUserId,
+						body.brand.trim(),
+						body.perfumeId.trim(),
+						body.perfumeName.trim(),
+						body.priceLabel.trim(),
+						body.amountCents,
+						body.currency,
+					)
+					.run();
+
+				return json(
+					{
+						id: saleId,
+						summary: await getTodaySalesSummary(env, telegramUserId),
+					},
+					corsHeaders,
+					201,
+				);
 			}
 
 			if (request.method === 'GET' && url.pathname === '/api/admin/users') {
@@ -304,6 +376,69 @@ function isUserUpdate(value: unknown): value is UserUpdate {
 		(!('buttonClicked' in value) || typeof value.buttonClicked === 'string') &&
 		(!('textWritten' in value) || typeof value.textWritten === 'string') &&
 		(!('shifts' in value) || Array.isArray(value.shifts))
+	);
+}
+
+async function getTodaySalesSummary(
+	env: Env,
+	telegramUserId: string,
+	brand?: string,
+): Promise<SalesSummary> {
+	const today = new Date().toISOString().slice(0, 10);
+
+	const statement = brand
+		? env.DB.prepare(
+			`SELECT
+          COUNT(*) AS count,
+          COALESCE(SUM(amount_cents), 0) AS total_cents
+        FROM sales
+        WHERE telegram_user_id = ?
+          AND brand = ?
+          AND date(sold_at) = ?`,
+		).bind(telegramUserId, brand, today)
+		: env.DB.prepare(
+			`SELECT
+          COUNT(*) AS count,
+          COALESCE(SUM(amount_cents), 0) AS total_cents
+        FROM sales
+        WHERE telegram_user_id = ?
+          AND date(sold_at) = ?`,
+		).bind(telegramUserId, today);
+
+	const result = await statement.first<{
+		count: number;
+		total_cents: number;
+	}>();
+
+	return {
+		count: result?.count ?? 0,
+		totalCents: result?.total_cents ?? 0,
+		currency: 'EUR',
+	};
+}
+
+function isSaleRequest(value: unknown): value is SaleRequest {
+	return (
+		typeof value === 'object' &&
+		value !== null &&
+		'brand' in value &&
+		typeof value.brand === 'string' &&
+		value.brand.trim().length > 0 &&
+		'perfumeId' in value &&
+		typeof value.perfumeId === 'string' &&
+		value.perfumeId.trim().length > 0 &&
+		'perfumeName' in value &&
+		typeof value.perfumeName === 'string' &&
+		value.perfumeName.trim().length > 0 &&
+		'priceLabel' in value &&
+		typeof value.priceLabel === 'string' &&
+		value.priceLabel.trim().length > 0 &&
+		'amountCents' in value &&
+		typeof value.amountCents === 'number' &&
+		Number.isSafeInteger(value.amountCents) &&
+		value.amountCents >= 0 &&
+		'currency' in value &&
+		value.currency === 'EUR'
 	);
 }
 

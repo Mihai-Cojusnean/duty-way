@@ -15,7 +15,7 @@ export interface ScheduleRecord {
 export interface Perfume {
   readonly id: string;
   readonly name: string;
-  readonly price?: string | number | PerfumePrice[];
+  readonly prices: readonly PerfumePrice[];
   readonly creator: string;
   readonly collection: string;
   readonly description: string;
@@ -23,12 +23,19 @@ export interface Perfume {
   readonly longevity: string;
   readonly sillage: string;
   readonly imageUrl?: string;
-  readonly pros: string[];
+  readonly pros: readonly string[];
 }
 
 export interface PerfumePrice {
-  label?: string;
-  amount: number;
+  readonly id: string;
+  readonly label: string;
+  readonly amountCents: number;
+  readonly currency: 'EUR';
+}
+
+export interface PerfumeSale {
+  readonly perfume: Perfume;
+  readonly price: PerfumePrice;
 }
 
 export type CatalogMap = Record<string, Perfume[]>;

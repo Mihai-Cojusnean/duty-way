@@ -5,6 +5,7 @@
     [perfumes]="store.brandPerfumes()"
     [soldCount]="store.soldTodayCount()"
     (backToSchedule)="store.clearBrand()"
+    (recordSale)="store.recordSale($event)"
   ></app-brand-catalog>
   } @else {
   <app-schedule-finder
@@ -15,6 +16,8 @@
     (fileSelected)="store.setFile($event)"
     (submitSearch)="store.loadSchedule()"
     (openBrand)="store.selectBrand($event)"
+    [soldTodayCount]="store.soldTodayCount()"
+    [todaySalesTotalCents]="store.todaySalesTotalCents()"
   ></app-schedule-finder>
   }
 </main>

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, computed } from '@angular/core';
-import { Perfume } from '../../interfaces/duty.interface';
+import { Perfume, PerfumePrice, PerfumeSale } from '../../interfaces/duty.interface';
 import { PerfumeModalComponent } from '../perfume-modal/perfume-modal.component';
 
 @Component({
@@ -16,7 +16,7 @@ export class BrandCatalogComponent {
   readonly soldCount = input<number>(0);
 
   readonly backToSchedule = output<void>();
-  readonly recordSale = output<Perfume>();
+  readonly recordSale = output<PerfumeSale>();
 
   readonly searchQuery = signal<string>('');
   readonly selectedPerfume = signal<Perfume | null>(null);
@@ -65,12 +65,30 @@ export class BrandCatalogComponent {
     this.searchQuery.set((event.target as HTMLInputElement).value);
   }
 
-  onSaleAdded(perfume: Perfume): void {
-    this.recordSale.emit(perfume);
+  onSaleAdded(price: PerfumePrice): void {
+    const perfume = this.selectedPerfume();
+
+    if (!perfume) {
+      return;
+    }
+
+    this.recordSale.emit({ perfume, price });
     this.selectedPerfume.set(null);
   }
 
   getCardBg(url?: string): string {
     return url ? `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url(${url})` : 'none';
+  }
+
+  priceSummary(perfume: Perfume): string {
+    return perfume.prices
+      .map(
+        (price) =>
+          `${price.label} · ${new Intl.NumberFormat('en-IE', {
+            style: 'currency',
+            currency: price.currency,
+          }).format(price.amountCents / 100)}`,
+      )
+      .join(' | ');
   }
 }

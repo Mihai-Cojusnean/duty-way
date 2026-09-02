@@ -63,6 +63,14 @@
 <section class="results" aria-labelledby="schedule-heading">
   <div class="schedule-header">
     <h2 id="schedule-heading">Schedule</h2>
+    <div class="sales-total">
+      <span>Today’s sales</span>
+      <strong>{{ formatEuro(todaySalesTotalCents()) }}</strong>
+      <small>
+        {{ soldTodayCount() }}
+        {{ soldTodayCount() === 1 ? 'item' : 'items' }}
+      </small>
+    </div>
 
     @if (message()) {
     <p class="status-message" role="status"> {{ message() }}</p>

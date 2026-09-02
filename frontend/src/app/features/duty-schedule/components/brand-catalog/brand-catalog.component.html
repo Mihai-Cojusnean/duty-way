@@ -26,13 +26,13 @@
         <div class="perfume-subitem">
           <button type="button" class="accordion-header perfume-row"
                   [style.background-image]="getCardBg(perfume.imageUrl)"
-                  (click)="selectedPerfume.set(perfume); recordSale.emit(perfume)">
+                  (click)="selectedPerfume.set(perfume);">
             <span class="perfume-info">
               <strong>{{ perfume.name }}</strong>
               <small>{{ perfume.creator }}</small>
             </span>
             <span class="perfume-right">
-              <span class="perfume-price">{{ perfume.price }}</span>
+              <span class="perfume-price">{{ priceSummary(perfume) }}</span>
             </span>
           </button>
         </div>

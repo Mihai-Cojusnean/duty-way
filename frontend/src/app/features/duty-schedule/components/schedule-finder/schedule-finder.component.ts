@@ -51,6 +51,8 @@ export class ScheduleFinderComponent {
   readonly isSubmitDisabled = computed(
     () => !this.assignedWorkName().trim() || !this.selectedFile(),
   );
+  readonly soldTodayCount = input<number>(0);
+  readonly todaySalesTotalCents = input<number>(0);
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -82,5 +84,12 @@ export class ScheduleFinderComponent {
 
   shortDay(day: string): string {
     return day.slice(0, 3);
+  }
+
+  formatEuro(amountCents: number): string {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+    }).format(amountCents / 100);
   }
 }
