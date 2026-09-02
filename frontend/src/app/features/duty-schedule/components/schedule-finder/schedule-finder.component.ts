@@ -40,6 +40,7 @@ function groupRecordsByDate(records: readonly ScheduleRecord[]): ShiftGroup[] {
 export class ScheduleFinderComponent {
   readonly message = input<string>();
   readonly records = input.required<ScheduleRecord[]>();
+  readonly username = input<string>();
 
   readonly selectedFile = signal<File | null>(null);
   readonly assignedWorkName = input<string>('');
