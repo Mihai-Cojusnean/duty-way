@@ -133,7 +133,6 @@
 
       @if (salesForShiftGroup(group.shifts); as sale) {
       <p class="shift-sales">
-        Sales that day:
         <strong>{{ formatEuro(sale.totalCents) }}</strong>
         <span>· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
       </p>
@@ -160,7 +159,6 @@
     }
     @if (salesForShiftGroup(group.shifts); as sale) {
     <p class="shift-sales">
-      Sales that day:
       <strong>{{ formatEuro(sale.totalCents) }}</strong>
       <span>· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
     </p>
