@@ -90,18 +90,17 @@
           {{ change.previous.hours }} → {{ change.current.hours }}
         </span>
       </p>
+      @if (diff.removed.length) {
+      <div class="change-group">
+        <h3>Removed</h3>
+        @for (record of diff.removed; track record.id) {
+        <p class="change-row removed">
+          <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
+          <span>{{ record.brand }} · {{ record.hours }}</span>
+        </p>
+        }
+      </div>
       }
-    </div>
-    }
-
-    @if (diff.removed.length) {
-    <div class="change-group">
-      <h3>Removed</h3>
-      @for (record of diff.removed; track record.id) {
-      <p class="change-row removed">
-        <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
-        <span>{{ record.brand }} · {{ record.hours }}</span>
-      </p>
       }
     </div>
     }
