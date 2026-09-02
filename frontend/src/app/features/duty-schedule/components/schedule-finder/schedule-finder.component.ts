@@ -115,4 +115,26 @@ export class ScheduleFinderComponent {
 
     return [...brands.values()];
   }
+
+  salesForShiftGroup(records: readonly ScheduleRecord[]): SalesHistoryEntry | null {
+    const dateStr = records[0]?.dateStr;
+
+    if (!dateStr) {
+      return null;
+    }
+
+    const date = new Date(`${dateStr} ${new Date().getFullYear()}`);
+
+    if (Number.isNaN(date.getTime())) {
+      return null;
+    }
+
+    const dateKey = [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, '0'),
+      String(date.getDate()).padStart(2, '0'),
+    ].join('-');
+
+    return this.salesHistory().find((sale) => sale.date === dateKey) ?? null;
+  }
 }

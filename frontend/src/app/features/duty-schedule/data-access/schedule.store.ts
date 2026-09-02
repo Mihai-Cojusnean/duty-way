@@ -809,7 +809,7 @@ export class ScheduleStore {
   }
 
   private loadSalesHistory(): void {
-    this.salesService.getRecentHistory().subscribe({
+    this.salesService.getRecentHistory(31).subscribe({
       next: (history) => {
         this.salesHistory.set(history);
       },

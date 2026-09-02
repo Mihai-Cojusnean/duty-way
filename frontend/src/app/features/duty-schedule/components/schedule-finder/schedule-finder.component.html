@@ -53,37 +53,11 @@
 <section class="results" aria-labelledby="schedule-heading">
   <div class="schedule-header">
     <h2 id="schedule-heading">Schedule</h2>
-    <div class="sales-total">
-      <span>Today’s sales</span>
-      <strong>{{ formatEuro(todaySalesTotalCents()) }}</strong>
-      <small>
-        {{ soldTodayCount() }}
-        {{ soldTodayCount() === 1 ? 'item' : 'items' }}
-      </small>
-    </div>
 
     @if (message()) {
     <p class="status-message" role="status"> {{ message() }}</p>
     }
   </div>
-
-  @if (salesHistory().length) {
-  <details class="sales-history">
-    <summary>Previous sales</summary>
-
-    <div class="sales-history-list">
-      @for (day of salesHistory(); track day.date) {
-      <div class="sales-history-row">
-        <span>{{ formatSalesDate(day.date) }}</span>
-        <span>
-        {{ day.count }} {{ day.count === 1 ? 'item' : 'items' }}
-        · {{ formatEuro(day.totalCents) }}
-      </span>
-      </div>
-      }
-    </div>
-  </details>
-  }
 
   @if (scheduleDiff(); as diff) {
   <section class="schedule-changes">
@@ -156,6 +130,14 @@
         </article>
         }
       </div>
+
+      @if (salesForShiftGroup(group.shifts); as sale) {
+      <p class="shift-sales">
+        Sales that day:
+        <strong>{{ formatEuro(sale.totalCents) }}</strong>
+        <span>· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
+      </p>
+      }
       }
     </div>
   </details>
@@ -175,6 +157,13 @@
       </strong>
       <p>{{ record.brand }} · {{ record.tabName }}</p>
     </article>
+    }
+    @if (salesForShiftGroup(group.shifts); as sale) {
+    <p class="shift-sales">
+      Sales that day:
+      <strong>{{ formatEuro(sale.totalCents) }}</strong>
+      <span>· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
+    </p>
     }
     <div class="brand-buttons">
       @for (brand of todayBrands; track brand) {
