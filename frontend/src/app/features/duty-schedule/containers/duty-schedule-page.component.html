@@ -8,6 +8,7 @@
   ></app-brand-catalog>
   } @else {
   <app-schedule-finder
+    [username]="store.username()"
     [message]="store.statusMessage()"
     [records]="store.scheduleRecords()"
     [scheduleDiff]="store.scheduleDiff()"
