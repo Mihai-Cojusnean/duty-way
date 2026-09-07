@@ -119,7 +119,6 @@
       <div class="shift-group" [class.multi-shift-group]="group.isMultiShift">
         @for (record of group.shifts; track record.id) {
         <article class="past-shift">
-          <!-- Header row containing Date/Hours on the left & Sales on the right -->
           <div class="shift-header">
             <strong>
               {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
@@ -148,7 +147,6 @@
 
     @for (record of group.shifts; track record.id) {
     <article [class.today-shift]="record.isToday">
-      <!-- Line 1: Date/Hours on Left, Buttons on Right -->
       <div class="shift-header">
         <strong>
           {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
@@ -168,26 +166,10 @@
         </div>
       </div>
 
-      <!-- Line 2: Brand and Location -->
-      <p class="shift-details">{{ record.brand }} · {{ record.tabName }}</p>
+      <p class="shift-details">{{ record.tabName }}</p>
     </article>
     }
   </div>
   }
 </section>
 }
-
-<!--@if (todayBrands.length) {-->
-<!--<div class="brand-buttons">-->
-<!--  @for (brand of todayBrands; track brand) {-->
-<!--  <button-->
-<!--    class="brand-button"-->
-<!--    type="button"-->
-<!--    [attr.aria-label]="'Open ' + brand"-->
-<!--    (click)="openBrand.emit(brand)"-->
-<!--  >-->
-<!--    {{ brand }}-->
-<!--  </button>-->
-<!--  }-->
-<!--</div>-->
-<!--}-->

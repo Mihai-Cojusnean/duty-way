@@ -406,10 +406,11 @@ article p {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  width: 100%;
 }
 
-/* Ensure the date text doesn't overflow */
 .shift-header > strong {
+  white-space: nowrap;
   font-weight: 700;
   color: #ffffff;
 }
@@ -452,8 +453,9 @@ article p {
 .brand-buttons {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
-  flex-shrink: 0; /* Prevents buttons from shrinking */
+  flex-shrink: 0;
 }
 
 .brand-button {
@@ -480,4 +482,5 @@ article p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  word-break: break-word;
 }
