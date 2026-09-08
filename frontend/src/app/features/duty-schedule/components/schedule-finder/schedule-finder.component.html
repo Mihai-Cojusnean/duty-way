@@ -143,29 +143,23 @@
 
   @for (group of upcomingShiftGroups(); track group.date) {
   <div class="shift-group" [class.multi-shift-group]="group.isMultiShift">
-    @let todayBrands = uniqueTodayBrands(group.shifts);
-
     @for (record of group.shifts; track record.id) {
     <article [class.today-shift]="record.isToday">
       <div class="shift-header">
         <strong>
           {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
         </strong>
-
         <div class="brand-buttons">
-          @for (brand of todayBrands; track brand) {
           <button
             class="brand-button"
             type="button"
-            [attr.aria-label]="'Open ' + brand"
-            (click)="openBrand.emit(brand)"
+            [attr.aria-label]="'Open ' + record.brand"
+            (click)="openBrand.emit(record.brand)"
           >
-            {{ brand }}
+            {{ record.brand }}
           </button>
-          }
         </div>
       </div>
-
       <p class="shift-details">{{ record.tabName }}</p>
     </article>
     }
