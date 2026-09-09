@@ -104,17 +104,17 @@ export class ScheduleFinderComponent {
     }).format(new Date(`${date}T12:00:00`));
   }
 
-  uniqueTodayBrands(records: readonly ScheduleRecord[]): readonly string[] {
-    const brands = new Map<string, string>();
-
-    for (const record of records) {
-      if (record.isToday && record.brand.trim()) {
-        brands.set(record.brand.trim().toLowerCase(), record.brand.trim());
-      }
-    }
-
-    return [...brands.values()];
-  }
+  // uniqueTodayBrands(records: readonly ScheduleRecord[]): readonly string[] {
+  //   const brands = new Map<string, string>();
+  //
+  //   for (const record of records) {
+  //     if (record.isToday && record.brand.trim()) {
+  //       brands.set(record.brand.trim().toLowerCase(), record.brand.trim());
+  //     }
+  //   }
+  //
+  //   return [...brands.values()];
+  // }
 
   salesForShiftGroup(records: readonly ScheduleRecord[]): SalesHistoryEntry | null {
     const dateStr = records[0]?.dateStr;

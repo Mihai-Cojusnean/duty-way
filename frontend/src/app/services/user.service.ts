@@ -3,6 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { User } from '../features/duty-schedule/interfaces/user.interface';
 
+const MOCK_INIT_DATA = new URLSearchParams({
+  user: JSON.stringify({
+    id: 972344705,
+    role: 'ADMIN',
+    created_at: '2026-01-01T00:00:00.000Z',
+    updated_at: '2026-01-01T00:00:00.000Z',
+    work_name: 'Mihail Cojusnean',
+  })
+}).toString();
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,11 +22,28 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  // private get authHeaders(): HttpHeaders {
+  //   const initData = window.Telegram?.WebApp?.initData ?? '';
+  //
+  //   return new HttpHeaders({
+  //     'X-Telegram-Init-Data': initData,
+  //   });
+  // }
+  //
+  // getUser(): Observable<User> {
+  //   return this.http.get<User>(this.apiUrl, { headers: this.authHeaders }).pipe(
+  //     tap((userData: User) => {
+  //       this.user = userData;
+  //     }),
+  //   );
+  // }
+  //
+  // saveUser(shifts: readonly unknown[]): Observable<unknown> {
+  //   return this.http.post(this.apiUrl, { shifts }, { headers: this.authHeaders });
+  // }
   private get authHeaders(): HttpHeaders {
-    const initData = window.Telegram?.WebApp?.initData ?? '';
-
     return new HttpHeaders({
-      'X-Telegram-Init-Data': initData,
+      'X-Telegram-Init-Data': MOCK_INIT_DATA,
     });
   }
 

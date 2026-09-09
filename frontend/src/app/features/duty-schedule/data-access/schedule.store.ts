@@ -521,7 +521,6 @@ export class ScheduleStore {
 
   readonly isViewingAdminSchedule = computed(() => this.viewedAdminUser() !== null);
 
-  // Computed Projections
   readonly brandPerfumes = computed(() => {
     const brand = this.selectedBrand();
     return brand ? (this.catalog()[brand] ?? []) : [];
@@ -556,8 +555,8 @@ export class ScheduleStore {
 
       this.username.set(currentUser.workName);
       this.personName.set(currentUser.workName);
-      this.loadTodaySales();
-      this.loadSalesHistory();
+      // this.loadTodaySales();
+      // this.loadSalesHistory();
 
       this.loadShiftsFromDatabase();
     } catch (error) {
@@ -646,6 +645,191 @@ export class ScheduleStore {
         console.log('Raw DB Response:', response);
 
         const rawRecords = response.shifts ?? [];
+        // const rawRecords = [
+        //     {
+        //       id: 'CDG2 - LACM (AC)-5-4',
+        //       tabName: 'CDG2 - LACM (AC)',
+        //       brand: 'BVLGARI',
+        //       day: 'Mardi',
+        //       dateStr: '1-Sep',
+        //       dateNumber: 1,
+        //       startHourMinutes: 420,
+        //       hours: '7h-13h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: true,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG2 -LSM7_LSM8 ( S3) porte L-5-4',
+        //       tabName: 'CDG2 -LSM7_LSM8 ( S3) porte L',
+        //       brand: 'BVLGARI',
+        //       day: 'Mardi',
+        //       dateStr: '1-Sep',
+        //       dateNumber: 1,
+        //       startHourMinutes: 720,
+        //       hours: '12h-18h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: true,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG2 - LEP1 (TE) porte K-7-5',
+        //       tabName: 'CDG2 - LEP1 (TE) porte K',
+        //       brand: 'BVLGARI',
+        //       day: 'Jeudi',
+        //       dateStr: '3-Sep',
+        //       dateNumber: 3,
+        //       startHourMinutes: 420,
+        //       hours: '7h-13h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: true,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-7-7',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'BVLGARI',
+        //       day: 'Jeudi',
+        //       dateStr: '3-Sep',
+        //       dateNumber: 3,
+        //       startHourMinutes: 810,
+        //       hours: '13h30-19h30',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: true,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-8-7',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'BVLGARI',
+        //       day: 'Vendredi',
+        //       dateStr: '4-Sep',
+        //       dateNumber: 4,
+        //       startHourMinutes: 810,
+        //       hours: '13h30-19h30',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: true,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-9-7',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'BVLGARI',
+        //       day: 'Samedi',
+        //       dateStr: '5-Sep',
+        //       dateNumber: 5,
+        //       startHourMinutes: 810,
+        //       hours: '13h30-19h30',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: true,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-10-7',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'BVLGARI',
+        //       day: 'Dimanche',
+        //       dateStr: '6-Sep',
+        //       dateNumber: 6,
+        //       startHourMinutes: 810,
+        //       hours: '13h30-19h30',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: true,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG2 -LSM7_LSM8 ( S3) porte L-11-4',
+        //       tabName: 'CDG2 -LSM7_LSM8 ( S3) porte L',
+        //       brand: 'BVLGARI',
+        //       day: 'Lundi',
+        //       dateStr: '7-Sep',
+        //       dateNumber: 7,
+        //       startHourMinutes: 480,
+        //       hours: '8h-14h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: true,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-12-5',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'BVLGARI',
+        //       day: 'Mardi',
+        //       dateStr: '8-Sep',
+        //       dateNumber: 8,
+        //       startHourMinutes: 480,
+        //       hours: '8h-14h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: false,
+        //       isToday: true,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-12-30',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'DIOR',
+        //       day: 'Mardi',
+        //       dateStr: '8-Sep',
+        //       dateNumber: 8,
+        //       startHourMinutes: 840,
+        //       hours: '14h-20h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: false,
+        //       isToday: true,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-13-30',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'DIOR',
+        //       day: 'Mercredi',
+        //       dateStr: '9-Sep',
+        //       dateNumber: 9,
+        //       startHourMinutes: 840,
+        //       hours: '14h-20h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: false,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-14-5',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'BVLGARI',
+        //       day: 'Jeudi',
+        //       dateStr: '10-Sep',
+        //       dateNumber: 10,
+        //       startHourMinutes: 480,
+        //       hours: '8h-14h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: false,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG1 - LAP1 (T1)-14-30',
+        //       tabName: 'CDG1 - LAP1 (T1)',
+        //       brand: 'DIOR',
+        //       day: 'Jeudi',
+        //       dateStr: '10-Sep',
+        //       dateNumber: 10,
+        //       startHourMinutes: 840,
+        //       hours: '14h-20h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: false,
+        //       isToday: false,
+        //     },
+        //     {
+        //       id: 'CDG2 - LEP1 (TE) porte K-15-5',
+        //       tabName: 'CDG2 - LEP1 (TE) porte K',
+        //       brand: 'BVLGARI',
+        //       day: 'Vendredi',
+        //       dateStr: '11-Sep',
+        //       dateNumber: 11,
+        //       startHourMinutes: 420,
+        //       hours: '7h-13h',
+        //       person: 'Mihail Cojusnean',
+        //       isPast: false,
+        //       isToday: false,
+        //     },
+        //   ]
+
 
         if (rawRecords.length > 0) {
           const updatedRecords = rawRecords.map((record) => ({

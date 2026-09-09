@@ -141,20 +141,18 @@ summary:focus-visible {
 }
 
 .results {
-  margin-top: 0.25rem;
+  /*margin-top: 0.25rem;*/
 }
 
 .shift-group {
-  margin: 0.625rem 0;
-
+  margin: 0;
 }
 
 article {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  margin: 0.4375rem 0;
-  padding: 0.625rem 0.75rem;
+  margin: 0.5rem 0;
+  padding: 0.4rem 0.75rem;
   border: 1px solid rgb(255 255 255 / 13%);
   border-radius: 0.625rem;
   background: rgb(11 11 65 / 30%);
@@ -174,12 +172,13 @@ article p {
   overflow: hidden;
   color: #bdc4e8;
   font-size: 0.75rem;
-  text-align: right;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .past-shift {
+  display: flex;
+  flex-direction: column;
   border-color: rgb(255 255 255 / 6%);
   background: rgb(4 5 29 / 35%);
   opacity: 0.55;
@@ -209,13 +208,13 @@ article p {
 .past-shifts-collapsible {
   margin-bottom: 1rem;
   border-left: 2px solid rgb(255 255 255 / 15%);
-  padding-left: 0.75rem;
+  padding-left: 0.75rem
 }
 
 .collapsible-body {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem; /* one consistent distance between dates */
+  gap: 0.5rem;
   margin-top: 0.5rem;
 }
 
@@ -223,7 +222,6 @@ article p {
   margin: 0;
 }
 
-/* Same-day shifts stay visually connected */
 .shift-group.multi-shift-group {
   overflow: hidden;
   border-radius: 0.625rem;
@@ -267,7 +265,6 @@ article p {
   }
 }
 
-
 .form-details {
   margin-bottom: 1rem;
 }
@@ -278,17 +275,16 @@ article p {
   color: rgba(255, 255, 255, 0.85);
   padding: 0.5rem 0;
   user-select: none;
-  list-style: none; /* Removes default browser arrow */
+  list-style: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .form-summary::-webkit-details-marker {
-  display: none; /* Removes WebKit default arrow */
+  display: none;
 }
 
-/* Rotate arrow when open */
 .form-details[open] .summary-arrow {
   transform: rotate(90deg);
 }
@@ -397,33 +393,29 @@ article p {
   margin: 0;
 }
 
-.past-shift {
-  padding: 10px 12px;
-}
+/*.shift-header {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: space-between;*/
+/*  gap: 8px;*/
+/*  width: 100%;*/
+/*}*/
 
-.shift-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  width: 100%;
-}
-
-.shift-header > strong {
-  white-space: nowrap;
-  font-weight: 700;
-  color: #ffffff;
-}
+/*.shift-header > strong {*/
+/*  white-space: nowrap;*/
+/*  font-weight: 700;*/
+/*  color: #ffffff;*/
+/*}*/
 
 .shift-sales {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  white-space: nowrap; /* Keeps sales badge intact */
+  white-space: nowrap;
 }
 
 .sale-amount {
-  color: #7ce4a0; /* Green highlight for money */
+  color: #7ce4a0;
   font-weight: 700;
 }
 
@@ -432,22 +424,10 @@ article p {
   font-size: 12px;
 }
 
-.shift-details {
-  margin: 4px 0 0 0;
-  color: #aeb7e5;
-  font-size: 13px;
-  /* Truncate long place names on small screens */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .shift-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  width: 100%;
 }
 
 .brand-buttons {
@@ -475,12 +455,10 @@ article p {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.shift-details {
-  margin: 4px 0 0 0;
-  color: #aeb7e5;
-  font-size: 13px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-word;
+article.shift-card,
+article:has(.shift-header) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
 }
+
