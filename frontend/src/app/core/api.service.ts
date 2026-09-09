@@ -22,31 +22,31 @@ export class ApiService {
   constructor(private readonly telegramService: TelegramService) {}
 
   async getCurrentUser(): Promise<CurrentUser> {
-    // const initData = this.telegramService.getInitData();
-    //
-    // if (!initData) {
-    //   throw new Error('Open Duty Way from Telegram to authenticate.');
-    // }
-    //
-    // const response = await fetch(`${this.apiUrl}/api/me`, {
-    //   headers: {
-    //     'X-Telegram-Init-Data': initData,
-    //   },
-    // });
-    //
-    // if (!response.ok) {
-    //   throw new Error('Could not verify your Telegram account.');
-    // }
+    const initData = this.telegramService.getInitData();
 
-    // return (await response.json()) as CurrentUser;
-    return {
-      telegramUser: {
-        id: 972344705,
-        username: 'Mihail Cojusnean',
-        language_code: 'en',
+    if (!initData) {
+      throw new Error('Open Duty Way from Telegram to authenticate.');
+    }
+
+    const response = await fetch(`${this.apiUrl}/api/me`, {
+      headers: {
+        'X-Telegram-Init-Data': initData,
       },
-      workName: 'Mihail Cojusnean',
-      role: 'admin',
-    };
+    });
+
+    if (!response.ok) {
+      throw new Error('Could not verify your Telegram account.');
+    }
+
+    return (await response.json()) as CurrentUser;
+    // return {
+    //   telegramUser: {
+    //     id: 972344705,
+    //     username: 'Mihail Cojusnean',
+    //     language_code: 'en',
+    //   },
+    //   workName: 'Mihail Cojusnean',
+    //   role: 'admin',
+    // };
   }
 }
