@@ -121,12 +121,6 @@ summary:focus-visible {
   font-size: 0.8rem;
 }
 
-.form-card > button:not(:disabled):hover,
-.brand-button:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
-}
-
 .form-card > button:disabled {
   background: #4c4f86;
   color: #afb4d3;
@@ -145,7 +139,7 @@ summary:focus-visible {
 }
 
 .shift-group {
-  margin: 0;
+  margin-bottom: 10px;
 }
 
 article {
@@ -195,16 +189,6 @@ article p {
   box-shadow: 0 0 1.125rem rgb(113 122 255 / 18%);
 }
 
-.brand-button {
-  display: block;
-  width: auto;
-  min-width: 6.875rem;
-  margin: 0.25rem auto 0.5rem;
-  padding: 0.4375rem 0.75rem;
-  font-size: 0.75rem;
-  line-height: 1;
-}
-
 .past-shifts-collapsible {
   margin-bottom: 1rem;
   border-left: 2px solid rgb(255 255 255 / 15%);
@@ -214,17 +198,11 @@ article p {
 .collapsible-body {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   margin-top: 0.5rem;
 }
 
 .collapsible-body {
   margin: 0;
-}
-
-.shift-group.multi-shift-group {
-  overflow: hidden;
-  border-radius: 0.625rem;
 }
 
 .shift-group.multi-shift-group article {
@@ -245,6 +223,7 @@ article p {
   border-bottom-right-radius: 0.625rem;
   border-bottom-left-radius: 0.625rem;
 }
+
 
 @media (max-width: 28rem) {
   article {
@@ -386,11 +365,20 @@ article p {
   flex-wrap: wrap;
   justify-content: center;
   gap: 6px;
-  margin: 4px 0 8px;
+  align-items: center;
+  flex-shrink: 0;
 }
 
-.brand-buttons .brand-button {
-  margin: 0;
+.brand-button {
+  display: block;
+  min-width: 6rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.375rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 /*.shift-header {*/
@@ -428,27 +416,6 @@ article p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.brand-buttons {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.brand-button {
-  padding: 4px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s ease;
 }
 
 .brand-button:hover {
