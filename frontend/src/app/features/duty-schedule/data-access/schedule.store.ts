@@ -498,7 +498,6 @@ export class ScheduleStore {
   private readonly salesService = inject(SalesService);
   private readonly adminService = inject(AdminService);
 
-  // State Signals
   readonly username = signal<string>('');
   readonly personName = signal<string>('');
   readonly selectedFile = signal<File | null>(null);
@@ -555,8 +554,8 @@ export class ScheduleStore {
 
       this.username.set(currentUser.workName);
       this.personName.set(currentUser.workName);
-      // this.loadTodaySales();
-      // this.loadSalesHistory();
+      this.loadTodaySales();
+      this.loadSalesHistory();
 
       this.loadShiftsFromDatabase();
     } catch (error) {
