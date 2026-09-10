@@ -315,7 +315,6 @@ async function authenticateTelegramUser(
 
 	const telegramId = String(telegramUser.id);
 
-	// A verified Telegram user starts as a normal user.
 	await env.DB.prepare(
 		"INSERT OR IGNORE INTO app_users (telegram_user_id, role) VALUES (?, 'user')",
 	)
