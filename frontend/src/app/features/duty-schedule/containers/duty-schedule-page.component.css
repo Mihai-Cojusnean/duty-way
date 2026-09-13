@@ -17,9 +17,9 @@
   gap: 8px;
   margin: 12px 0;
   padding: 12px;
-  border: 1px solid rgb(255 255 255 / 14%);
+  border: 1px solid var(--color-panel-border);
   border-radius: 12px;
-  background: rgb(10 11 34 / 62%);
+  background: var(--color-panel-bg);
 }
 
 .admin-schedule-picker label {
@@ -29,16 +29,16 @@
 
 .admin-schedule-picker select {
   width: 100%;
+  padding: 9px;
   border: 1px solid rgb(255 255 255 / 16%);
   border-radius: 8px;
-  padding: 9px;
-  background: #121324;
+  background: var(--color-surface-solid);
   color: #fff;
 }
 
 .admin-schedule-picker p {
   margin: 0;
-  color: #aeb7d9;
+  color: var(--color-muted);
   font-size: 0.82rem;
 }
 

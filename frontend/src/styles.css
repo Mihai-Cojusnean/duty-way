@@ -1,18 +1,46 @@
-.schedule-day-header {
-  background: linear-gradient(
-    90deg,
-    rgb(103 91 225 / 30%),
-    rgb(11 11 65 / 14%)
-  );
+:root {
+  --color-panel-bg: rgb(10 11 34 / 62%);
+  --color-panel-border: rgb(255 255 255 / 14%);
+  --color-surface-solid: #121324;
+
+  --color-white: #ffffff;
+  --color-muted: #aeb7d9;
+
+  --color-accent-green: #7ee7b8;
+  --color-accent-yellow: #f7d774;
+  --color-accent-red: #f39aa4;
+  --color-accent-blue: #60a5fa;
 }
 
-.day-title {
-  display: inline-flex;
-  gap: 10px;
-  align-items: center;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.day-title span:last-child {
-  color: #bfc8f5;
-  font-weight: 500;
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgb(116 136 255 / 55%);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+button {
+  display: block;
+  min-width: 6rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }

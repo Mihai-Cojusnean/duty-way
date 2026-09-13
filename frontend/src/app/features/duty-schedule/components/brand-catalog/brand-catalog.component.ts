@@ -14,6 +14,7 @@ export class BrandCatalogComponent {
   readonly brandName = input.required<string>();
   readonly perfumes = input.required<Perfume[]>();
   readonly soldCount = input<number>(0);
+  readonly addSale = output<PerfumePrice>();
 
   readonly backToSchedule = output<void>();
   readonly recordSale = output<PerfumeSale>();
@@ -33,13 +34,11 @@ export class BrandCatalogComponent {
   readonly expandedCollection = signal<string | null>(null);
   readonly expandedPerfumeId = signal<string | number | null>(null);
 
-  // Group perfumes by collection/category dynamically
   readonly collections = computed(() => {
     const perfumesList = this.filteredPerfumes();
     const grouped = new Map<string, Perfume[]>();
 
     for (const p of perfumesList) {
-      // Falls back to brandName if collection field isn't defined
       const key = p.collection || this.brandName();
       if (!grouped.has(key)) grouped.set(key, []);
       grouped.get(key)!.push(p);
@@ -53,10 +52,9 @@ export class BrandCatalogComponent {
 
   toggleCollection(name: string): void {
     this.expandedCollection.update((curr) => (curr === name ? null : name));
-    this.expandedPerfumeId.set(null); // Reset child selection when toggling collection
+    this.expandedPerfumeId.set(null);
   }
 
-  // Add this toggle method:
   togglePerfume(id: string | number): void {
     this.expandedPerfumeId.update((current) => (current === id ? null : id));
   }
@@ -76,8 +74,8 @@ export class BrandCatalogComponent {
     this.selectedPerfume.set(null);
   }
 
-  getCardBg(url?: string): string {
-    return url ? `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url(${url})` : 'none';
+  getCardImage(url?: string): string | null {
+    return url ? `url(${url})` : null;
   }
 
   priceSummary(perfume: Perfume): string {
@@ -91,4 +89,31 @@ export class BrandCatalogComponent {
       )
       .join(' | ');
   }
+
+  selectPrice(price: PerfumePrice): void {
+    this.selectedPrice.set(price);
+  }
+
+  addSelectedSale(): void {
+    const price = this.selectedPrice();
+
+    if (price) {
+      this.addSale.emit(price);
+    }
+  }
+
+  formatPrice(price: PerfumePrice): string {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: price.currency,
+    }).format(price.amountCents / 100);
+  }
+
+  addDirectSale(perfume: Perfume, price: any) {
+    this.selectedPerfume.set(perfume);
+    this.selectedPrice.set(price);
+    this.addSelectedSale();
+  }
+
+  readonly selectedPrice = signal<PerfumePrice | null>(null);
 }

@@ -11,7 +11,6 @@ import { Perfume, PerfumePrice } from '../../interfaces/duty.interface';
 export class PerfumeModalComponent {
   readonly perfume = input.required<Perfume>();
   readonly close = output<void>();
-  readonly addSale = output<PerfumePrice>();
   readonly selectedPrice = signal<PerfumePrice | null>(null);
 
   readonly fragranceNotes = computed(() =>
@@ -26,23 +25,4 @@ export class PerfumeModalComponent {
     const url = this.perfume().imageUrl;
     return url ? `url("${url}")` : 'none';
   });
-
-  selectPrice(price: PerfumePrice): void {
-    this.selectedPrice.set(price);
-  }
-
-  addSelectedSale(): void {
-    const price = this.selectedPrice();
-
-    if (price) {
-      this.addSale.emit(price);
-    }
-  }
-
-  formatPrice(price: PerfumePrice): string {
-    return new Intl.NumberFormat('en-IE', {
-      style: 'currency',
-      currency: price.currency,
-    }).format(price.amountCents / 100);
-  }
 }

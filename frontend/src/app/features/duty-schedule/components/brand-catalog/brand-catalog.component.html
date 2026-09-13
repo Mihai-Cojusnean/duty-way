@@ -4,14 +4,13 @@
 <section class="catalog-page">
   <div class="assigned-brand">
     <span>Brand</span>
-    <h2>{{ brandName() }}</h2>
+    <h3>{{ brandName() }}</h3>
   </div>
   <label for="catalogSearch"></label>
   <input id="catalogSearch" type="search" placeholder="Search perfumes..." [value]="searchQuery()"
          (input)="onSearch($event)"/>
   <section class="catalog-list">
     <h2>Perfume catalogue</h2> @for (col of collections(); track col.name) {
-    <!-- Level 1: Collection Header -->
     <div class="accordion-group">
       <button type="button" class="accordion-header collection-row" (click)="toggleCollection(col.name)"
               [attr.aria-expanded]="expandedCollection() === col.name">
@@ -22,19 +21,30 @@
         <span class="toggle-icon">{{ expandedCollection() === col.name ? '−' : '+' }}</span>
       </button>
       @if (expandedCollection() === col.name) {
-      <div class="accordion-content perfume-list"> @for (perfume of col.perfumes; track perfume.id) {
-        <div class="perfume-subitem">
-          <button type="button" class="accordion-header perfume-row"
-                  [style.background-image]="getCardBg(perfume.imageUrl)"
-                  (click)="selectedPerfume.set(perfume);">
-            <span class="perfume-info">
-              <strong>{{ perfume.name }}</strong>
-              <small>{{ perfume.creator }}</small>
-            </span>
-            <span class="perfume-right">
-              <span class="perfume-price">{{ priceSummary(perfume) }}</span>
-            </span>
-          </button>
+      <div class="accordion-content perfume-list">
+        @for (perfume of col.perfumes; track perfume.id) {
+        <div class="perfume-subitem perfume-row"
+             [style.background-image]="getCardImage(perfume.imageUrl)"
+             (click)="selectedPerfume.set(perfume)">
+
+          <div class="perfume-info">
+            <strong>{{ perfume.name }}</strong>
+            <small>{{ perfume.creator }}</small>
+          </div>
+
+          <div class="price-pills" aria-label="Choose a size and price">
+            @for (price of perfume.prices; track price.id) {
+            <button
+              class="price-pill"
+              type="button"
+              (click)="$event.stopPropagation(); addDirectSale(perfume, price)"
+            >
+              <span class="size">{{ price.label }}</span>
+              <strong class="cost">{{ formatPrice(price) }}</strong>
+            </button>
+            }
+          </div>
+
         </div>
         }
       </div>
@@ -51,5 +61,4 @@
   </footer>
 </section>
 @if (selectedPerfume(); as perfume) {
-<app-perfume-modal [perfume]="perfume" (close)="selectedPerfume.set(null)"
-                   (addSale)="onSaleAdded($event)"></app-perfume-modal> }
+<app-perfume-modal [perfume]="perfume" (close)="selectedPerfume.set(null)"></app-perfume-modal> }

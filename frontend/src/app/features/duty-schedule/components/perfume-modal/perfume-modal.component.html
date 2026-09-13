@@ -16,24 +16,7 @@
           </div>
         </div>
       </div>
-
-      <button class="close-modal" type="button" (click)="close.emit()">×</button>
     </header>
-
-    <div class="price-pills" aria-label="Choose a size and price">
-      @for (price of perfume().prices; track price.id) {
-      <button
-        class="price-pill"
-        type="button"
-        [class.selected-price]="selectedPrice()?.id === price.id"
-        [attr.aria-pressed]="selectedPrice()?.id === price.id"
-        (click)="selectPrice(price)"
-      >
-        <span>{{ price.label }}</span>
-        <strong class="cost">{{ formatPrice(price) }}</strong>
-      </button>
-      }
-    </div>
 
     @if (perfume().description) {
     <div class="section-block">
@@ -61,13 +44,5 @@
       </ul>
     </div>
     }
-    <button
-      class="add-sale-button"
-      type="button"
-      [disabled]="!selectedPrice()"
-      (click)="addSelectedSale()"
-    >
-      + Add sale
-    </button>
   </section>
 </div>

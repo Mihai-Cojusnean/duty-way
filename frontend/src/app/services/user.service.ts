@@ -41,6 +41,7 @@ export class UserService {
   saveUser(shifts: readonly unknown[]): Observable<unknown> {
     return this.http.post(this.apiUrl, { shifts }, { headers: this.authHeaders });
   }
+
   // private get authHeaders(): HttpHeaders {
   //   return new HttpHeaders({
   //     'X-Telegram-Init-Data': MOCK_INIT_DATA,
