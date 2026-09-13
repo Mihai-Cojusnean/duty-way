@@ -25,14 +25,6 @@
       </option>
       }
     </select>
-
-    @if (store.viewedAdminUser(); as user) {
-    <p>
-      Viewing <strong>{{ user.work_name }}</strong>
-      <button type="button" (click)="store.showMySchedule()">
-        Back to my schedule
-      </button>
-    </p>
     }
   </section>
   }
