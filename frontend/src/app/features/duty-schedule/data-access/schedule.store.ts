@@ -126,7 +126,7 @@ export class ScheduleStore {
         this.scheduleRecords.set(records);
         this.statusMessage.set(
           records.length
-            ? `Viewing ${response.user.work_name}'s schedule`
+            ? `${records.length} shifts`
             : `${response.user.work_name} has no saved schedule.`,
         );
       },
@@ -159,7 +159,6 @@ export class ScheduleStore {
 
     this.userService.getUser().subscribe({
       next: (response: User) => {
-        console.log('Raw DB Response:', response);
 
         const rawRecords = response.shifts ?? [];
 
