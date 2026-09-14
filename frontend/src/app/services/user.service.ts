@@ -21,30 +21,12 @@ export class UserService {
   private readonly apiUrl = 'https://duty-way-api.duty-way.workers.dev/api/user';
 
   constructor(private http: HttpClient) {}
-  //
-  // private get authHeaders(): HttpHeaders {
-  //   const initData = window.Telegram?.WebApp?.initData ?? '';
-  //
-  //   return new HttpHeaders({
-  //     'X-Telegram-Init-Data': initData,
-  //   });
-  // }
-  //
-  // getUser(): Observable<User> {
-  //   return this.http.get<User>(this.apiUrl, { headers: this.authHeaders }).pipe(
-  //     tap((userData: User) => {
-  //       this.user = userData;
-  //     }),
-  //   );
-  // }
-  //
-  // saveUser(shifts: readonly unknown[]): Observable<unknown> {
-  //   return this.http.post(this.apiUrl, { shifts }, { headers: this.authHeaders });
-  // }
 
   private get authHeaders(): HttpHeaders {
+    const initData = window.Telegram?.WebApp?.initData ?? '';
+
     return new HttpHeaders({
-      'X-Telegram-Init-Data': MOCK_INIT_DATA,
+      'X-Telegram-Init-Data': initData,
     });
   }
 
@@ -59,4 +41,22 @@ export class UserService {
   saveUser(shifts: readonly unknown[]): Observable<unknown> {
     return this.http.post(this.apiUrl, { shifts }, { headers: this.authHeaders });
   }
+
+  // private get authHeaders(): HttpHeaders {
+  //   return new HttpHeaders({
+  //     'X-Telegram-Init-Data': MOCK_INIT_DATA,
+  //   });
+  // }
+  //
+  // getUser(): Observable<User> {
+  //   return this.http.get<User>(this.apiUrl, { headers: this.authHeaders }).pipe(
+  //     tap((userData: User) => {
+  //       this.user = userData;
+  //     }),
+  //   );
+  // }
+  //
+  // saveUser(shifts: readonly unknown[]): Observable<unknown> {
+  //   return this.http.post(this.apiUrl, { shifts }, { headers: this.authHeaders });
+  // }
 }
