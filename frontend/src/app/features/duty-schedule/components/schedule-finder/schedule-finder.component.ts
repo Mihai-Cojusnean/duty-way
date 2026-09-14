@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output, signal } f
 import { ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
 import { NgTemplateOutlet } from '@angular/common';
 import { SalesHistoryEntry } from '../../../../core/sales.service';
+import { ScheduleChart } from './schedule-chart/schedule-chart';
 
 export interface ShiftGroup {
   date: string;
@@ -34,7 +35,7 @@ function groupRecordsByDate(records: readonly ScheduleRecord[]): ShiftGroup[] {
   selector: 'app-schedule-finder',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ScheduleChart],
   templateUrl: './schedule-finder.component.html',
   styleUrl: './schedule-finder.component.css',
 })
@@ -67,11 +68,8 @@ export class ScheduleFinderComponent {
 
     return { past, upcoming };
   });
-
   readonly pastShiftGroups = computed(() => groupRecordsByDate(this.shiftsByPeriod().past));
-
   readonly upcomingShiftGroups = computed(() => groupRecordsByDate(this.shiftsByPeriod().upcoming));
-
   readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
 
   onFileChange(event: Event): void {
