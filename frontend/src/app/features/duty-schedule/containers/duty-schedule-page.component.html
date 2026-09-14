@@ -4,6 +4,7 @@
     [brandName]="brand"
     [perfumes]="store.brandPerfumes()"
     [soldCount]="store.soldTodayCount()"
+    [todaySales]="store.todaySalesTotalCents()"
     (backToSchedule)="store.clearBrand()"
     (recordSale)="store.recordSale($event)"
   ></app-brand-catalog>

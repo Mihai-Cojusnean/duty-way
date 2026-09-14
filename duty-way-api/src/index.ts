@@ -192,18 +192,16 @@ export default {
 					`INSERT INTO sales (
       id,
       telegram_user_id,
-      brand,
       perfume_id,
       perfume_name,
       price_label,
       amount_cents,
       currency
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
 				)
 					.bind(
 						saleId,
 						telegramUserId,
-						body.brand.trim(),
 						body.perfumeId.trim(),
 						body.perfumeName.trim(),
 						body.priceLabel.trim(),
@@ -221,6 +219,7 @@ export default {
 					201,
 				);
 			}
+
 
 			if (request.method === 'GET' && url.pathname === '/api/admin/users') {
 				if (currentUser.role !== 'admin') {
@@ -487,9 +486,6 @@ function isSaleRequest(value: unknown): value is SaleRequest {
 	return (
 		typeof value === 'object' &&
 		value !== null &&
-		'brand' in value &&
-		typeof value.brand === 'string' &&
-		value.brand.trim().length > 0 &&
 		'perfumeId' in value &&
 		typeof value.perfumeId === 'string' &&
 		value.perfumeId.trim().length > 0 &&
@@ -560,64 +556,6 @@ function json(
 	});
 }
 
-
-
-
-
-// type Role = 'admin' | 'user';
-//
-// interface TelegramUser {
-// 	readonly id: number;
-// 	readonly username?: string;
-// 	readonly language_code?: string;
-// }
-//
-// interface AuthenticatedUser {
-// 	readonly telegramUser: TelegramUser;
-// 	readonly role: Role;
-// 	readonly workName: string | null;
-// }
-//
-// interface UserRecord {
-// 	readonly profile?: {
-// 		readonly telegramId: number;
-// 		readonly username: string;
-// 		readonly language: string;
-// 	};
-// 	readonly interactions?: {
-// 		readonly lastButtonClicked: string;
-// 		readonly lastTextWritten: string;
-// 		readonly updatedAt: string;
-// 	};
-// 	readonly shifts?: readonly unknown[];
-// }
-//
-// interface UserUpdate {
-// 	readonly username?: string;
-// 	readonly language?: string;
-// 	readonly buttonClicked?: string;
-// 	readonly textWritten?: string;
-// 	readonly shifts?: readonly unknown[];
-// }
-//
-// interface SaleRequest {
-// 	readonly brand: string;
-// 	readonly perfumeId: string;
-// 	readonly perfumeName: string;
-// 	readonly priceLabel: string;
-// 	readonly amountCents: number;
-// 	readonly currency: 'EUR';
-// }
-//
-// interface SalesSummary {
-// 	readonly count: number;
-// 	readonly totalCents: number;
-// 	readonly currency: 'EUR';
-// }
-//
-// const textEncoder = new TextEncoder();
-// const maxInitDataAgeSeconds = 24 * 60 * 60;
-//
 // export default {
 // 	async fetch(request, env): Promise<Response> {
 // 		const corsHeaders = {
@@ -646,7 +584,7 @@ function json(
 // 					username: 'Mihai',
 // 					language_code: 'en',
 // 				},
-// 				role: 'admin', // Change to 'user' if you want to test standard user view
+// 				role: 'admin',
 // 				workName: 'Mihail Cojusnean',
 // 			};
 //
@@ -761,18 +699,16 @@ function json(
 // 					`INSERT INTO sales (
 //       id,
 //       telegram_user_id,
-//       brand,
 //       perfume_id,
 //       perfume_name,
 //       price_label,
 //       amount_cents,
 //       currency
-//     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+//     ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
 // 				)
 // 					.bind(
 // 						saleId,
 // 						telegramUserId,
-// 						body.brand.trim(),
 // 						body.perfumeId.trim(),
 // 						body.perfumeName.trim(),
 // 						body.priceLabel.trim(),
@@ -884,7 +820,6 @@ function json(
 //
 // 	const telegramId = String(telegramUser.id);
 //
-// 	// A verified Telegram user starts as a normal user.
 // 	await env.DB.prepare(
 // 		"INSERT OR IGNORE INTO app_users (telegram_user_id, role) VALUES (?, 'user')",
 // 	)
@@ -1057,9 +992,6 @@ function json(
 // 	return (
 // 		typeof value === 'object' &&
 // 		value !== null &&
-// 		'brand' in value &&
-// 		typeof value.brand === 'string' &&
-// 		value.brand.trim().length > 0 &&
 // 		'perfumeId' in value &&
 // 		typeof value.perfumeId === 'string' &&
 // 		value.perfumeId.trim().length > 0 &&

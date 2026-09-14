@@ -14,8 +14,8 @@ export class BrandCatalogComponent {
   readonly brandName = input.required<string>();
   readonly perfumes = input.required<Perfume[]>();
   readonly soldCount = input<number>(0);
-  readonly addSale = output<PerfumePrice>();
-
+  readonly todaySales = input<number>(0);
+  readonly selectedPrice = signal<PerfumePrice | null>(null);
   readonly backToSchedule = output<void>();
   readonly recordSale = output<PerfumeSale>();
 
@@ -63,17 +63,6 @@ export class BrandCatalogComponent {
     this.searchQuery.set((event.target as HTMLInputElement).value);
   }
 
-  onSaleAdded(price: PerfumePrice): void {
-    const perfume = this.selectedPerfume();
-
-    if (!perfume) {
-      return;
-    }
-
-    this.recordSale.emit({ perfume, price });
-    this.selectedPerfume.set(null);
-  }
-
   getCardImage(url?: string): string | null {
     return url ? `url(${url})` : null;
   }
@@ -94,12 +83,12 @@ export class BrandCatalogComponent {
     this.selectedPrice.set(price);
   }
 
-  addSelectedSale(): void {
-    const price = this.selectedPrice();
-
-    if (price) {
-      this.addSale.emit(price);
+  addSale(perfume: any, price: PerfumePrice): void {
+    if (!perfume) {
+      return;
     }
+
+    this.recordSale.emit({ perfume, price });
   }
 
   formatPrice(price: PerfumePrice): string {
@@ -109,11 +98,10 @@ export class BrandCatalogComponent {
     }).format(price.amountCents / 100);
   }
 
-  addDirectSale(perfume: Perfume, price: any) {
-    this.selectedPerfume.set(perfume);
-    this.selectedPrice.set(price);
-    this.addSelectedSale();
+  formatEuro(amountCents: number): string {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+    }).format(amountCents / 100);
   }
-
-  readonly selectedPrice = signal<PerfumePrice | null>(null);
 }

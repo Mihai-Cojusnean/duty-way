@@ -527,18 +527,18 @@
         {
           "id": "75ml",
           "label": "75ml",
-          "amountCents": 10500,
+          "amountCents": 10800,
           "currency": "EUR"
         }
       ],
       "creator": "Jean-Claude Ellena",
       "collection": "Eau Parfumée",
-      "description": "Création pionnière de 1992 célébrant le thé vert japonais dans un équilibre vitalisant de fraîcheur et de sérénité.",
-      "notes": "Green Tea, Bergamot, Cardamom, Jasmine, Cedar, Beeswax",
+      "description": "Un parfum de thé extraordinaire avec une touche florale et une subtile note d'agrumes.",
+      "notes": "Green Tea, Bergamot, Petitgrain",
       "longevity": "5h",
-      "sillage": "Intimate",
+      "sillage": "Modéré",
       "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.144.jpg",
-      "pros": ["Chef-d'œuvre apaisant", "Accord de thé vert pionnier", "Parfait pour se détendre"]
+      "pros": ["Apaisant", "Thérapeutique", "Parfait pour se détendre"]
     },
     {
       "id": "the_blanc",
@@ -547,16 +547,16 @@
         {
           "id": "75ml",
           "label": "75ml",
-          "amountCents": 10500,
+          "amountCents": 10800,
           "currency": "EUR"
         }
       ],
       "creator": "Jacques Cavallier",
       "collection": "Eau Parfumée",
       "description": "Un élixir réconfortant et doux inspiré par le thé blanc rare de l'Himalaya, avec des nuances d'armoise et de musc.",
-      "notes": "Tea, Artemisia, Bergamot, Pepper, Cardamom, Amber, Musk",
-      "longevity": "6h",
-      "sillage": "Intimate",
+      "notes": "Tea, Musk",
+      "longevity": "5h",
+      "sillage": "Modéré",
       "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.145.jpg",
       "pros": [
         "Extrêmement doux et réconfortant",
@@ -565,30 +565,44 @@
       ]
     },
     {
-      "id": "bvlgari_pour_homme",
-      "name": "Bvlgari Pour Homme",
+      "id": "bvlgari_pour_homme_edt",
+      "name": "Bvlgari Pour Homme EDT",
+      "prices": [
+        {
+          "id": "100ml",
+          "label": "100ml",
+          "amountCents": 10800,
+          "currency": "EUR"
+        }
+      ],
+      "creator": "Jacques Cavallier",
+      "collection": "Pour Homme",
+      "description": "",
+      "notes": "",
+      "longevity": "6h",
+      "sillage": "Moderate",
+      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.143.jpg",
+      "pros": ["Délicat", "Pur et discret", "Parfum élégant à base de thé"]
+    },
+    {
+      "id": "bvlgari_pour_homme_edp",
+      "name": "Bvlgari Pour Homme EDP",
       "prices": [
         {
           "id": "100ml",
           "label": "100ml",
           "amountCents": 12500,
           "currency": "EUR"
-        },
-        {
-          "id": "50ml",
-          "label": "50ml",
-          "amountCents": 9000,
-          "currency": "EUR"
         }
       ],
       "creator": "Jacques Cavallier",
       "collection": "Pour Homme",
-      "description": "Un classique floral boisé musqué axé autour de l'accord emblématique de thé Darjeeling et de musc.",
-      "notes": "Darjeeling Tea, Aldehydes, Bergamot, Lavender, Musk, Cedar",
+      "description": "Un parfum boisé, musqué, harmonieux et raffiné, qui incarne l'équilibre parfait entre les grands espaces et le confort de la maison.",
+      "notes": "Darjeeling Tea, Musk, Gingembre, Guaiac Wood",
       "longevity": "6h",
       "sillage": "Moderate",
       "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.143.jpg",
-      "pros": ["Thé Darjeeling raffiné", "Sensation fraîche et propre", "Intemporel"]
+      "pros": ["Arôme apaisant", "Pur et discret", "Parfum élégant à base de thé"]
     },
     {
       "id": "aqva_pour_homme",
@@ -597,13 +611,7 @@
         {
           "id": "100ml",
           "label": "100ml",
-          "amountCents": 12500,
-          "currency": "EUR"
-        },
-        {
-          "id": "50ml",
-          "label": "50ml",
-          "amountCents": 9000,
+          "amountCents": 10800,
           "currency": "EUR"
         }
       ],

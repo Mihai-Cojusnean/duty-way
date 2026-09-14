@@ -6,11 +6,16 @@
     <span>Brand</span>
     <h3>{{ brandName() }}</h3>
   </div>
-  <label for="catalogSearch"></label>
-  <input id="catalogSearch" type="search" placeholder="Search perfumes..." [value]="searchQuery()"
-         (input)="onSearch($event)"/>
+  <div class="catalog-header">
+    <h3>Catalogue</h3>
+    <input id="catalogSearch"
+           aria-label="catalogSearch"
+           type="search" placeholder="Search perfumes..."
+           [value]="searchQuery()"
+           (input)="onSearch($event)"/>
+  </div>
   <section class="catalog-list">
-    <h2>Perfume catalogue</h2> @for (col of collections(); track col.name) {
+    @for (col of collections(); track col.name) {
     <div class="accordion-group">
       <button type="button" class="accordion-header collection-row" (click)="toggleCollection(col.name)"
               [attr.aria-expanded]="expandedCollection() === col.name">
@@ -33,18 +38,17 @@
           </div>
 
           <div class="price-pills" aria-label="Choose a size and price">
-            @for (price of perfume.prices; track price.id) {
+            @for (price of perfume.prices; track price.label) {
             <button
               class="price-pill"
               type="button"
-              (click)="$event.stopPropagation(); addDirectSale(perfume, price)"
+              (click)="$event.stopPropagation(); addSale(perfume, price)"
             >
               <span class="size">{{ price.label }}</span>
               <strong class="cost">{{ formatPrice(price) }}</strong>
             </button>
             }
           </div>
-
         </div>
         }
       </div>
@@ -52,12 +56,12 @@
     </div>
     } @empty {
     <div class="empty-catalog">
-      <h2>Products coming soon</h2>
+      <h2>Products coming soon, maybe :)</h2>
     </div>
     }
   </section>
   <footer class="sales-counter">
-    {{ soldCount() }} item(s) sold today
+    {{ soldCount() }} item(s) sold today. Total: {{ formatEuro(todaySales()) }}
   </footer>
 </section>
 @if (selectedPerfume(); as perfume) {

@@ -33,11 +33,10 @@ export class SalesService {
     private readonly telegramService: TelegramService,
   ) {}
 
-  recordSale(brand: string, sale: PerfumeSale): Observable<RecordSaleResponse> {
+  recordSale(sale: PerfumeSale): Observable<RecordSaleResponse> {
     return this.http.post<RecordSaleResponse>(
       `${this.apiUrl}/api/sales`,
       {
-        brand,
         perfumeId: sale.perfume.id,
         perfumeName: sale.perfume.name,
         priceLabel: sale.price.label,

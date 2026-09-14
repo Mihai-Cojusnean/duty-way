@@ -27,7 +27,6 @@ export interface Perfume {
 }
 
 export interface PerfumePrice {
-  readonly id: string;
   readonly label: string;
   readonly amountCents: number;
   readonly currency: 'EUR';

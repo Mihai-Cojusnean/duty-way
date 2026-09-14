@@ -293,13 +293,7 @@ export class ScheduleStore {
   }
 
   recordSale(sale: PerfumeSale): void {
-    const brand = this.selectedBrand();
-
-    if (!brand) {
-      return;
-    }
-
-    this.salesService.recordSale(brand, sale).subscribe({
+    this.salesService.recordSale(sale).subscribe({
       next: (response) => {
         this.soldTodayCount.set(response.summary.count);
         this.todaySalesTotalCents.set(response.summary.totalCents);
