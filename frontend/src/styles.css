@@ -1,6 +1,6 @@
 :root {
-  --color-panel-bg: rgb(10 11 34 / 62%);
-  --color-panel-border: rgb(255 255 255 / 14%);
+  --color-panel-bg: rgb(10 11 34 / 0.4);
+  --color-panel-border: rgb(255 255 255 / 0.2);
   --color-surface-solid: #121324;
 
   --color-white: #ffffff;

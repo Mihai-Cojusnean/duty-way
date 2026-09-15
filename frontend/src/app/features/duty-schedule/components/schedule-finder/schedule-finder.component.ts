@@ -44,6 +44,9 @@ export class ScheduleFinderComponent {
   readonly records = input.required<ScheduleRecord[]>();
   readonly username = input<string>();
 
+  readonly getBrand = (record: ScheduleRecord) => record.brand;
+  readonly getTerminal = (record: ScheduleRecord) => record.tabName;
+
   readonly selectedFile = signal<File | null>(null);
   readonly assignedWorkName = input<string>('');
   readonly openBrand = output<string>();

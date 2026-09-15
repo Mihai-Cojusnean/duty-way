@@ -166,4 +166,14 @@
   }
 </section>
 }
-<app-schedule-chart [records]="records()" ></app-schedule-chart>
+
+<app-schedule-chart
+  [records]="records()"
+  [groupBy]="getBrand">
+</app-schedule-chart>
+
+<app-schedule-chart
+  [records]="records()"
+  [groupBy]="getTerminal">
+</app-schedule-chart>
+
