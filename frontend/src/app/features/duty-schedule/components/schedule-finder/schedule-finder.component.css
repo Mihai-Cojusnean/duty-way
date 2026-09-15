@@ -324,3 +324,24 @@ article:has(.shift-header) {
   flex-direction: column !important;
   align-items: stretch !important;
 }
+
+.day-off-separator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.day-off-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-color, #ddd);
+}
+
+.day-off-label {
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}

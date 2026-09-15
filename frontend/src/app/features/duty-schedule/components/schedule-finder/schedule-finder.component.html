@@ -141,13 +141,30 @@
   }
 
   @for (group of upcomingShiftGroups(); track group.date) {
-  <div class="shift-group" [class.multi-shift-group]="group.isMultiShift">
+
+  @if (group.isDayOff) {
+  <div class="day-off-separator">
+    <span class="day-off-line"></span>
+    <span class="day-off-label">
+        {{ group.dayLabel }} · Day off
+      </span>
+    <span class="day-off-line"></span>
+  </div>
+  } @else {
+
+  <div
+    class="shift-group"
+    [class.multi-shift-group]="group.isMultiShift"
+  >
     @for (record of group.shifts; track record.id) {
     <article [class.today-shift]="record.isToday">
       <div class="shift-header">
         <strong>
-          {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
+          {{ shortDay(record.day) }}
+          {{ record.dateStr }}
+          · {{ record.hours }}
         </strong>
+
         <div class="brand-buttons">
           <button
             class="brand-button"
@@ -159,10 +176,13 @@
           </button>
         </div>
       </div>
+
       <p class="shift-details">{{ record.tabName }}</p>
     </article>
     }
   </div>
+
+  }
   }
 </section>
 }

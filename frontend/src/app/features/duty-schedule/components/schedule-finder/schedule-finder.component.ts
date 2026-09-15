@@ -8,9 +8,14 @@ export interface ShiftGroup {
   date: string;
   shifts: ScheduleRecord[];
   isMultiShift: boolean;
+  isDayOff: boolean;
+  dayLabel: string;
 }
 
-function groupRecordsByDate(records: readonly ScheduleRecord[]): ShiftGroup[] {
+function groupRecordsByDate(
+  records: readonly ScheduleRecord[],
+  includeDaysOff = false,
+): ShiftGroup[] {
   const groups = new Map<string, ScheduleRecord[]>();
 
   for (const record of records) {
@@ -24,11 +29,79 @@ function groupRecordsByDate(records: readonly ScheduleRecord[]): ShiftGroup[] {
     }
   }
 
-  return [...groups].map(([date, shifts]) => ({
+  const sortedGroups = [...groups.entries()].sort(
+    ([, a], [, b]) => a[0].dateNumber - b[0].dateNumber,
+  );
+
+  if (records.some((record) => !record.isPast)) {
+    const result: ShiftGroup[] = [];
+
+    for (let i = 0; i < sortedGroups.length; i++) {
+      const [date, shifts] = sortedGroups[i];
+
+      result.push({
+        date,
+        shifts,
+        isMultiShift: shifts.length > 1,
+        isDayOff: false,
+        dayLabel: date,
+      });
+
+      const next = sortedGroups[i + 1];
+
+      if (!next) {
+        continue;
+      }
+
+      const currentDate = parseScheduleDate(date);
+      const nextDate = parseScheduleDate(next[0]);
+
+      if (includeDaysOff) {
+        if (!Number.isNaN(currentDate.getTime()) && !Number.isNaN(nextDate.getTime())) {
+          const daysBetween = Math.round((nextDate.getTime() - currentDate.getTime()) / 86_400_000);
+
+          for (let day = 1; day < daysBetween; day++) {
+            const dayOff = new Date(currentDate);
+            dayOff.setDate(dayOff.getDate() + day);
+
+            result.push({
+              date: `day-off-${dayOff.getTime()}`,
+              shifts: [],
+              isMultiShift: false,
+              isDayOff: true,
+              dayLabel: formatDayOffLabel(dayOff),
+            });
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  return sortedGroups.map(([date, shifts]) => ({
     date,
     shifts,
     isMultiShift: shifts.length > 1,
+    isDayOff: false,
+    dayLabel: date,
   }));
+}
+
+function parseScheduleDate(dateStr: string): Date {
+  const date = new Date(`${dateStr} ${new Date().getFullYear()}`);
+
+  date.setHours(12, 0, 0, 0);
+
+  return date;
+}
+
+function formatDayOffLabel(date: Date): string {
+  return new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }).format(date);
 }
 
 @Component({
@@ -71,8 +144,11 @@ export class ScheduleFinderComponent {
 
     return { past, upcoming };
   });
-  readonly pastShiftGroups = computed(() => groupRecordsByDate(this.shiftsByPeriod().past));
-  readonly upcomingShiftGroups = computed(() => groupRecordsByDate(this.shiftsByPeriod().upcoming));
+  readonly pastShiftGroups = computed(() => groupRecordsByDate(this.shiftsByPeriod().past, false));
+
+  readonly upcomingShiftGroups = computed(() =>
+    groupRecordsByDate(this.shiftsByPeriod().upcoming, true),
+  );
   readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
 
   onFileChange(event: Event): void {
