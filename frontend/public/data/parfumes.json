@@ -359,13 +359,13 @@
         {
           "id": "100ml",
           "label": "100ml",
-          "amountCents": 14500,
+          "amountCents": 12800,
           "currency": "EUR"
         },
         {
           "id": "60ml",
           "label": "60ml",
-          "amountCents": 10500,
+          "amountCents": 10200,
           "currency": "EUR"
         }
       ],
@@ -384,18 +384,18 @@
     },
     {
       "id": "man_wood_essence_edp",
-      "name": "Bvlgari Man Wood Essence",
+      "name": "Man Wood Essence EDP",
       "prices": [
         {
           "id": "100ml",
           "label": "100ml",
-          "amountCents": 13800,
+          "amountCents": 12834,
           "currency": "EUR"
         },
         {
           "id": "60ml",
           "label": "60ml",
-          "amountCents": 9800,
+          "amountCents": 8300,
           "currency": "EUR"
         }
       ],
