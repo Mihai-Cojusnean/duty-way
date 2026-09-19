@@ -20,14 +20,6 @@ import { ScheduleParserService } from '../../services/schedule-parser.service';
 import { Router } from '@angular/router';
 import { SalesStore } from '../../services/sales.store';
 
-export interface ShiftGroup {
-  date: string;
-  shifts: ScheduleRecord[];
-  isMultiShift: boolean;
-  isDayOff: boolean;
-  dayLabel: string;
-}
-
 @Component({
   selector: 'app-schedule-finder',
   standalone: true,
@@ -55,12 +47,10 @@ export class ScheduleFinderComponent {
   readonly getTerminal = (record: ScheduleRecord) => record.tabName;
 
   readonly selectedFile = signal<File | null>(null);
-  readonly assignedWorkName = input<string>('');
   readonly openBrand = output<string>();
   readonly fileSelected = output<File>();
-  readonly submitSearch = output<void>();
   readonly isSubmitDisabled = computed(
-    () => !this.assignedWorkName().trim() || !this.selectedFile(),
+    () => !this.user()?.work_name?.trim() || !this.selectedFile(),
   );
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
@@ -158,13 +148,9 @@ export class ScheduleFinderComponent {
     this.adminService.getUserSchedule(user.telegram_user_id).subscribe({
       next: (response) => {
         const records = prepareScheduleRecords(response.shifts ?? []);
-        const previous = this.records();
 
-        this.records.set(records);
-        this.scheduleDiff.set(
-          previous.length ? this.scheduleDiffService.compare(previous, records) : null,
-        );
-        this.statusMessage.set(
+        this.applySchedule(
+          records,
           records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
         );
       },
@@ -177,22 +163,21 @@ export class ScheduleFinderComponent {
 
   async loadSchedule(): Promise<void> {
     const file = this.selectedFile();
-    if (!file || !this.user()) {
-      return;
-    }
+    const user = this.user();
 
-    // @ts-ignore
-    const rawRecords = await this.scheduleParserService.parse(file, this.user().work_name);
+    if (!file || !user) return;
+
+    const rawRecords = await this.scheduleParserService.parse(file, user.work_name);
+
     const records = prepareScheduleRecords(rawRecords);
-    const previousRecords = this.records();
 
-    this.records.set(records);
-    this.scheduleDiff.set(
-      previousRecords.length ? this.scheduleDiffService.compare(previousRecords, records) : null,
+    this.applySchedule(
+      records,
+      records.length
+        ? `${records.length} shifts loaded from Excel.`
+        : `No shifts found for "${user.work_name}".`,
     );
-    this.statusMessage.set(
-      records.length ? `${records.length} shifts` : `No shifts found for "${name}".`,
-    );
+
     this.saveSchedule(records);
   }
 
@@ -204,5 +189,16 @@ export class ScheduleFinderComponent {
   goToBrand(brand: string): void {
     this.openBrand.emit(brand);
     this.router.navigate(['/brand-catalog', brand]).then((r) => console.log(r));
+  }
+
+  private applySchedule(records: ScheduleRecord[], message: string): void {
+    const previous = this.records();
+
+    this.records.set(records);
+    this.scheduleDiff.set(
+      previous.length ? this.scheduleDiffService.compare(previous, records) : null,
+    );
+
+    this.statusMessage.set(message);
   }
 }

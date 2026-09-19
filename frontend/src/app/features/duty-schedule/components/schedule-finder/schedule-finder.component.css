@@ -16,7 +16,7 @@
 .form-card {
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  margin: 10px auto 0;
   padding: 0.3rem;
   border: 1px solid rgb(255 255 255 / 15%);
   border-radius: 0.75rem;
@@ -183,12 +183,12 @@ article p {
 }
 
 .form-details {
-  margin-bottom: 0.5rem;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .form-summary {
   color: rgba(255, 255, 255, 0.85);
-  padding: 0.5rem 0;
   user-select: none;
   list-style: none;
   display: flex;
@@ -336,4 +336,19 @@ article:has(.shift-header) {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
+}
+
+.submit-button.ready {
+  background: rgba(100, 181, 246, 0.25);
+  border-color: var(--color-accent-blue);
+  color: var(--color-accent-blue);
+}
+
+.submit-button.ready {
+  background: #6e72ed;
+  color: white;
+}
+
+.submit-button:not(:disabled) {
+  cursor: pointer;
 }

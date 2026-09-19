@@ -41,8 +41,11 @@
 
     <button
       type="button"
+      class="submit-button"
+      [class.ready]="selectedFile()"
       [disabled]="isSubmitDisabled()"
-      (click)="submitSearch.emit()">
+      (click)="loadSchedule()"
+    >
       Submit
     </button>
   </section>

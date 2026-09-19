@@ -1,5 +1,4 @@
-import { ScheduleRecord } from '../interfaces/duty.interface';
-import { ShiftGroup } from '../components/schedule-finder/schedule-finder.component';
+import { ScheduleRecord, ShiftGroup } from '../interfaces/duty.interface';
 
 export function checkIsPast(dateStr: string): boolean {
   const shiftDate = new Date(`${dateStr} ${new Date().getFullYear()}`);

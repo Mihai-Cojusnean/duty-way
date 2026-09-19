@@ -83,3 +83,10 @@ export interface SoldPerfume {
   readonly name: string;
 }
 
+export interface ShiftGroup {
+  date: string;
+  shifts: ScheduleRecord[];
+  isMultiShift: boolean;
+  isDayOff: boolean;
+  dayLabel: string;
+}
