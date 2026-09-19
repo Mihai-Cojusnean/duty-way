@@ -1,13 +1,13 @@
-import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
-import { DutySchedulePageComponent } from './features/duty-schedule/containers/duty-schedule-page.component';
-import { UserService } from './services/user.service';
-import { User } from './features/duty-schedule/interfaces/user.interface';
-import { ApiService, AppRole } from './core/api.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AppRole, User } from './features/duty-schedule/interfaces/user.interface';
+import { ApiService } from './core/api.service';
+import { UserService } from './core/user.service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [DutySchedulePageComponent],
+  imports: [RouterOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.css',

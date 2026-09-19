@@ -1,51 +1,116 @@
 <header class="topbar">
-  <button class="back-button" type="button" (click)="backToSchedule.emit()"> ← Schedule</button>
+  <button
+    class="back-button"
+    type="button"
+    (click)="goBack()"
+  >
+    ← Schedule
+  </button>
 </header>
-<section class="catalog-page">
+
+<section class="page-container">
   <div class="assigned-brand">
     <span>Brand</span>
     <h3>{{ brandName() }}</h3>
   </div>
+
   <div class="catalog-header">
     <h3>Catalogue</h3>
-    <input id="catalogSearch"
-           aria-label="catalogSearch"
-           type="search" placeholder="Search perfumes..."
-           [value]="searchQuery()"
-           (input)="onSearch($event)"/>
+
+    <input
+      aria-label="parfum search"
+      id="catalogSearch"
+      type="search"
+      placeholder="Search perfumes..."
+      autocomplete="off"
+      [value]="searchQuery()"
+      (input)="onSearch($event)"
+    />
   </div>
+
+  @if (catalog.isLoading()) {
+  <div class="catalog-state">
+    <p>Loading catalogue…</p>
+  </div>
+  }
+
+  @if (catalog.error(); as error) {
+  <div class="catalog-state catalog-error">
+    <h2>Couldn't load the catalogue</h2>
+    <p>Please try again.</p>
+
+    <button type="button" (click)="catalog.reload()">
+      Retry
+    </button>
+  </div>
+  }
+
+  @if (!catalog.isLoading() && !catalog.error()) {
   <section class="catalog-list">
     @for (col of collections(); track col.name) {
     <div class="accordion-group">
-      <button type="button" class="accordion-header collection-row" (click)="toggleCollection(col.name)"
-              [attr.aria-expanded]="expandedCollection() === col.name">
-        <span>
-          <strong>{{ col.name }}</strong>
-          <small>{{ col.perfumes.length }} Fragrances</small>
-        </span>
-        <span class="toggle-icon">{{ expandedCollection() === col.name ? '−' : '+' }}</span>
+      <button
+        type="button"
+        class="accordion-header collection-row"
+        [attr.aria-expanded]="expandedCollection() === col.name"
+        (click)="toggleCollection(col.name)"
+      >
+            <span>
+              <strong>{{ col.name }}</strong>
+              <small>
+                {{ col.perfumes.length }}
+                {{ col.perfumes.length === 1 ? 'Fragrance' : 'Fragrances' }}
+              </small>
+            </span>
+
+        <span aria-hidden="true" class="toggle-icon">
+              {{ expandedCollection() === col.name ? '−' : '+' }}
+            </span>
       </button>
+
       @if (expandedCollection() === col.name) {
       <div class="accordion-content perfume-list">
         @for (perfume of col.perfumes; track perfume.id) {
-        <div class="perfume-subitem perfume-row"
-             [style.background-image]="getCardImage(perfume.imageUrl)"
-             (click)="selectedPerfume.set(perfume)">
-
+        <div
+          class="perfume-subitem perfume-row"
+          [style.background-image]="
+    perfume.imageUrl
+      ? 'url(' + perfume.imageUrl + ')'
+      : null
+  "
+          (click)="openPerfume(perfume)"
+        >
           <div class="perfume-info">
             <strong>{{ perfume.name }}</strong>
             <small>{{ perfume.creator }}</small>
           </div>
 
-          <div class="price-pills" aria-label="Choose a size and price">
+          <div class="price-pills">
             @for (price of perfume.prices; track price.label) {
+            @let key = perfume.id + '-' + price.label;
+
             <button
-              class="price-pill"
               type="button"
-              (click)="$event.stopPropagation(); addSale(perfume, price)"
+              class="price-pill"
+              [class.sale-added]="addedSale() === key"
+              [attr.aria-label]="
+        'Record sale of ' +
+        perfume.name +
+        ', ' +
+        price.label +
+        ', ' +
+        (price.amountCents / 100 | currency:'EUR':'symbol':'1.2-2':'en-IE')
+      "
+              (click)="addSale(perfume, price); $event.stopPropagation()"
             >
+              @if (addedSale() === key) {
+              <span class="sale-confirmation">✓ Added</span>
+              } @else {
               <span class="size">{{ price.label }}</span>
-              <strong class="cost">{{ formatPrice(price) }}</strong>
+              <strong class="cost">
+                {{ price.amountCents / 100 | currency:'EUR':'symbol':'1.2-2':'en-IE' }}
+              </strong>
+              }
             </button>
             }
           </div>
@@ -54,15 +119,40 @@
       </div>
       }
     </div>
-    } @empty {
+    }
+
+    @empty {
     <div class="empty-catalog">
-      <h2>Products coming soon, maybe :)</h2>
+      @if (searchQuery().trim()) {
+      <h2>No perfumes found</h2>
+      <p>Try a different search term.</p>
+      } @else {
+      <h2>No products available</h2>
+      <p>The catalogue for this brand is empty.</p>
+      }
     </div>
     }
   </section>
-  <footer class="sales-counter">
-    {{ soldCount() }} item(s) sold today. Total: {{ formatEuro(todaySales()) }}
-  </footer>
+  }
+
+  <div class="container">
+    <button type="button" class="sales-footer" (click)="openSales()">
+      <span>{{ soldTodayCount() }} item(s)</span>
+      <strong>{{ todaySalesTotalCents() / 100 | currency:'EUR' }}</strong>
+    </button>
+  </div>
 </section>
+
+@if (salesOpen()) {
+<app-today-sales
+  id="today-sales"
+  (close)="closeSales()">
+</app-today-sales>
+}
+
 @if (selectedPerfume(); as perfume) {
-<app-perfume-modal [perfume]="perfume" (close)="selectedPerfume.set(null)"></app-perfume-modal> }
+<app-perfume-modal
+  [perfume]="perfume"
+  (close)="selectedPerfume.set(null)">
+</app-perfume-modal>
+}

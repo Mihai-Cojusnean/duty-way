@@ -1,38 +1,75 @@
-import { Component, ChangeDetectionStrategy, input, output, signal, computed } from '@angular/core';
-import { Perfume, PerfumePrice, PerfumeSale } from '../../interfaces/duty.interface';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  resource,
+  signal,
+} from '@angular/core';
+import { Perfume, PerfumePrice } from '../../interfaces/duty.interface';
 import { PerfumeModalComponent } from '../perfume-modal/perfume-modal.component';
+import { CatalogService } from '../../services/catalog.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { SalesStore } from '../../services/sales.store';
+import { CurrencyPipe } from '@angular/common';
+import { TodaySales } from './today-sales/today-sales';
 
 @Component({
   selector: 'app-brand-catalog',
   standalone: true,
-  imports: [PerfumeModalComponent],
+  imports: [PerfumeModalComponent, CurrencyPipe, TodaySales],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './brand-catalog.component.html',
   styleUrl: './brand-catalog.component.css',
 })
 export class BrandCatalogComponent {
-  readonly brandName = input.required<string>();
-  readonly perfumes = input.required<Perfume[]>();
-  readonly soldCount = input<number>(0);
-  readonly todaySales = input<number>(0);
-  readonly selectedPrice = signal<PerfumePrice | null>(null);
-  readonly backToSchedule = output<void>();
-  readonly recordSale = output<PerfumeSale>();
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly catalogService = inject(CatalogService);
+  private readonly salesStore = inject(SalesStore);
 
-  readonly searchQuery = signal<string>('');
+  protected readonly salesOpen = signal(false);
+  readonly soldTodayCount = this.salesStore.soldTodayCount;
+  readonly todaySalesTotalCents = this.salesStore.todaySalesTotalCents;
   readonly selectedPerfume = signal<Perfume | null>(null);
+  readonly searchQuery = signal<string>('');
+  readonly addedSale = signal<string | null>(null);
+
+  protected readonly brandName = toSignal(
+    this.route.paramMap.pipe(map((params) => params.get('brand')?.trim() ?? '')),
+    { initialValue: '' },
+  );
+
+  protected openPerfume(perfume: Perfume): void {
+    this.selectedPerfume.set(perfume);
+  }
+
+  readonly catalog = resource<Perfume[], { brand: string } | undefined>({
+    params: () => {
+      const brand = this.brandName().trim();
+      return brand ? { brand } : undefined;
+    },
+    defaultValue: [],
+    loader: ({ params }) => this.catalogService.getBrandCatalog(params.brand),
+  });
+
+  private readonly catalogPerfumes = computed(() =>
+    this.catalog.hasValue() ? this.catalog.value() : [],
+  );
 
   readonly filteredPerfumes = computed(() => {
+    const perfumes = this.catalog.value() ?? [];
     const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return this.perfumes();
+    if (!query) return perfumes;
 
-    return this.perfumes().filter((p) =>
+    return perfumes.filter((p) =>
       `${p.name} ${p.creator} ${p.notes}`.toLowerCase().includes(query),
     );
   });
 
   readonly expandedCollection = signal<string | null>(null);
-  readonly expandedPerfumeId = signal<string | number | null>(null);
 
   readonly collections = computed(() => {
     const perfumesList = this.filteredPerfumes();
@@ -52,56 +89,38 @@ export class BrandCatalogComponent {
 
   toggleCollection(name: string): void {
     this.expandedCollection.update((curr) => (curr === name ? null : name));
-    this.expandedPerfumeId.set(null);
-  }
-
-  togglePerfume(id: string | number): void {
-    this.expandedPerfumeId.update((current) => (current === id ? null : id));
   }
 
   onSearch(event: Event): void {
     this.searchQuery.set((event.target as HTMLInputElement).value);
   }
 
-  getCardImage(url?: string): string | null {
-    return url ? `url(${url})` : null;
+  addSale(perfume: Perfume, price: PerfumePrice): void {
+    this.salesStore.recordSale({
+      perfume,
+      price,
+      brand: perfume.id,
+    });
+
+    const key = `${perfume.id}-${price.label}`;
+    this.addedSale.set(key);
+
+    setTimeout(() => {
+      if (this.addedSale() === key) {
+        this.addedSale.set(null);
+      }
+    }, 1000);
   }
 
-  priceSummary(perfume: Perfume): string {
-    return perfume.prices
-      .map(
-        (price) =>
-          `${price.label} · ${new Intl.NumberFormat('en-IE', {
-            style: 'currency',
-            currency: price.currency,
-          }).format(price.amountCents / 100)}`,
-      )
-      .join(' | ');
+  protected openSales(): void {
+    this.salesOpen.set(true);
   }
 
-  selectPrice(price: PerfumePrice): void {
-    this.selectedPrice.set(price);
+  protected closeSales(): void {
+    this.salesOpen.set(false);
   }
 
-  addSale(perfume: any, price: PerfumePrice): void {
-    if (!perfume) {
-      return;
-    }
-
-    this.recordSale.emit({ perfume, price });
-  }
-
-  formatPrice(price: PerfumePrice): string {
-    return new Intl.NumberFormat('en-IE', {
-      style: 'currency',
-      currency: price.currency,
-    }).format(price.amountCents / 100);
-  }
-
-  formatEuro(amountCents: number): string {
-    return new Intl.NumberFormat('en-IE', {
-      style: 'currency',
-      currency: 'EUR',
-    }).format(amountCents / 100);
+  goBack(): void {
+    this.router.navigate(['/']).then((r) => console.log(r));
   }
 }

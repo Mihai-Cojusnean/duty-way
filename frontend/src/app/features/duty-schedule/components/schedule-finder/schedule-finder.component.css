@@ -1,11 +1,3 @@
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #c3c7e6;
-  font-size: 0.75rem;
-}
-
 .brand {
   display: inline-flex;
   width: auto;

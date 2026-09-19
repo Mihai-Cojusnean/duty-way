@@ -1,8 +1,24 @@
-import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
-import { ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { SalesHistoryEntry, ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
 import { NgTemplateOutlet } from '@angular/common';
-import { SalesHistoryEntry } from '../../../../core/sales.service';
 import { ScheduleChart } from './schedule-chart/schedule-chart';
+import { groupRecordsByDate, prepareScheduleRecords } from '../../services/schedule.utils';
+import { ViewedUser } from '../../interfaces/user.interface';
+import { AdminService } from '../../../../core/admin.service';
+import { UserService } from '../../../../core/user.service';
+import { ScheduleDiffService } from '../../services/schedule-diff.service';
+import { ScheduleParserService } from '../../services/schedule-parser.service';
+import { Router } from '@angular/router';
+import { SalesStore } from '../../services/sales.store';
 
 export interface ShiftGroup {
   date: string;
@@ -10,98 +26,6 @@ export interface ShiftGroup {
   isMultiShift: boolean;
   isDayOff: boolean;
   dayLabel: string;
-}
-
-function groupRecordsByDate(
-  records: readonly ScheduleRecord[],
-  includeDaysOff = false,
-): ShiftGroup[] {
-  const groups = new Map<string, ScheduleRecord[]>();
-
-  for (const record of records) {
-    const date = record.dateStr.trim();
-    const existing = groups.get(date);
-
-    if (existing) {
-      existing.push(record);
-    } else {
-      groups.set(date, [record]);
-    }
-  }
-
-  const sortedGroups = [...groups.entries()].sort(
-    ([, a], [, b]) => a[0].dateNumber - b[0].dateNumber,
-  );
-
-  if (records.some((record) => !record.isPast)) {
-    const result: ShiftGroup[] = [];
-
-    for (let i = 0; i < sortedGroups.length; i++) {
-      const [date, shifts] = sortedGroups[i];
-
-      result.push({
-        date,
-        shifts,
-        isMultiShift: shifts.length > 1,
-        isDayOff: false,
-        dayLabel: date,
-      });
-
-      const next = sortedGroups[i + 1];
-
-      if (!next) {
-        continue;
-      }
-
-      const currentDate = parseScheduleDate(date);
-      const nextDate = parseScheduleDate(next[0]);
-
-      if (includeDaysOff) {
-        if (!Number.isNaN(currentDate.getTime()) && !Number.isNaN(nextDate.getTime())) {
-          const daysBetween = Math.round((nextDate.getTime() - currentDate.getTime()) / 86_400_000);
-
-          for (let day = 1; day < daysBetween; day++) {
-            const dayOff = new Date(currentDate);
-            dayOff.setDate(dayOff.getDate() + day);
-
-            result.push({
-              date: `day-off-${dayOff.getTime()}`,
-              shifts: [],
-              isMultiShift: false,
-              isDayOff: true,
-              dayLabel: formatDayOffLabel(dayOff),
-            });
-          }
-        }
-      }
-    }
-
-    return result;
-  }
-
-  return sortedGroups.map(([date, shifts]) => ({
-    date,
-    shifts,
-    isMultiShift: shifts.length > 1,
-    isDayOff: false,
-    dayLabel: date,
-  }));
-}
-
-function parseScheduleDate(dateStr: string): Date {
-  const date = new Date(`${dateStr} ${new Date().getFullYear()}`);
-
-  date.setHours(12, 0, 0, 0);
-
-  return date;
-}
-
-function formatDayOffLabel(date: Date): string {
-  return new Intl.DateTimeFormat('en-GB', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-  }).format(date);
 }
 
 @Component({
@@ -113,9 +37,19 @@ function formatDayOffLabel(date: Date): string {
   styleUrl: './schedule-finder.component.css',
 })
 export class ScheduleFinderComponent {
-  readonly message = input<string>();
-  readonly records = input.required<ScheduleRecord[]>();
-  readonly username = input<string>();
+  private readonly userService = inject(UserService);
+  private readonly adminService = inject(AdminService);
+  private readonly scheduleDiffService = inject(ScheduleDiffService);
+  private readonly scheduleParserService = inject(ScheduleParserService);
+  private readonly salesStore = inject(SalesStore);
+
+  readonly statusMessage = signal('');
+  readonly records = signal<ScheduleRecord[]>([]);
+  readonly user = input<ViewedUser | null>(null);
+  readonly scheduleDiff = signal<ScheduleDiff | null>(null);
+
+  private readonly router = inject(Router);
+  readonly salesHistory = this.salesStore.salesHistory;
 
   readonly getBrand = (record: ScheduleRecord) => record.brand;
   readonly getTerminal = (record: ScheduleRecord) => record.tabName;
@@ -125,14 +59,11 @@ export class ScheduleFinderComponent {
   readonly openBrand = output<string>();
   readonly fileSelected = output<File>();
   readonly submitSearch = output<void>();
-  readonly scheduleDiff = input<ScheduleDiff | null>(null);
   readonly isSubmitDisabled = computed(
     () => !this.assignedWorkName().trim() || !this.selectedFile(),
   );
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
-  readonly salesHistory = input<readonly SalesHistoryEntry[]>([]);
-  readonly isReadOnly = input<boolean>(false);
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -150,6 +81,17 @@ export class ScheduleFinderComponent {
     groupRecordsByDate(this.shiftsByPeriod().upcoming, true),
   );
   readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
+
+  constructor() {
+    this.salesStore.loadSalesHistory();
+
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        this.loadScheduleFor(user);
+      }
+    });
+  }
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -201,5 +143,66 @@ export class ScheduleFinderComponent {
     ].join('-');
 
     return this.salesHistory().find((sale) => sale.date === dateKey) ?? null;
+  }
+
+  private saveSchedule(sorted: ScheduleRecord[]): void {
+    this.userService.saveUser(sorted).subscribe({
+      next: (res) => console.log('Successfully saved to KV!'),
+      error: (err) => console.error('Error saving:', err),
+    });
+  }
+
+  private loadScheduleFor(user: ViewedUser): void {
+    this.statusMessage.set(`Loading ${user.work_name}'s schedule...`);
+
+    this.adminService.getUserSchedule(user.telegram_user_id).subscribe({
+      next: (response) => {
+        const records = prepareScheduleRecords(response.shifts ?? []);
+        const previous = this.records();
+
+        this.records.set(records);
+        this.scheduleDiff.set(
+          previous.length ? this.scheduleDiffService.compare(previous, records) : null,
+        );
+        this.statusMessage.set(
+          records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
+        );
+      },
+      error: (error: unknown) => {
+        console.error('Failed to load schedule', error);
+        this.statusMessage.set('Could not load this schedule.');
+      },
+    });
+  }
+
+  async loadSchedule(): Promise<void> {
+    const file = this.selectedFile();
+    if (!file || !this.user()) {
+      return;
+    }
+
+    // @ts-ignore
+    const rawRecords = await this.scheduleParserService.parse(file, this.user().work_name);
+    const records = prepareScheduleRecords(rawRecords);
+    const previousRecords = this.records();
+
+    this.records.set(records);
+    this.scheduleDiff.set(
+      previousRecords.length ? this.scheduleDiffService.compare(previousRecords, records) : null,
+    );
+    this.statusMessage.set(
+      records.length ? `${records.length} shifts` : `No shifts found for "${name}".`,
+    );
+    this.saveSchedule(records);
+  }
+
+  setFile(file: File): void {
+    this.selectedFile.set(file);
+    this.statusMessage.set('');
+  }
+
+  goToBrand(brand: string): void {
+    this.openBrand.emit(brand);
+    this.router.navigate(['/brand-catalog', brand]).then((r) => console.log(r));
   }
 }

@@ -41,7 +41,7 @@
 
     <button
       type="button"
-      [disabled]="isSubmitDisabled() || isReadOnly()"
+      [disabled]="isSubmitDisabled()"
       (click)="submitSearch.emit()">
       Submit
     </button>
@@ -53,8 +53,8 @@
   <div class="schedule-header">
     <h2 id="schedule-heading">Schedule</h2>
 
-    @if (message()) {
-    <p class="status-message" role="status"> {{ message() }}</p>
+    @if (statusMessage()) {
+    <p class="status-message" role="status"> {{ statusMessage() }}</p>
     }
   </div>
 
@@ -110,7 +110,7 @@
   @if (pastShiftGroups().length > 0) {
   <details class="past-shifts-collapsible">
     <summary class="collapse-header">
-      &nbsp;Show previous shifts ({{ totalPastShiftCount() }})
+      &nbsp;&nbsp;Show previous shifts ({{ totalPastShiftCount() }})
     </summary>
 
     <div class="collapsible-body">
@@ -151,7 +151,6 @@
     <span class="day-off-line"></span>
   </div>
   } @else {
-
   <div
     class="shift-group"
     [class.multi-shift-group]="group.isMultiShift"
@@ -170,18 +169,16 @@
             class="brand-button"
             type="button"
             [attr.aria-label]="'Open ' + record.brand"
-            (click)="openBrand.emit(record.brand)"
+            (click)="goToBrand(record.brand)"
           >
             {{ record.brand }}
           </button>
         </div>
       </div>
-
       <p class="shift-details">{{ record.tabName }}</p>
     </article>
     }
   </div>
-
   }
   }
 </section>

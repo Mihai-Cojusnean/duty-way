@@ -1,46 +1,25 @@
-<main class="page-container">
-  @if (store.selectedBrand(); as brand) {
-  <app-brand-catalog
-    [brandName]="brand"
-    [perfumes]="store.brandPerfumes()"
-    [soldCount]="store.soldTodayCount()"
-    [todaySales]="store.todaySalesTotalCents()"
-    (backToSchedule)="store.clearBrand()"
-    (recordSale)="store.recordSale($event)"
-  ></app-brand-catalog>
-  } @else {
-  @if (store.appRole() === 'admin') {
-  <section class="admin-schedule-picker">
-    <label for="adminUser">View a team member’s schedule</label>
+@if (isAdmin()) {
+<section class="admin-schedule-picker">
+  <label for="users">View a team member’s schedule</label>
 
-    <select
-      id="adminUser"
-      [value]="store.viewedAdminUser()?.telegram_user_id ?? ''"
-      (change)="store.selectAdminSchedule($any($event.target).value)"
+  <select
+    id="users"
+    [value]="selectedUser()?.telegram_user_id ?? ''"
+    (change)="selectUser($any($event.target).value)"
+  >
+    <option value="" [selected]="!selectedUser()">My schedule</option>
+    @for (user of users.value() ?? []; track user.telegram_user_id) {
+    <option
+      [value]="user.telegram_user_id"
+      [selected]="user.telegram_user_id === selectedUser()?.telegram_user_id"
     >
-      <option value="">My schedule</option>
+      {{ user.work_name }}
+    </option>
+    }
+  </select>
+</section>
+}
+<app-schedule-finder
+  [user]="activeUser()"
+></app-schedule-finder>
 
-      @for (user of store.adminUsers(); track user.telegram_user_id) {
-      <option [value]="user.telegram_user_id">
-        {{ user.work_name }}
-      </option>
-      }
-    </select>
-  </section>
-  }
-  <app-schedule-finder
-    [isReadOnly]="store.isViewingAdminSchedule()"
-    [username]="store.username()"
-    [message]="store.statusMessage()"
-    [records]="store.scheduleRecords()"
-    [scheduleDiff]="store.scheduleDiff()"
-    (fileSelected)="store.setFile($event)"
-    (submitSearch)="store.loadSchedule()"
-    (openBrand)="store.selectBrand($event)"
-    [soldTodayCount]="store.soldTodayCount()"
-    [todaySalesTotalCents]="store.todaySalesTotalCents()"
-    [salesHistory]="store.salesHistory()"
-    [assignedWorkName]="store.personName()"
-  ></app-schedule-finder>
-  }
-</main>

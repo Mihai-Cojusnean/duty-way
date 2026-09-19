@@ -1,26 +1,14 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { PerfumeSale } from '../features/duty-schedule/interfaces/duty.interface';
+import {
+  PerfumeSale,
+  RecordSaleResponse,
+  Sale,
+  SalesHistoryEntry,
+  SalesSummary,
+} from '../features/duty-schedule/interfaces/duty.interface';
 import { TelegramService } from './telegram.service';
-
-export interface SalesSummary {
-  readonly count: number;
-  readonly totalCents: number;
-  readonly currency: 'EUR';
-}
-
-export interface SalesHistoryEntry {
-  readonly date: string;
-  readonly count: number;
-  readonly totalCents: number;
-  readonly currency: 'EUR';
-}
-
-export interface RecordSaleResponse {
-  readonly id: string;
-  readonly summary: SalesSummary;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +25,7 @@ export class SalesService {
     return this.http.post<RecordSaleResponse>(
       `${this.apiUrl}/api/sales`,
       {
+        brand: sale.brand,
         perfumeId: sale.perfume.id,
         perfumeName: sale.perfume.name,
         priceLabel: sale.price.label,
@@ -47,13 +36,10 @@ export class SalesService {
     );
   }
 
-  getTodaySummary(brand?: string): Observable<SalesSummary> {
-    const params = brand ? new HttpParams().set('brand', brand) : undefined;
-
-    return this.http.get<SalesSummary>(`${this.apiUrl}/api/sales/summary`, {
-      headers: this.authHeaders,
-      params,
-    });
+  getTodaySales(): Observable<Sale[]> {
+    return this.http
+      .get<Sale[]>(`${this.apiUrl}/api/sales/today`, { headers: this.authHeaders })
+      .pipe(map((sales) => sales.map((sale) => ({ ...sale, soldAt: new Date(sale.soldAt) }))));
   }
 
   private get authHeaders(): HttpHeaders {
@@ -71,5 +57,20 @@ export class SalesService {
         params,
       })
       .pipe(map((response) => response.days));
+  }
+
+  getTodaySummary(brand?: string): Observable<SalesSummary> {
+    const params = brand ? new HttpParams().set('brand', brand) : undefined;
+
+    return this.http.get<SalesSummary>(`${this.apiUrl}/api/sales/summary`, {
+      headers: this.authHeaders,
+      params,
+    });
+  }
+
+  deleteSale(saleId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/api/sales/${saleId}`, {
+      headers: this.authHeaders,
+    });
   }
 }

@@ -3,12 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ScheduleRecord } from '../features/duty-schedule/interfaces/duty.interface';
 import { TelegramService } from './telegram.service';
-
-export interface AdminUser {
-  readonly telegram_user_id: string;
-  readonly work_name: string;
-  readonly role: 'admin' | 'user';
-}
+import { AdminUser } from '../features/duty-schedule/interfaces/user.interface';
 
 export interface AdminScheduleResponse {
   readonly user: AdminUser;

@@ -35,6 +35,7 @@ export interface PerfumePrice {
 export interface PerfumeSale {
   readonly perfume: Perfume;
   readonly price: PerfumePrice;
+  readonly brand: string;
 }
 
 export type CatalogMap = Record<string, Perfume[]>;
@@ -49,3 +50,36 @@ export interface ScheduleDiff {
   readonly removed: readonly ScheduleRecord[];
   readonly changed: readonly ChangedShift[];
 }
+
+export interface Sale {
+  readonly id: string;
+  readonly brand: string;
+  readonly perfume: SoldPerfume;
+  readonly price: PerfumePrice;
+  readonly soldAt: Date;
+  readonly soldBy: string;
+}
+
+export interface SalesSummary {
+  readonly count: number;
+  readonly totalCents: number;
+  readonly currency: 'EUR';
+}
+
+export interface SalesHistoryEntry {
+  readonly date: string;
+  readonly count: number;
+  readonly totalCents: number;
+  readonly currency: 'EUR';
+}
+
+export interface RecordSaleResponse {
+  readonly id: string;
+  readonly summary: SalesSummary;
+}
+
+export interface SoldPerfume {
+  readonly id: string;
+  readonly name: string;
+}
+

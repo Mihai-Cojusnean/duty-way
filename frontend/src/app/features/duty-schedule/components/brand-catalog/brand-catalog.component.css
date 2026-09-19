@@ -13,7 +13,7 @@
   margin: 0;
   padding: 10px;
   border: 1px solid rgb(255 255 255 / 20%);
-  border-radius: 12px;
+  border-radius: 10px;
   background: rgb(255 255 255 / 7%);
 }
 
@@ -74,11 +74,6 @@
 
 .perfume-row small {
   color: #bbc2e8;
-}
-
-.catalog-page {
-  margin: 0;
-  padding: 0;
 }
 
 .catalog-header {
@@ -225,7 +220,7 @@
   align-items: center;
   padding: 6px 6px;
   border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 8px;
+  border-radius: 10px;
   /*background: rgba(0, 0, 0, 0.4);*/
   backdrop-filter: blur(4px);
   cursor: pointer;
@@ -242,5 +237,58 @@
 
 .price-pill .cost {
   color: #64b5f6;
+  font-weight: 700;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.sales-footer {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: #e2e8f0;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.sales-footer:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sales-footer strong {
+  color: #56cc67;
+  font-weight: 600;
+}
+
+.price-pill {
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.price-pill:active {
+  transform: scale(0.95);
+}
+
+.price-pill.sale-added {
+  background: rgba(86, 204, 103, 0.2);
+  border-color: #56cc67;
+}
+
+.sale-confirmation {
+  color: #56cc67;
   font-weight: 700;
 }

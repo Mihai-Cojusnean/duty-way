@@ -1,17 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TelegramService } from './telegram.service';
-
-export type AppRole = 'admin' | 'user';
-
-export interface CurrentUser {
-  readonly telegramUser: {
-    readonly id: number;
-    readonly username?: string;
-    readonly language_code?: string;
-  };
-  readonly workName: string | null;
-  readonly role: AppRole;
-}
+import { CurrentUser } from '../features/duty-schedule/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -41,12 +30,10 @@ export class ApiService {
     return (await response.json()) as CurrentUser;
 
     // return {
-    //   telegramUser: {
-    //     id: 972344705,
-    //     username: 'Mihail Cojusnean',
-    //     language_code: 'en',
-    //   },
-    //   workName: 'Mihail Cojusnean',
+    //   id: '972344705',
+    //   username: 'Mihail Cojusnean',
+    //   language_code: 'en',
+    //   work_name: 'Mihail Cojusnean',
     //   role: 'admin',
     // };
   }

@@ -1,0 +1,78 @@
+<div
+  class="sales-backdrop"
+  role="presentation"
+  (click)="closeSales()"
+>
+  <aside
+    class="sales-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="today-sales-title"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="sales-header">
+      <div>
+        <span class="eyebrow">Sales</span>
+        <h2 id="today-sales-title">Today's Sales</h2>
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        aria-label="Close today's sales"
+        (click)="closeSales()"
+      >
+        ×
+      </button>
+    </header>
+
+    @if (todaySales().length === 0) {
+    <div class="empty-sales">
+      <p>No sales recorded today.</p>
+    </div>
+    } @else {
+    <div class="sales-list">
+      @for (sale of todaySales(); track sale.id) {
+      <article class="sale-row">
+        <div class="sale-info">
+          <strong>{{ sale.perfume.name }}</strong>
+
+          <span>
+                {{ sale.price.label }}
+                ·
+                {{ sale.price.amountCents / 100 | currency:'EUR' }}
+              </span>
+
+          <small>
+            {{ sale.soldAt | date:'HH:mm' }}
+          </small>
+        </div>
+
+        <button
+          type="button"
+          class="remove-button"
+          [attr.aria-label]="'Remove sale of ' + sale.perfume.name"
+          (click)="removeSale(sale.id)"
+        >
+          Remove
+        </button>
+      </article>
+      }
+    </div>
+
+    <footer class="sales-footer">
+      <span>{{ todaySales().length }} item(s)</span>
+
+      <strong>
+        {{
+        todaySales().reduce(
+        (total, sale) => total + sale.price.amountCents,
+        0
+        ) / 100
+        | currency:'EUR'
+        }}
+      </strong>
+    </footer>
+    }
+  </aside>
+</div>

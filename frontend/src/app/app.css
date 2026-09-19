@@ -19,3 +19,11 @@ main {
     radial-gradient(circle at 50% 14%, rgb(84 116 255 / 25%), transparent 34%),
     linear-gradient(165deg, #090522 0%, #17126e 48%, #5144d6 100%);
 }
+
+.page-container {
+  box-sizing: border-box;
+  min-height: 100vh;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1px 20px 42px;
+}
