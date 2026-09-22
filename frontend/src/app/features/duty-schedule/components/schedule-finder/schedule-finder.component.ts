@@ -79,7 +79,9 @@ export class ScheduleFinderComponent {
     effect(() => {
       const user = this.user();
       if (user) {
-        this.loadScheduleFor(user);
+        // this.loadScheduleFor(user);
+        this.loadSchedule().then((r) => console.log(r));
+
       }
     });
   }
@@ -91,8 +93,7 @@ export class ScheduleFinderComponent {
     this.selectedFile.set(file);
 
     if (file) {
-      // this.fileSelected.emit(file);
-      this.loadSchedule().then(r => console.log(r));
+      this.fileSelected.emit(file);
     }
   }
 
