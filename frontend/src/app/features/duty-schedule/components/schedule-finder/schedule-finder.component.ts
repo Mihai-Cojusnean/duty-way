@@ -50,7 +50,8 @@ export class ScheduleFinderComponent {
   readonly openBrand = output<string>();
   readonly fileSelected = output<File>();
   readonly isSubmitDisabled = computed(
-    () => !this.user()?.work_name?.trim() || !this.selectedFile(),
+    // () => !this.user()?.work_name?.trim() || !this.selectedFile(),
+    () => false
   );
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
