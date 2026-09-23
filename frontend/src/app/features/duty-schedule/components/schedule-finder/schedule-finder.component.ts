@@ -50,9 +50,7 @@ export class ScheduleFinderComponent {
   readonly selectedFile = signal<File | null>(null);
   readonly openBrand = output<string>();
   readonly fileSelected = output<File>();
-  readonly isSubmitDisabled = computed(
-    () => !this.user()?.work_name?.trim() || !this.selectedFile(),
-  );
+  readonly isSubmitDisabled = computed(() => !this.selectedFile());
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
 
@@ -90,7 +88,7 @@ export class ScheduleFinderComponent {
     this.selectedFile.set(file);
 
     if (file) {
-      this.loadSchedule().then(r => console.log(r));
+      this.loadSchedule().then((r) => console.log(r));
     }
   }
 
