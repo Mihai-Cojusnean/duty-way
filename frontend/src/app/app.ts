@@ -14,7 +14,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App implements OnInit {
   user?: User;
-  role: AppRole | null = null;
 
   constructor(
     private userService: UserService,

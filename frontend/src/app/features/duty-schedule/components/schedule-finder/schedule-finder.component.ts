@@ -55,6 +55,7 @@ export class ScheduleFinderComponent {
   );
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
+  mess = "nothing";
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -143,9 +144,10 @@ export class ScheduleFinderComponent {
   }
 
   private loadScheduleFor(user: User): void {
+    this.mess = "in for";
     this.statusMessage.set(`Loading ${user.work_name}'s schedule...`);
 
-    const request$ = user.isAdmin
+    const request$ = user.is_admin
       ? this.userService.getUser().pipe(map((record) => ({ shifts: record.shifts ?? [] })))
       : this.adminService
           .getUserSchedule(user.work_name)
@@ -167,6 +169,7 @@ export class ScheduleFinderComponent {
   }
 
   async loadSchedule(): Promise<void> {
+    this.mess = "in Loadscedule";
     const file = this.selectedFile();
     const user = this.user();
 
@@ -184,11 +187,6 @@ export class ScheduleFinderComponent {
     );
 
     this.saveSchedule(records);
-  }
-
-  setFile(file: File): void {
-    this.selectedFile.set(file);
-    this.statusMessage.set('');
   }
 
   goToBrand(brand: string): void {

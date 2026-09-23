@@ -9,6 +9,6 @@ export interface User {
     readonly language: string;
   };
   readonly work_name: string;
-  readonly isAdmin: boolean;
+  readonly is_admin: boolean;
   readonly shifts?: readonly ScheduleRecord[];
 }

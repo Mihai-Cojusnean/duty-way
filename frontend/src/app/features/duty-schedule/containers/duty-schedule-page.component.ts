@@ -12,12 +12,11 @@ import { ApiService } from '../../../core/api.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AdminService } from '../../../core/admin.service';
 import { User } from '../interfaces/user.interface';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-duty-schedule-page',
   standalone: true,
-  imports: [ScheduleFinderComponent, JsonPipe],
+  imports: [ScheduleFinderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './duty-schedule-page.component.html',
   styleUrl: './duty-schedule-page.component.css',
@@ -33,7 +32,7 @@ export class DutySchedulePageComponent {
     loader: () => this.apiService.getCurrentUser(),
   });
 
-  readonly isAdmin = computed(() => this.session.value()?.isAdmin ?? false);
+  readonly isAdmin = computed(() => this.session.value()?.is_admin ?? false);
 
   readonly users = rxResource({
     params: () => (this.isAdmin() ? {} : undefined),
