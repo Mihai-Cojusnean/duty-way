@@ -60,8 +60,8 @@ export class DutySchedulePageComponent {
     }
 
     return {
-      telegram_user_id: me.id,
-      work_name: me.work_name,
+      telegram_user_id: String(me.id),
+      work_name: me.work_name ?? '',
       isAdmin: true,
     };
   });
