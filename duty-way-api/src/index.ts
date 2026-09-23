@@ -83,7 +83,7 @@ export default {
 					{
 						telegram_user: currentUser.telegram_user,
 						role: currentUser.role,
-						workName: currentUser.work_name,
+						work_name: currentUser.work_name,
 					},
 					corsHeaders,
 				);
