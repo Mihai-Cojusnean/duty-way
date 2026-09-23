@@ -9,17 +9,17 @@ import {
   signal,
 } from '@angular/core';
 import { SalesHistoryEntry, ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
-import { NgTemplateOutlet, JsonPipe } from '@angular/common';
+import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ScheduleChart } from './schedule-chart/schedule-chart';
 import { groupRecordsByDate, prepareScheduleRecords } from '../../services/schedule.utils';
-import { ViewedUser } from '../../interfaces/user.interface';
 import { AdminService } from '../../../../core/admin.service';
 import { UserService } from '../../../../core/user.service';
 import { ScheduleDiffService } from '../../services/schedule-diff.service';
 import { ScheduleParserService } from '../../services/schedule-parser.service';
 import { Router } from '@angular/router';
 import { SalesStore } from '../../services/sales.store';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
+import { User } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-schedule-finder',
@@ -38,7 +38,7 @@ export class ScheduleFinderComponent {
 
   readonly statusMessage = signal('');
   readonly records = signal<ScheduleRecord[]>([]);
-  readonly user = input<ViewedUser | null>(null);
+  readonly user = input<User | null>(null);
   readonly scheduleDiff = signal<ScheduleDiff | null>(null);
 
   private readonly router = inject(Router);
@@ -50,7 +50,9 @@ export class ScheduleFinderComponent {
   readonly selectedFile = signal<File | null>(null);
   readonly openBrand = output<string>();
   readonly fileSelected = output<File>();
-  readonly isSubmitDisabled = computed(() => !this.selectedFile());
+  readonly isSubmitDisabled = computed(
+    () => !this.user()?.work_name?.trim() || !this.selectedFile(),
+  );
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
 
@@ -140,23 +142,21 @@ export class ScheduleFinderComponent {
     });
   }
 
-  private loadScheduleFor(user: ViewedUser): void {
+  private loadScheduleFor(user: User): void {
     this.statusMessage.set(`Loading ${user.work_name}'s schedule...`);
 
-    const request$: Observable<readonly ScheduleRecord[]> = user.isSelf
-      ? this.userService.getUser().pipe(map((u) => u.shifts ?? []))
+    const request$ = user.isAdmin
+      ? this.userService.getUser().pipe(map((record) => ({ shifts: record.shifts ?? [] })))
       : this.adminService
-          .getUserSchedule(user.telegram_user_id)
-          .pipe(map((r) => (r.shifts ?? []) as readonly ScheduleRecord[]));
+          .getUserSchedule(user.work_name)
+          .pipe(map((response) => ({ shifts: response.shifts ?? [] })));
 
     request$.subscribe({
-      next: (records) => {
-        const prepared = prepareScheduleRecords(records);
+      next: (response) => {
+        const records = prepareScheduleRecords(response.shifts ?? []);
         this.applySchedule(
-          prepared,
-          prepared.length
-            ? `${prepared.length} shifts`
-            : `${user.work_name} has no saved schedule.`,
+          records,
+          records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
         );
       },
       error: (error: unknown) => {

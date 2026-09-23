@@ -18,11 +18,6 @@ interface UserRecord {
 		readonly username: string;
 		readonly language: string;
 	};
-	readonly interactions?: {
-		readonly lastButtonClicked: string;
-		readonly lastTextWritten: string;
-		readonly updatedAt: string;
-	};
 	readonly shifts?: readonly unknown[];
 }
 
@@ -126,17 +121,6 @@ export default {
 							existingData.profile?.language ??
 							currentUser.telegram_user.language_code ??
 							'en',
-					},
-					interactions: {
-						lastButtonClicked:
-							body.buttonClicked ??
-							existingData.interactions?.lastButtonClicked ??
-							'',
-						lastTextWritten:
-							body.textWritten ??
-							existingData.interactions?.lastTextWritten ??
-							'',
-						updatedAt: new Date().toISOString(),
 					},
 					shifts: body.shifts ?? existingData.shifts ?? [],
 				};

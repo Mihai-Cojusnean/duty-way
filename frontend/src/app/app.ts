@@ -40,7 +40,6 @@ export class App implements OnInit {
     void this.apiService
       .getCurrentUser()
       .then((currentUser) => {
-        this.role = currentUser.role;
         this.changeDetector.markForCheck();
       })
       .catch((error: unknown) => {

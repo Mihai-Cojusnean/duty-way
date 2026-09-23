@@ -11,7 +11,7 @@ import { TelegramService } from '../../../core/telegram.service';
 import { ApiService } from '../../../core/api.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AdminService } from '../../../core/admin.service';
-import { ViewedUser } from '../interfaces/user.interface';
+import { User } from '../interfaces/user.interface';
 import { JsonPipe } from '@angular/common';
 
 @Component({
@@ -33,7 +33,7 @@ export class DutySchedulePageComponent {
     loader: () => this.apiService.getCurrentUser(),
   });
 
-  readonly isAdmin = computed(() => this.session.value()?.role === 'admin');
+  readonly isAdmin = computed(() => this.session.value()?.isAdmin ?? false);
 
   readonly users = rxResource({
     params: () => (this.isAdmin() ? {} : undefined),
@@ -42,31 +42,16 @@ export class DutySchedulePageComponent {
 
   readonly selectedUser = computed(
     () =>
-      (this.users.value() ?? []).find((u) => u.telegram_user_id === this.selectedUserId()) ?? null,
+      (this.users.value() ?? []).find(
+        (u) => String(u.profile?.telegramId) === this.selectedUserId(),
+      ) ?? null,
   );
 
-  readonly activeUser = computed<ViewedUser | null>(() => {
-    const selected = this.selectedUser();
-    if (selected) {
-      return {
-        telegram_user_id: selected.telegram_user_id,
-        work_name: selected.work_name,
-        isSelf: false,
-        isAdmin: true
-      };
+  readonly activeUser = computed<User | null>(
+    () => this.selectedUser() ?? this.session.value() ?? null,
+  );
 
-    }
-
-    const me = this.session.value();
-    if (!me) return null;
-
-    return {
-      telegram_user_id: String(me.telegramUser.id),
-      work_name: me.workName ?? '',
-      isSelf: true,
-      isAdmin: me.role === 'admin',
-    };
-  });
+  readonly isViewingSelf = computed(() => this.selectedUserId() === null);
 
   readonly statusMessage = computed(() => {
     if (this.session.error()) {

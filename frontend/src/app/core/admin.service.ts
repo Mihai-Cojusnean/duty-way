@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ScheduleRecord } from '../features/duty-schedule/interfaces/duty.interface';
 import { TelegramService } from './telegram.service';
-import { AdminUser } from '../features/duty-schedule/interfaces/user.interface';
+import { User } from '../features/duty-schedule/interfaces/user.interface';
 
 export interface AdminScheduleResponse {
-  readonly user: AdminUser;
+  readonly user: User;
   readonly shifts: readonly ScheduleRecord[];
 }
 
@@ -21,9 +21,9 @@ export class AdminService {
     private readonly telegramService: TelegramService,
   ) {}
 
-  getUsers(): Observable<readonly AdminUser[]> {
+  getUsers(): Observable<readonly User[]> {
     return this.http
-      .get<{ readonly users: readonly AdminUser[] }>(`${this.apiUrl}/api/admin/users`, {
+      .get<{ readonly users: readonly User[] }>(`${this.apiUrl}/api/admin/users`, {
         headers: this.authHeaders,
       })
       .pipe(map((response) => response.users));

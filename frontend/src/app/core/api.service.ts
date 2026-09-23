@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TelegramService } from './telegram.service';
-import { CurrentUser } from '../features/duty-schedule/interfaces/user.interface';
+import { User } from '../features/duty-schedule/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class ApiService {
 
   constructor(private readonly telegramService: TelegramService) {}
 
-  async getCurrentUser(): Promise<CurrentUser> {
+  async getCurrentUser(): Promise<User> {
     const initData = this.telegramService.getInitData();
 
     if (!initData) {
@@ -27,7 +27,7 @@ export class ApiService {
       throw new Error('Could not verify your Telegram account.');
     }
 
-    return (await response.json()) as CurrentUser;
+    return (await response.json()) as User;
 
     // return {
     //   id: '972344705',
