@@ -169,7 +169,7 @@ export class ScheduleFinderComponent {
   }
 
   async loadSchedule(): Promise<void> {
-    this.mess = "in Loadscedule";
+    this.mess = this.user.toString();
     const file = this.selectedFile();
     const user = this.user();
 
