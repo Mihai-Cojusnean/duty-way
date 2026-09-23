@@ -90,7 +90,7 @@ export class ScheduleFinderComponent {
     this.selectedFile.set(file);
 
     if (file) {
-      this.fileSelected.emit(file);
+      this.loadSchedule().then(r => console.log(r));
     }
   }
 
