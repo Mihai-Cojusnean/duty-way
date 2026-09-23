@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { SalesHistoryEntry, ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
-import { NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet, JsonPipe } from '@angular/common';
 import { ScheduleChart } from './schedule-chart/schedule-chart';
 import { groupRecordsByDate, prepareScheduleRecords } from '../../services/schedule.utils';
 import { ViewedUser } from '../../interfaces/user.interface';
@@ -25,7 +25,7 @@ import { map } from 'rxjs';
   selector: 'app-schedule-finder',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, ScheduleChart],
+  imports: [NgTemplateOutlet, ScheduleChart, JsonPipe],
   templateUrl: './schedule-finder.component.html',
   styleUrl: './schedule-finder.component.css',
 })

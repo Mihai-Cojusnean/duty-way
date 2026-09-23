@@ -10,6 +10,7 @@
   </button>
   <span class="help">My schedule</span>
 </header>
+<pre>{{ user() | json }}</pre>
 
 @if (records().length !== 0) {
 <details class="form-details">
