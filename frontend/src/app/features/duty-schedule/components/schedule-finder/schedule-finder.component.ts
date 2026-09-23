@@ -19,7 +19,7 @@ import { ScheduleDiffService } from '../../services/schedule-diff.service';
 import { ScheduleParserService } from '../../services/schedule-parser.service';
 import { Router } from '@angular/router';
 import { SalesStore } from '../../services/sales.store';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-schedule-finder',
@@ -143,18 +143,20 @@ export class ScheduleFinderComponent {
   private loadScheduleFor(user: ViewedUser): void {
     this.statusMessage.set(`Loading ${user.work_name}'s schedule...`);
 
-    const request$ = user.isAdmin
-      ? this.userService.getUser().pipe(map((record) => ({ shifts: record.shifts ?? [] })))
+    const request$: Observable<readonly ScheduleRecord[]> = user.isSelf
+      ? this.userService.getUser().pipe(map((u) => u.shifts ?? []))
       : this.adminService
           .getUserSchedule(user.telegram_user_id)
-          .pipe(map((response) => ({ shifts: response.shifts ?? [] })));
+          .pipe(map((r) => (r.shifts ?? []) as readonly ScheduleRecord[]));
 
     request$.subscribe({
-      next: (response) => {
-        const records = prepareScheduleRecords(response.shifts ?? []);
+      next: (records) => {
+        const prepared = prepareScheduleRecords(records);
         this.applySchedule(
-          records,
-          records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
+          prepared,
+          prepared.length
+            ? `${prepared.length} shifts`
+            : `${user.work_name} has no saved schedule.`,
         );
       },
       error: (error: unknown) => {

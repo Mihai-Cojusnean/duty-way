@@ -51,18 +51,19 @@ export class DutySchedulePageComponent {
       return {
         telegram_user_id: selected.telegram_user_id,
         work_name: selected.work_name,
-        isAdmin: false,
+        isSelf: false,
+        isAdmin: true
       };
+
     }
 
     const me = this.session.value();
-    if (!me) {
-      return null;
-    }
+    if (!me) return null;
 
     return {
-      telegram_user_id: String(me.telegram_user?.profile?.telegramId) ,
-      work_name: me.work_name ?? '',
+      telegram_user_id: String(me.telegramUser.id),
+      work_name: me.workName ?? '',
+      isSelf: true,
       isAdmin: me.role === 'admin',
     };
   });

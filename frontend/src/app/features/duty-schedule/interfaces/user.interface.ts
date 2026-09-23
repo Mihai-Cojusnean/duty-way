@@ -31,5 +31,22 @@ export interface AdminUser {
 export interface ViewedUser {
   readonly telegram_user_id: string;
   readonly work_name: string;
+  readonly isSelf: boolean;
   readonly isAdmin: boolean;
+}
+
+export interface TelegramUser {
+  readonly id: number;
+  readonly first_name?: string;
+  readonly last_name?: string;
+  readonly username?: string;
+  readonly language_code?: string;
+  readonly allows_write_to_pm?: boolean;
+  readonly photo_url?: string;
+}
+
+export interface CurrentUser {
+  readonly telegramUser: TelegramUser;
+  readonly role: AppRole;
+  readonly workName: string;
 }
