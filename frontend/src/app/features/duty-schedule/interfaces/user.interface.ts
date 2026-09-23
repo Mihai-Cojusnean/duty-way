@@ -33,4 +33,5 @@ export interface AdminUser {
 export interface ViewedUser {
   readonly telegram_user_id: string;
   readonly work_name: string;
+  readonly isAdmin: boolean;
 }

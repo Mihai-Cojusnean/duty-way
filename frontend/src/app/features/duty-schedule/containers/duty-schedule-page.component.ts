@@ -47,7 +47,11 @@ export class DutySchedulePageComponent {
   readonly activeUser = computed<ViewedUser | null>(() => {
     const selected = this.selectedUser();
     if (selected) {
-      return { telegram_user_id: selected.telegram_user_id, work_name: selected.work_name };
+      return {
+        telegram_user_id: selected.telegram_user_id,
+        work_name: selected.work_name,
+        isAdmin: false,
+      };
     }
 
     const me = this.session.value();
@@ -55,7 +59,11 @@ export class DutySchedulePageComponent {
       return null;
     }
 
-    return { telegram_user_id: me.id, work_name: me.work_name };
+    return {
+      telegram_user_id: me.id,
+      work_name: me.work_name,
+      isAdmin: true,
+    };
   });
 
   readonly statusMessage = computed(() => {

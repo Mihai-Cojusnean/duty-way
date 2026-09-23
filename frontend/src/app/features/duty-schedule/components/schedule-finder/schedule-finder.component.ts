@@ -19,6 +19,7 @@ import { ScheduleDiffService } from '../../services/schedule-diff.service';
 import { ScheduleParserService } from '../../services/schedule-parser.service';
 import { Router } from '@angular/router';
 import { SalesStore } from '../../services/sales.store';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-schedule-finder',
@@ -50,8 +51,7 @@ export class ScheduleFinderComponent {
   readonly openBrand = output<string>();
   readonly fileSelected = output<File>();
   readonly isSubmitDisabled = computed(
-    // () => !this.user()?.work_name?.trim() || !this.selectedFile(),
-    () => false
+    () => !this.user()?.work_name?.trim() || !this.selectedFile(),
   );
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
@@ -74,14 +74,11 @@ export class ScheduleFinderComponent {
   readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
 
   constructor() {
-    this.salesStore.loadSalesHistory();
-
     effect(() => {
       const user = this.user();
       if (user) {
-        // this.loadScheduleFor(user);
-        this.loadSchedule().then((r) => console.log(r));
-
+        this.loadScheduleFor(user);
+        this.salesStore.loadSalesHistory();
       }
     });
   }
@@ -148,10 +145,15 @@ export class ScheduleFinderComponent {
   private loadScheduleFor(user: ViewedUser): void {
     this.statusMessage.set(`Loading ${user.work_name}'s schedule...`);
 
-    this.adminService.getUserSchedule(user.telegram_user_id).subscribe({
+    const request$ = user.isAdmin
+      ? this.userService.getUser().pipe(map((record) => ({ shifts: record.shifts ?? [] })))
+      : this.adminService
+          .getUserSchedule(user.telegram_user_id)
+          .pipe(map((response) => ({ shifts: response.shifts ?? [] })));
+
+    request$.subscribe({
       next: (response) => {
         const records = prepareScheduleRecords(response.shifts ?? []);
-
         this.applySchedule(
           records,
           records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
