@@ -1,15 +1,15 @@
 type Role = 'admin' | 'user';
 
-interface TelegramUser {
+interface telegram_user {
 	readonly id: number;
 	readonly username?: string;
 	readonly language_code?: string;
 }
 
 interface AuthenticatedUser {
-	readonly telegramUser: TelegramUser;
+	readonly telegram_user: telegram_user;
 	readonly role: Role;
-	readonly workName: string | null;
+	readonly work_name: string | null;
 }
 
 interface UserRecord {
@@ -73,7 +73,7 @@ export default {
 		}
 
 		try {
-			const currentUser = await authenticateTelegramUser(request, env);
+			const currentUser = await authenticatetelegram_user(request, env);
 
 			if (!currentUser) {
 				return json(
@@ -86,16 +86,16 @@ export default {
 			if (request.method === 'GET' && url.pathname === '/api/me') {
 				return json(
 					{
-						telegramUser: currentUser.telegramUser,
+						telegram_user: currentUser.telegram_user,
 						role: currentUser.role,
-						workName: currentUser.workName,
+						workName: currentUser.work_name,
 					},
 					corsHeaders,
 				);
 			}
 
 			if (request.method === 'GET' && url.pathname === '/api/user') {
-				const telegramId = String(currentUser.telegramUser.id);
+				const telegramId = String(currentUser.telegram_user.id);
 				const userData =
 					(await env.USER_SHIFTS.get<UserRecord>(telegramId, 'json')) ?? {};
 
@@ -109,22 +109,22 @@ export default {
 					return json({ error: 'Invalid request body.' }, corsHeaders, 400);
 				}
 
-				const telegramId = String(currentUser.telegramUser.id);
+				const telegramId = String(currentUser.telegram_user.id);
 				const existingData =
 					(await env.USER_SHIFTS.get<UserRecord>(telegramId, 'json')) ?? {};
 
 				const updatedData: UserRecord = {
 					profile: {
-						telegramId: currentUser.telegramUser.id,
+						telegramId: currentUser.telegram_user.id,
 						username:
 							body.username ??
 							existingData.profile?.username ??
-							currentUser.telegramUser.username ??
+							currentUser.telegram_user.username ??
 							'',
 						language:
 							body.language ??
 							existingData.profile?.language ??
-							currentUser.telegramUser.language_code ??
+							currentUser.telegram_user.language_code ??
 							'en',
 					},
 					interactions: {
@@ -150,13 +150,13 @@ export default {
 				const brand = url.searchParams.get('brand')?.trim() || undefined;
 
 				return json(
-					await getTodaySalesSummary(env, String(currentUser.telegramUser.id), brand),
+					await getTodaySalesSummary(env, String(currentUser.telegram_user.id), brand),
 					corsHeaders,
 				);
 			}
 
 			if (request.method === 'GET' && url.pathname === '/api/sales/today') {
-				const telegramUserId = String(currentUser.telegramUser.id);
+				const telegram_userId = String(currentUser.telegram_user.id);
 				const today = new Date().toISOString().slice(0, 10);
 
 				const result = await env.DB.prepare(
@@ -166,7 +166,7 @@ export default {
          AND date(sold_at) = ?
        ORDER BY sold_at DESC`,
 				)
-					.bind(telegramUserId, today)
+					.bind(telegram_userId, today)
 					.all<{
 						id: string;
 						brand: string;
@@ -179,7 +179,7 @@ export default {
 					}>();
 
 				const soldBy =
-					currentUser.workName ?? currentUser.telegramUser.username ?? 'Unknown';
+					currentUser.work_name ?? currentUser.telegram_user.username ?? 'Unknown';
 
 				const sales = result.results.map((row) => ({
 					id: row.id,
@@ -205,7 +205,7 @@ export default {
 				}
 
 				const saleId = crypto.randomUUID();
-				const telegramUserId = String(currentUser.telegramUser.id);
+				const telegram_userId = String(currentUser.telegram_user.id);
 
 				await env.DB.prepare(
 					`INSERT INTO sales (id,
@@ -220,7 +220,7 @@ export default {
 				)
 					.bind(
 						saleId,
-						telegramUserId,
+						telegram_userId,
 						body.brand.trim(),
 						body.perfumeId.trim(),
 						body.perfumeName.trim(),
@@ -233,7 +233,7 @@ export default {
 				return json(
 					{
 						id: saleId,
-						summary: await getTodaySalesSummary(env, telegramUserId),
+						summary: await getTodaySalesSummary(env, telegram_userId),
 					},
 					corsHeaders,
 					201,
@@ -253,7 +253,7 @@ export default {
 					{
 						days: await getSalesHistory(
 							env,
-							String(currentUser.telegramUser.id),
+							String(currentUser.telegram_user.id),
 							days,
 						),
 					},
@@ -269,7 +269,7 @@ export default {
 				}
 
 				const saleId = crypto.randomUUID();
-				const telegramUserId = String(currentUser.telegramUser.id);
+				const telegram_userId = String(currentUser.telegram_user.id);
 
 				await env.DB.prepare(
 					`INSERT INTO sales (
@@ -284,7 +284,7 @@ export default {
 				)
 					.bind(
 						saleId,
-						telegramUserId,
+						telegram_userId,
 						body.perfumeId.trim(),
 						body.perfumeName.trim(),
 						body.priceLabel.trim(),
@@ -296,7 +296,7 @@ export default {
 				return json(
 					{
 						id: saleId,
-						summary: await getTodaySalesSummary(env, telegramUserId),
+						summary: await getTodaySalesSummary(env, telegram_userId),
 					},
 					corsHeaders,
 					201,
@@ -332,14 +332,14 @@ export default {
 					return json({ error: 'Admin access required.' }, corsHeaders, 403);
 				}
 
-				const telegramUserId = adminScheduleMatch[1];
+				const telegram_userId = adminScheduleMatch[1];
 
 				const user = await env.DB.prepare(
 					`SELECT telegram_user_id, work_name, role
      FROM app_users
      WHERE telegram_user_id = ?`,
 				)
-					.bind(telegramUserId)
+					.bind(telegram_userId)
 					.first<{
 						telegram_user_id: string;
 						work_name: string | null;
@@ -351,7 +351,7 @@ export default {
 				}
 
 				const savedSchedule =
-					(await env.USER_SHIFTS.get<UserRecord>(telegramUserId, 'json')) ?? {};
+					(await env.USER_SHIFTS.get<UserRecord>(telegram_userId, 'json')) ?? {};
 
 				return json(
 					{
@@ -366,12 +366,12 @@ export default {
 
 			if (request.method === 'DELETE' && saleIdMatch) {
 				const saleId = saleIdMatch[1];
-				const telegramUserId = String(currentUser.telegramUser.id);
+				const telegram_userId = String(currentUser.telegram_user.id);
 
 				const result = await env.DB.prepare(
 					`DELETE FROM sales WHERE id = ? AND telegram_user_id = ?`,
 				)
-					.bind(saleId, telegramUserId)
+					.bind(saleId, telegram_userId)
 					.run();
 
 				if (result.meta.changes === 0) {
@@ -395,7 +395,7 @@ export default {
 	},
 } satisfies ExportedHandler<Env>;
 
-async function authenticateTelegramUser(
+async function authenticatetelegram_user(
 	request: Request,
 	env: Env,
 ): Promise<AuthenticatedUser | null> {
@@ -405,16 +405,16 @@ async function authenticateTelegramUser(
 		return null;
 	}
 
-	const telegramUser = await validateTelegramInitData(
+	const telegram_user = await validateTelegramInitData(
 		initData,
 		env.TELEGRAM_BOT_TOKEN,
 	);
 
-	if (!telegramUser) {
+	if (!telegram_user) {
 		return null;
 	}
 
-	const telegramId = String(telegramUser.id);
+	const telegramId = String(telegram_user.id);
 
 	await env.DB.prepare(
 		"INSERT OR IGNORE INTO app_users (telegram_user_id, role) VALUES (?, 'user')",
@@ -429,16 +429,16 @@ async function authenticateTelegramUser(
 		.first<{ role: Role; work_name: string | null }>();
 
 	return {
-		telegramUser,
+		telegram_user,
 		role: user?.role === 'admin' ? 'admin' : 'user',
-		workName: user?.work_name ?? null,
+		work_name: user?.work_name ?? null,
 	};
 }
 
 async function validateTelegramInitData(
 	initData: string,
 	botToken: string,
-): Promise<TelegramUser | null> {
+): Promise<telegram_user | null> {
 	const parameters = new URLSearchParams(initData);
 	const suppliedHash = parameters.get('hash');
 	const authDate = Number(parameters.get('auth_date'));
@@ -487,7 +487,7 @@ async function validateTelegramInitData(
 
 	try {
 		const parsedUser: unknown = JSON.parse(userValue);
-		return isTelegramUser(parsedUser) ? parsedUser : null;
+		return istelegram_user(parsedUser) ? parsedUser : null;
 	} catch {
 		return null;
 	}
@@ -522,7 +522,7 @@ function hexToBytes(value: string): Uint8Array | null {
 	return bytes;
 }
 
-function isTelegramUser(value: unknown): value is TelegramUser {
+function istelegram_user(value: unknown): value is telegram_user {
 	return (
 		typeof value === 'object' &&
 		value !== null &&
@@ -548,7 +548,7 @@ function isUserUpdate(value: unknown): value is UserUpdate {
 
 async function getTodaySalesSummary(
 	env: Env,
-	telegramUserId: string,
+	telegram_userId: string,
 	brand?: string,
 ): Promise<SalesSummary> {
 	const today = new Date().toISOString().slice(0, 10);
@@ -562,7 +562,7 @@ async function getTodaySalesSummary(
         WHERE telegram_user_id = ?
           AND brand = ?
           AND date(sold_at) = ?`,
-		).bind(telegramUserId, brand, today)
+		).bind(telegram_userId, brand, today)
 		: env.DB.prepare(
 			`SELECT
           COUNT(*) AS count,
@@ -570,7 +570,7 @@ async function getTodaySalesSummary(
         FROM sales
         WHERE telegram_user_id = ?
           AND date(sold_at) = ?`,
-		).bind(telegramUserId, today);
+		).bind(telegram_userId, today);
 
 	const result = await statement.first<{
 		count: number;
@@ -611,7 +611,7 @@ function isSaleRequest(value: unknown): value is SaleRequest {
 
 async function getSalesHistory(
 	env: Env,
-	telegramUserId: string,
+	telegram_userId: string,
 	days: number,
 ): Promise<
 	readonly {
@@ -632,7 +632,7 @@ async function getSalesHistory(
     GROUP BY date(sold_at)
     ORDER BY date(sold_at) DESC`,
 	)
-		.bind(telegramUserId, `-${days - 1} days`)
+		.bind(telegram_userId, `-${days - 1} days`)
 		.all<{
 			date: string;
 			count: number;
@@ -686,7 +686,7 @@ function json(
 // 			// TEMPORARY DEV BYPASS (Allows local UI/CSS work without Telegram)
 // 			// -----------------------------------------------------------
 // 			const currentUser: AuthenticatedUser = {
-// 				telegramUser: {
+// 				telegram_user: {
 // 					id: 972344705,
 // 					username: 'Mihai',
 // 					language_code: 'en',
@@ -698,16 +698,16 @@ function json(
 // 			if (request.method === 'GET' && url.pathname === '/api/me') {
 // 				return json(
 // 					{
-// 						telegramUser: currentUser.telegramUser,
+// 						telegram_user: currentUser.telegram_user,
 // 						role: currentUser.role,
-// 						workName: currentUser.workName,
+// 						workName: currentUser.work_name,
 // 					},
 // 					corsHeaders,
 // 				);
 // 			}
 //
 // 			if (request.method === 'GET' && url.pathname === '/api/user') {
-// 				const telegramId = String(currentUser.telegramUser.id);
+// 				const telegramId = String(currentUser.telegram_user.id);
 // 				const userData =
 // 					(await env.USER_SHIFTS.get<UserRecord>(telegramId, 'json')) ?? {};
 //
@@ -721,22 +721,22 @@ function json(
 // 					return json({ error: 'Invalid request body.' }, corsHeaders, 400);
 // 				}
 //
-// 				const telegramId = String(currentUser.telegramUser.id);
+// 				const telegramId = String(currentUser.telegram_user.id);
 // 				const existingData =
 // 					(await env.USER_SHIFTS.get<UserRecord>(telegramId, 'json')) ?? {};
 //
 // 				const updatedData: UserRecord = {
 // 					profile: {
-// 						telegramId: currentUser.telegramUser.id,
+// 						telegramId: currentUser.telegram_user.id,
 // 						username:
 // 							body.username ??
 // 							existingData.profile?.username ??
-// 							currentUser.telegramUser.username ??
+// 							currentUser.telegram_user.username ??
 // 							'',
 // 						language:
 // 							body.language ??
 // 							existingData.profile?.language ??
-// 							currentUser.telegramUser.language_code ??
+// 							currentUser.telegram_user.language_code ??
 // 							'en',
 // 					},
 // 					interactions: {
@@ -762,7 +762,7 @@ function json(
 // 				const brand = url.searchParams.get('brand')?.trim() || undefined;
 //
 // 				return json(
-// 					await getTodaySalesSummary(env, String(currentUser.telegramUser.id), brand),
+// 					await getTodaySalesSummary(env, String(currentUser.telegram_user.id), brand),
 // 					corsHeaders,
 // 				);
 // 			}
@@ -780,7 +780,7 @@ function json(
 // 					{
 // 						days: await getSalesHistory(
 // 							env,
-// 							String(currentUser.telegramUser.id),
+// 							String(currentUser.telegram_user.id),
 // 							days,
 // 						),
 // 					},
@@ -789,7 +789,7 @@ function json(
 // 			}
 //
 // 			if (request.method === 'GET' && url.pathname === '/api/sales/today') {
-// 				const telegramUserId = String(currentUser.telegramUser.id);
+// 				const telegram_userId = String(currentUser.telegram_user.id);
 // 				const today = new Date().toISOString().slice(0, 10);
 //
 // 				const result = await env.DB.prepare(
@@ -799,7 +799,7 @@ function json(
 //          AND date(sold_at) = ?
 //        ORDER BY sold_at DESC`,
 // 				)
-// 					.bind(telegramUserId, today)
+// 					.bind(telegram_userId, today)
 // 					.all<{
 // 						id: string;
 // 						brand: string;
@@ -812,7 +812,7 @@ function json(
 // 					}>();
 //
 // 				const soldBy =
-// 					currentUser.workName ?? currentUser.telegramUser.username ?? 'Unknown';
+// 					currentUser.work_name ?? currentUser.telegram_user.username ?? 'Unknown';
 //
 // 				const sales = result.results.map((row) => ({
 // 					id: row.id,
@@ -838,7 +838,7 @@ function json(
 // 				}
 //
 // 				const saleId = crypto.randomUUID();
-// 				const telegramUserId = String(currentUser.telegramUser.id);
+// 				const telegram_userId = String(currentUser.telegram_user.id);
 //
 // 				await env.DB.prepare(
 // 					`INSERT INTO sales (id,
@@ -853,7 +853,7 @@ function json(
 // 				)
 // 					.bind(
 // 						saleId,
-// 						telegramUserId,
+// 						telegram_userId,
 // 						body.brand.trim(),
 // 						body.perfumeId.trim(),
 // 						body.perfumeName.trim(),
@@ -866,7 +866,7 @@ function json(
 // 				return json(
 // 					{
 // 						id: saleId,
-// 						summary: await getTodaySalesSummary(env, telegramUserId),
+// 						summary: await getTodaySalesSummary(env, telegram_userId),
 // 					},
 // 					corsHeaders,
 // 					201,
@@ -901,14 +901,14 @@ function json(
 // 					return json({ error: 'Admin access required.' }, corsHeaders, 403);
 // 				}
 //
-// 				const telegramUserId = adminScheduleMatch[1];
+// 				const telegram_userId = adminScheduleMatch[1];
 //
 // 				const user = await env.DB.prepare(
 // 					`SELECT telegram_user_id, work_name, role
 //      FROM app_users
 //      WHERE telegram_user_id = ?`,
 // 				)
-// 					.bind(telegramUserId)
+// 					.bind(telegram_userId)
 // 					.first<{
 // 						telegram_user_id: string;
 // 						work_name: string | null;
@@ -920,7 +920,7 @@ function json(
 // 				}
 //
 // 				const savedSchedule =
-// 					(await env.USER_SHIFTS.get<UserRecord>(telegramUserId, 'json')) ?? {};
+// 					(await env.USER_SHIFTS.get<UserRecord>(telegram_userId, 'json')) ?? {};
 //
 // 				return json(
 // 					{
@@ -935,12 +935,12 @@ function json(
 //
 // 			if (request.method === 'DELETE' && saleIdMatch) {
 // 				const saleId = saleIdMatch[1];
-// 				const telegramUserId = String(currentUser.telegramUser.id);
+// 				const telegram_userId = String(currentUser.telegram_user.id);
 //
 // 				const result = await env.DB.prepare(
 // 					`DELETE FROM sales WHERE id = ? AND telegram_user_id = ?`,
 // 				)
-// 					.bind(saleId, telegramUserId)
+// 					.bind(saleId, telegram_userId)
 // 					.run();
 //
 // 				if (result.meta.changes === 0) {
@@ -964,7 +964,7 @@ function json(
 // 	},
 // } satisfies ExportedHandler<Env>;
 //
-// async function authenticateTelegramUser(
+// async function authenticatetelegram_user(
 // 	request: Request,
 // 	env: Env,
 // ): Promise<AuthenticatedUser | null> {
@@ -974,16 +974,16 @@ function json(
 // 		return null;
 // 	}
 //
-// 	const telegramUser = await validateTelegramInitData(
+// 	const telegram_user = await validateTelegramInitData(
 // 		initData,
 // 		env.TELEGRAM_BOT_TOKEN,
 // 	);
 //
-// 	if (!telegramUser) {
+// 	if (!telegram_user) {
 // 		return null;
 // 	}
 //
-// 	const telegramId = String(telegramUser.id);
+// 	const telegramId = String(telegram_user.id);
 //
 // 	await env.DB.prepare(
 // 		"INSERT OR IGNORE INTO app_users (telegram_user_id, role) VALUES (?, 'user')",
@@ -998,7 +998,7 @@ function json(
 // 		.first<{ role: Role; work_name: string | null }>();
 //
 // 	return {
-// 		telegramUser,
+// 		telegram_user,
 // 		role: user?.role === 'admin' ? 'admin' : 'user',
 // 		workName: user?.work_name ?? null,
 // 	};
@@ -1007,7 +1007,7 @@ function json(
 // async function validateTelegramInitData(
 // 	initData: string,
 // 	botToken: string,
-// ): Promise<TelegramUser | null> {
+// ): Promise<telegram_user | null> {
 // 	const parameters = new URLSearchParams(initData);
 // 	const suppliedHash = parameters.get('hash');
 // 	const authDate = Number(parameters.get('auth_date'));
@@ -1056,7 +1056,7 @@ function json(
 //
 // 	try {
 // 		const parsedUser: unknown = JSON.parse(userValue);
-// 		return isTelegramUser(parsedUser) ? parsedUser : null;
+// 		return istelegram_user(parsedUser) ? parsedUser : null;
 // 	} catch {
 // 		return null;
 // 	}
@@ -1091,7 +1091,7 @@ function json(
 // 	return bytes;
 // }
 //
-// function isTelegramUser(value: unknown): value is TelegramUser {
+// function istelegram_user(value: unknown): value is telegram_user {
 // 	return (
 // 		typeof value === 'object' &&
 // 		value !== null &&
@@ -1117,7 +1117,7 @@ function json(
 //
 // async function getTodaySalesSummary(
 // 	env: Env,
-// 	telegramUserId: string,
+// 	telegram_userId: string,
 // 	brand?: string,
 // ): Promise<SalesSummary> {
 // 	const today = new Date().toISOString().slice(0, 10);
@@ -1131,7 +1131,7 @@ function json(
 // 			 WHERE telegram_user_id = ?
 // 			   AND brand = ?
 // 			   AND date(sold_at) = ?`,
-// 		).bind(telegramUserId, brand, today)
+// 		).bind(telegram_userId, brand, today)
 // 		: env.DB.prepare(
 // 			`SELECT
 // 				 COUNT(*) AS count,
@@ -1139,7 +1139,7 @@ function json(
 // 			 FROM sales
 // 			 WHERE telegram_user_id = ?
 // 			   AND date(sold_at) = ?`,
-// 		).bind(telegramUserId, today);
+// 		).bind(telegram_userId, today);
 //
 // 	const result = await statement.first<{ count: number; total_cents: number }>();
 //
@@ -1177,7 +1177,7 @@ function json(
 //
 // async function getSalesHistory(
 // 	env: Env,
-// 	telegramUserId: string,
+// 	telegram_userId: string,
 // 	days: number,
 // ): Promise<
 // 	readonly {
@@ -1198,7 +1198,7 @@ function json(
 //     GROUP BY date(sold_at)
 //     ORDER BY date(sold_at) DESC`,
 // 	)
-// 		.bind(telegramUserId, `-${days - 1} days`)
+// 		.bind(telegram_userId, `-${days - 1} days`)
 // 		.all<{
 // 			date: string;
 // 			count: number;
