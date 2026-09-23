@@ -12,11 +12,12 @@ import { ApiService } from '../../../core/api.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AdminService } from '../../../core/admin.service';
 import { ViewedUser } from '../interfaces/user.interface';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-duty-schedule-page',
   standalone: true,
-  imports: [ScheduleFinderComponent],
+  imports: [ScheduleFinderComponent, JsonPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './duty-schedule-page.component.html',
   styleUrl: './duty-schedule-page.component.css',

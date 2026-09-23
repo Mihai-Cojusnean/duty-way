@@ -1,6 +1,7 @@
 @if (isAdmin()) {
 <section class="admin-schedule-picker">
   <label for="users">View a team member’s schedule</label>
+  <pre>{{ session.value() | json }}</pre>
 
   <select
     id="users"
