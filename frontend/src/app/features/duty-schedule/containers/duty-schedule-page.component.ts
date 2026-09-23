@@ -63,7 +63,7 @@ export class DutySchedulePageComponent {
     return {
       telegram_user_id: String(me.id),
       work_name: me.work_name ?? '',
-      isAdmin: true,
+      isAdmin: me.role === 'admin',
     };
   });
 
