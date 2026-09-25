@@ -155,6 +155,7 @@ export class ScheduleFinderComponent {
 
     request$.subscribe({
       next: (response) => {
+        this.mess = String(response.shifts);
         const records = prepareScheduleRecords(response.shifts ?? []);
         this.applySchedule(
           records,
@@ -166,7 +167,6 @@ export class ScheduleFinderComponent {
         this.statusMessage.set('Could not load this schedule.');
       },
     });
-    this.mess = String(request$);
   }
 
   async loadSchedule(): Promise<void> {
