@@ -18,7 +18,7 @@ import { ScheduleDiffService } from '../../services/schedule-diff.service';
 import { ScheduleParserService } from '../../services/schedule-parser.service';
 import { Router } from '@angular/router';
 import { SalesStore } from '../../services/sales.store';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { User } from '../../interfaces/user.interface';
 
 @Component({
@@ -144,27 +144,43 @@ export class ScheduleFinderComponent {
   }
 
   private loadScheduleFor(user: User): void {
-    this.mess = `Loading ${user.work_name}'s schedule...`;
-    this.statusMessage.set(`Loading ${user.work_name}'s schedule...`);
+    this.mess = `1: loadScheduleFor ${user.work_name}`;
 
     const request$ = user.is_admin
-      ? this.userService.getUser().pipe(map((record) => ({ shifts: record.shifts ?? [] })))
-      : this.adminService
-          .getUserSchedule(user.work_name)
-          .pipe(map((response) => ({ shifts: response.shifts ?? [] })));
+      ? this.userService.getUser().pipe(
+          tap((record) => {
+            this.mess = `2: getUser emitted: ${JSON.stringify(record)}`;
+          }),
+          map((record) => ({ shifts: record.shifts ?? [] })),
+        )
+      : this.adminService.getUserSchedule(user.work_name).pipe(
+          tap((response) => {
+            this.mess = `2: schedule emitted: ${JSON.stringify(response)}`;
+          }),
+          map((response) => ({ shifts: response.shifts ?? [] })),
+        );
+
+    this.mess = `3: subscribing`;
 
     request$.subscribe({
       next: (response) => {
-        this.mess = String(response.shifts);
+        this.mess = `4: NEXT ${JSON.stringify(response)}`;
+
         const records = prepareScheduleRecords(response.shifts ?? []);
+
         this.applySchedule(
           records,
           records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
         );
       },
+
       error: (error: unknown) => {
-        console.error('Failed to load schedule', error);
+        this.mess = `ERROR: ${JSON.stringify(error)}`;
         this.statusMessage.set('Could not load this schedule.');
+      },
+
+      complete: () => {
+        // Don't set mess here, because it would overwrite the NEXT message.
       },
     });
   }
