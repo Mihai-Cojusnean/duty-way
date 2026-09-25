@@ -55,7 +55,7 @@ export class ScheduleFinderComponent {
   );
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
-  mess = "nothing";
+  mess = 'nothing';
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -166,6 +166,7 @@ export class ScheduleFinderComponent {
         this.statusMessage.set('Could not load this schedule.');
       },
     });
+    this.mess = String(request$);
   }
 
   async loadSchedule(): Promise<void> {
