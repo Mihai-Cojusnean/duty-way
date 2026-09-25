@@ -38,10 +38,9 @@ export class ScheduleChart {
       counts[key] = (counts[key] ?? 0) + 1;
     }
 
+    const labels = this.shortenLabels(counts);
     const values = Object.values(counts);
     const total = values.reduce((sum, value) => sum + value, 0);
-
-    const labels = this.shortenLabels(counts);
 
     const percentages = values.map((value) => (total > 0 ? (value / total) * 100 : 0));
 

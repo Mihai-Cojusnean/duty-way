@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { SalesHistoryEntry, ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
-import { JsonPipe, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ScheduleChart } from './schedule-chart/schedule-chart';
 import { groupRecordsByDate, prepareScheduleRecords } from '../../services/schedule.utils';
 import { AdminService } from '../../../../core/admin.service';
@@ -25,7 +25,7 @@ import { User } from '../../interfaces/user.interface';
   selector: 'app-schedule-finder',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, ScheduleChart, JsonPipe],
+  imports: [NgTemplateOutlet, ScheduleChart],
   templateUrl: './schedule-finder.component.html',
   styleUrl: './schedule-finder.component.css',
 })
@@ -146,71 +146,41 @@ export class ScheduleFinderComponent {
   private loadScheduleFor(user: User): void {
     this.mess = `1: loadScheduleFor ${user.work_name}`;
 
-    // const request$ = user.is_admin
-    //   ? this.userService.getUser().pipe(
-    //       tap((record) => {
-    //         this.mess = `2: getUser emitted: ${JSON.stringify(record)}`;
-    //       }),
-    //       map((record) => ({ shifts: record.shifts ?? [] })),
-    //     )
-    //   : this.adminService.getUserSchedule(user.work_name).pipe(
-    //       tap((response) => {
-    //         this.mess = `2: schedule emitted: ${JSON.stringify(response)}`;
-    //       }),
-    //       map((response) => ({ shifts: response.shifts ?? [] })),
-    //     );
+    const request$ = user.is_admin
+      ? this.userService.getUser().pipe(
+          tap((record) => {
+            this.mess = `2: getUser emitted: ${JSON.stringify(record)}`;
+          }),
+          map((record) => ({ shifts: record.shifts ?? [] })),
+        )
+      : this.adminService.getUserSchedule(user.work_name).pipe(
+          tap((response) => {
+            this.mess = `2: schedule emitted: ${JSON.stringify(response)}`;
+          }),
+          map((response) => ({ shifts: response.shifts ?? [] })),
+        );
 
-    if (user.is_admin) {
-      this.mess = 'ADMIN: before getUser';
+    this.mess = `3: subscribing`;
 
-      this.userService.getUser().subscribe({
-        next: (record) => {
-          this.mess = `ADMIN: NEXT ${JSON.stringify(record)}`;
-        },
-        error: (err) => {
-          this.mess = `ADMIN: ERROR ${JSON.stringify(err)}`;
-        },
-        complete: () => {
-          this.mess = 'ADMIN: COMPLETE';
-        },
-      });
-    } else {
-      this.mess = `NON-ADMIN: before getUserSchedule(${user.work_name})`;
+    request$.subscribe({
+      next: (response) => {
+        this.mess = `4: NEXT ${JSON.stringify(response)}`;
 
-      this.adminService.getUserSchedule(user.work_name).subscribe({
-        next: (response) => {
-          this.mess = `NON-ADMIN: NEXT ${JSON.stringify(response)}`;
-        },
-        error: (err) => {
-          this.mess = `NON-ADMIN: ERROR ${JSON.stringify(err)}`;
-        },
-        complete: () => {
-          this.mess = 'NON-ADMIN: COMPLETE';
-        },
-      });
-    }
+        const records = prepareScheduleRecords(response.shifts ?? []);
 
-    // request$.subscribe({
-    //   next: (response) => {
-    //     this.mess = `4: NEXT ${JSON.stringify(response)}`;
-    //
-    //     const records = prepareScheduleRecords(response.shifts ?? []);
-    //
-    //     this.applySchedule(
-    //       records,
-    //       records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
-    //     );
-    //   },
-    //
-    //   error: (error: unknown) => {
-    //     this.mess = `ERROR: ${JSON.stringify(error)}`;
-    //     this.statusMessage.set('Could not load this schedule.');
-    //   },
-    //
-    //   complete: () => {
-    //
-    //   },
-    // });
+        this.applySchedule(
+          records,
+          records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
+        );
+      },
+
+      error: (error: unknown) => {
+        this.mess = `ERROR: ${JSON.stringify(error)}`;
+        this.statusMessage.set('Could not load this schedule.');
+      },
+
+      complete: () => {},
+    });
   }
 
   async loadSchedule(): Promise<void> {

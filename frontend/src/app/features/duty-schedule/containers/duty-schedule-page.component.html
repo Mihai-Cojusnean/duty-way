@@ -4,14 +4,14 @@
 
   <select
     id="users"
-    [value]="selectedUser()?.profile.telegramId ?? ''"
+    [value]="selectedUser()?.telegram_id ?? ''"
     (change)="selectUser($any($event.target).value)"
   >
     <option value="" [selected]="!selectedUser()">My schedule</option>
-    @for (user of users.value() ?? []; track user.profile.telegramId) {
+    @for (user of users.value() ?? []; track user.telegram_id) {
     <option
-      [value]="user.profile.telegramId"
-      [selected]="user.profile.telegramId === selectedUser()?.profile.telegramId"
+      [value]="user.telegram_id"
+      [selected]="user.telegram_id === selectedUser()?.telegram_id"
     >
       {{ user.work_name }}
     </option>

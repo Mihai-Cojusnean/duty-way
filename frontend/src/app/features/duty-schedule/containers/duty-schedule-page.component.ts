@@ -42,7 +42,7 @@ export class DutySchedulePageComponent {
   readonly selectedUser = computed(
     () =>
       (this.users.value() ?? []).find(
-        (u) => String(u.profile?.telegramId) === this.selectedUserId(),
+        (u) => String(u?.telegram_id) === this.selectedUserId(),
       ) ?? null,
   );
 
