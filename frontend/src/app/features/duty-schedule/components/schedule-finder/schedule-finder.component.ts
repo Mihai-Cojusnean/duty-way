@@ -144,7 +144,7 @@ export class ScheduleFinderComponent {
   }
 
   private loadScheduleFor(user: User): void {
-    this.mess = "in for";
+    this.mess = `Loading ${user.work_name}'s schedule...`;
     this.statusMessage.set(`Loading ${user.work_name}'s schedule...`);
 
     const request$ = user.is_admin
