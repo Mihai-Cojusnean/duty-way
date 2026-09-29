@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { ScheduleRecord } from '../interfaces/duty.interface';
+import { getTerminalName } from './schedule.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,8 @@ export class ScheduleParserService {
 
     const rawRecords: ScheduleRecord[] = [];
 
-    for (const tabName of workbook.SheetNames) {
-      const sheet = workbook.Sheets[tabName];
+    for (const terminal of workbook.SheetNames) {
+      const sheet = workbook.Sheets[terminal];
       const range = XLSX.utils.decode_range(sheet['!ref'] ?? 'A1');
 
       for (let row = Math.max(5, range.s.r); row <= range.e.r; row++) {
@@ -29,7 +30,6 @@ export class ScheduleParserService {
           const dateStr = this.getCellText(sheet, row, 2);
           const hours = col > 0 ? this.getCellText(sheet, row, col - 1) : '';
           const brand = this.getBrandForColumn(sheet, col);
-
           const lowerBrand = brand.toLowerCase();
 
           if (lowerBrand === 'heure pause matin' || lowerBrand === 'heure pause soir') {
@@ -37,15 +37,14 @@ export class ScheduleParserService {
           }
 
           rawRecords.push({
-            id: `${tabName}-${row}-${col}`,
-            tabName,
+            id: `${terminal}-${row}-${col}`,
+            terminal: getTerminalName(terminal),
             brand,
             day,
             dateStr,
             dateNumber: this.extractDayNumber(dateStr),
             startHourMinutes: this.extractStartMinutes(hours),
             hours,
-            person,
           });
         }
       }

@@ -165,7 +165,7 @@ async function getTodaySalesSummary(
 	};
 }
 
-async function getSalesHistory(
+export async function getSalesHistory(
 	env: Env,
 	telegramId: string,
 	days: number,

@@ -18,8 +18,8 @@ import { ScheduleDiffService } from '../../services/schedule-diff.service';
 import { ScheduleParserService } from '../../services/schedule-parser.service';
 import { Router } from '@angular/router';
 import { SalesStore } from '../../services/sales.store';
-import { map, tap } from 'rxjs';
-import { User } from '../../interfaces/user.interface';
+import { Observable } from 'rxjs';
+import { User, ViewedUser } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-schedule-finder',
@@ -38,25 +38,18 @@ export class ScheduleFinderComponent {
 
   readonly statusMessage = signal('');
   readonly records = signal<ScheduleRecord[]>([]);
-  readonly user = input<User | null>(null);
   readonly scheduleDiff = signal<ScheduleDiff | null>(null);
-
   private readonly router = inject(Router);
+
   readonly salesHistory = this.salesStore.salesHistory;
-
   readonly getBrand = (record: ScheduleRecord) => record.brand;
-  readonly getTerminal = (record: ScheduleRecord) => record.tabName;
-
+  readonly getTerminal = (record: ScheduleRecord) => record.terminal;
   readonly selectedFile = signal<File | null>(null);
   readonly openBrand = output<string>();
   readonly fileSelected = output<File>();
-  readonly isSubmitDisabled = computed(
-    () => !this.user()?.work_name?.trim() || !this.selectedFile(),
-  );
+  readonly viewedUser = input<ViewedUser | null>(null);
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
-  mess = 'nothing';
-
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
     const upcoming: ScheduleRecord[] = [];
@@ -68,7 +61,6 @@ export class ScheduleFinderComponent {
     return { past, upcoming };
   });
   readonly pastShiftGroups = computed(() => groupRecordsByDate(this.shiftsByPeriod().past, false));
-
   readonly upcomingShiftGroups = computed(() =>
     groupRecordsByDate(this.shiftsByPeriod().upcoming, true),
   );
@@ -76,9 +68,9 @@ export class ScheduleFinderComponent {
 
   constructor() {
     effect(() => {
-      const user = this.user();
-      if (user) {
-        this.loadScheduleFor(user);
+      const viewed = this.viewedUser();
+      if (viewed) {
+        this.loadScheduleFor(viewed);
         this.salesStore.loadSalesHistory();
       }
     });
@@ -137,60 +129,40 @@ export class ScheduleFinderComponent {
   }
 
   private saveSchedule(sorted: ScheduleRecord[]): void {
-    this.userService.saveUser(sorted).subscribe({
+    this.userService.saveSchedule(sorted).subscribe({
       next: (res) => console.log('Successfully saved to KV!'),
       error: (err) => console.error('Error saving:', err),
     });
   }
 
-  private loadScheduleFor(user: User): void {
-    this.mess = `1: loadScheduleFor ${user.work_name}`;
-
-    const request$ = user.is_admin
-      ? this.userService.getUser().pipe(
-          tap((record) => {
-            this.mess = `2: getUser emitted: ${JSON.stringify(record)}`;
-          }),
-          map((record) => ({ shifts: record.shifts ?? [] })),
-        )
-      : this.adminService.getUserSchedule(user.work_name).pipe(
-          tap((response) => {
-            this.mess = `2: schedule emitted: ${JSON.stringify(response)}`;
-          }),
-          map((response) => ({ shifts: response.shifts ?? [] })),
-        );
-
-    this.mess = `3: subscribing`;
+  private loadScheduleFor(viewed: ViewedUser): void {
+    const request$: Observable<User> = viewed.isViewingSelf
+      ? this.userService.getUserSchedule()
+      : this.adminService.getUserSchedule(viewed.user.telegram_id);
 
     request$.subscribe({
-      next: (response) => {
-        this.mess = `4: NEXT ${JSON.stringify(response)}`;
-
-        const records = prepareScheduleRecords(response.shifts ?? []);
-
+      next: (record) => {
+        const records = prepareScheduleRecords(record.shifts ?? []);
         this.applySchedule(
           records,
-          records.length ? `${records.length} shifts` : `${user.work_name} has no saved schedule.`,
+          records.length
+            ? `${records.length} shifts`
+            : `${viewed.user.work_name} has no saved schedule.`,
         );
       },
-
-      error: (error: unknown) => {
-        this.mess = `ERROR: ${JSON.stringify(error)}`;
+      error: () => {
         this.statusMessage.set('Could not load this schedule.');
       },
-
-      complete: () => {},
     });
   }
 
   async loadSchedule(): Promise<void> {
-    this.mess = String(this.user()?.work_name);
     const file = this.selectedFile();
-    const user = this.user();
+    const viewed = this.viewedUser();
 
-    if (!file || !user) return;
+    if (!file || !viewed) return;
 
-    const rawRecords = await this.scheduleParserService.parse(file, user.work_name);
+    const rawRecords = await this.scheduleParserService.parse(file, viewed.user.work_name);
 
     const records = prepareScheduleRecords(rawRecords);
 
@@ -198,7 +170,7 @@ export class ScheduleFinderComponent {
       records,
       records.length
         ? `${records.length} shifts loaded from Excel.`
-        : `No shifts found for "${user.work_name}".`,
+        : `No shifts found for "${viewed.user.work_name}".`,
     );
 
     this.saveSchedule(records);
@@ -211,10 +183,14 @@ export class ScheduleFinderComponent {
 
   private applySchedule(records: ScheduleRecord[], message: string): void {
     const previous = this.records();
+    const viewed = this.viewedUser();
 
     this.records.set(records);
+
     this.scheduleDiff.set(
-      previous.length ? this.scheduleDiffService.compare(previous, records) : null,
+      viewed?.isViewingSelf && previous.length
+        ? this.scheduleDiffService.compare(previous, records)
+        : null,
     );
 
     this.statusMessage.set(message);

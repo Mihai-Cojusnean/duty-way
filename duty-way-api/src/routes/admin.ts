@@ -1,5 +1,6 @@
 import type { Role, StoredShifts, User } from '../types';
 import {json} from "../utlis";
+import {getSalesHistory} from "./sales";
 
 export async function getAdminUsers(
 	currentUser: User,
@@ -70,4 +71,22 @@ export async function getAdminUserSchedule(
 	};
 
 	return json(user, corsHeaders);
+}
+
+export async function getAdminUserSalesHistory(
+	currentUser: User,
+	telegramId: string,
+	url: URL,
+	env: Env,
+	corsHeaders: Record<string, string>,
+): Promise<Response> {
+	if (!currentUser.is_admin) {
+		return json({ error: 'Admin access required.' }, corsHeaders, 403);
+	}
+
+	const requestedDays = Number(url.searchParams.get('days') ?? '7');
+	const days =
+		Number.isInteger(requestedDays) && requestedDays >= 1 && requestedDays <= 31 ? requestedDays : 7;
+
+	return json({ days: await getSalesHistory(env, telegramId, days) }, corsHeaders);
 }

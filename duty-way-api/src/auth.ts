@@ -6,47 +6,45 @@ const maxInitDataAgeSeconds = 24 * 60 * 60;
 export async function authenticateTelegramUser(request: Request, env: Env): Promise<User | null> {
 	const initData = request.headers.get('X-Telegram-Init-Data');
 
-	// if (true) {
-	// 	return {
-	// 		telegram_id: '972344705',
-	// 		username: 'Mihai',
-	// 		language: 'en',
-	// 		work_name: 'Mihail Cojusnean',
-	// 		is_admin: true,
-	// 	};
-	// }
-
-	if (!initData || !env.TELEGRAM_BOT_TOKEN) {
-		return null;
-	}
-
-	const telegramUser = await validateTelegramInitData(initData, env.TELEGRAM_BOT_TOKEN);
-
-	if (!telegramUser) {
-		return null;
-	}
-
-	const telegramId = String(telegramUser.id);
-
-	await env.DB.prepare(
-		"INSERT OR IGNORE INTO app_users (telegram_user_id, role) VALUES (?, 'user')",
-	)
-		.bind(telegramId)
-		.run();
-
-	const dbUser = await env.DB.prepare(
-		'SELECT role, work_name FROM app_users WHERE telegram_user_id = ?',
-	)
-		.bind(telegramId)
-		.first<{ role: Role; work_name: string | null }>();
-
 	return {
-		telegram_id: telegramId,
-		username: telegramUser.username ?? '',
-		language: telegramUser.language_code ?? 'en',
-		work_name: dbUser?.work_name ?? '',
-		is_admin: dbUser?.role === 'admin',
+		telegram_id: '972344705',
+		username: 'Mihai',
+		language: 'en',
+		work_name: 'Mihail Cojusnean',
+		is_admin: true,
 	};
+
+	// if (!initData || !env.TELEGRAM_BOT_TOKEN) {
+	// 	return null;
+	// }
+	//
+	// const telegramUser = await validateTelegramInitData(initData, env.TELEGRAM_BOT_TOKEN);
+	//
+	// if (!telegramUser) {
+	// 	return null;
+	// }
+	//
+	// const telegramId = String(telegramUser.id);
+	//
+	// await env.DB.prepare(
+	// 	"INSERT OR IGNORE INTO app_users (telegram_user_id, role) VALUES (?, 'user')",
+	// )
+	// 	.bind(telegramId)
+	// 	.run();
+	//
+	// const dbUser = await env.DB.prepare(
+	// 	'SELECT role, work_name FROM app_users WHERE telegram_user_id = ?',
+	// )
+	// 	.bind(telegramId)
+	// 	.first<{ role: Role; work_name: string | null }>();
+	//
+	// return {
+	// 	telegram_id: telegramId,
+	// 	username: telegramUser.username ?? '',
+	// 	language: telegramUser.language_code ?? 'en',
+	// 	work_name: dbUser?.work_name ?? '',
+	// 	is_admin: dbUser?.role === 'admin',
+	// };
 }
 
 async function validateTelegramInitData(

@@ -1,13 +1,12 @@
 export interface ScheduleRecord {
   readonly id: string;
-  readonly tabName: string;
+  readonly terminal: string;
   readonly brand: string;
   readonly day: string;
   readonly dateStr: string;
   readonly dateNumber: number;
   readonly startHourMinutes: number;
   readonly hours: string;
-  readonly person: string;
   readonly isPast?: boolean;
   readonly isToday?: boolean;
 }
@@ -89,4 +88,11 @@ export interface ShiftGroup {
   isMultiShift: boolean;
   isDayOff: boolean;
   dayLabel: string;
+}
+
+export interface DailySalesSummary {
+  readonly date: string;
+  readonly count: number;
+  readonly totalCents: number;
+  readonly currency: 'EUR';
 }

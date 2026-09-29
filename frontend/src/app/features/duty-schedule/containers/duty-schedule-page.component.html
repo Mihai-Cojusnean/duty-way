@@ -1,7 +1,7 @@
 @if (isAdmin()) {
 <section class="admin-schedule-picker">
-  <label for="users">View a team member’s schedule</label>
 
+  <label for="users">Team member’s schedule</label>
   <select
     id="users"
     [value]="selectedUser()?.telegram_id ?? ''"
@@ -17,9 +17,8 @@
     </option>
     }
   </select>
+
 </section>
 }
-<app-schedule-finder
-  [user]="activeUser()"
-></app-schedule-finder>
+<app-schedule-finder [viewedUser]="viewedUser()"></app-schedule-finder>
 

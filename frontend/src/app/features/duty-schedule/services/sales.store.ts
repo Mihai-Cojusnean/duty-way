@@ -61,6 +61,4 @@ export class SalesStore {
       },
     });
   }
-
-  // todaySales(): Sale[] {}
 }

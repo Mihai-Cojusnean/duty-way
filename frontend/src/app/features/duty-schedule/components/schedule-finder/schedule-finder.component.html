@@ -38,15 +38,6 @@
       <span>{{ selectedFile()?.name ?? 'Excel schedule' }}</span>
       <span class="file-input-button">Choose file</span>
     </label>
-
-    <button
-      type="button"
-      class="submit-button"
-      [class.ready]="selectedFile()"
-      (click)="loadSchedule()"
-    >
-      Submit
-    </button>
   </section>
 </ng-template>
 
@@ -133,7 +124,7 @@
             }
           </div>
 
-          <p class="shift-details">{{ record.brand }} · {{ record.tabName }}</p>
+          <p class="shift-details">{{ record.brand }} · {{ record.terminal }}</p>
         </article>
         }
       </div>
@@ -177,7 +168,7 @@
           </button>
         </div>
       </div>
-      <p class="shift-details">{{ record.tabName }}</p>
+      <p class="shift-details">{{ record.terminal }}</p>
     </article>
     }
   </div>

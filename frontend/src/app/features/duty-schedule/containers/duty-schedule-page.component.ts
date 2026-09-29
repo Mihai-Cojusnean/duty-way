@@ -11,7 +11,7 @@ import { TelegramService } from '../../../core/telegram.service';
 import { ApiService } from '../../../core/api.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AdminService } from '../../../core/admin.service';
-import { User } from '../interfaces/user.interface';
+import { ViewedUser } from '../interfaces/user.interface';
 
 @Component({
   selector: 'app-duty-schedule-page',
@@ -27,11 +27,7 @@ export class DutySchedulePageComponent {
   private readonly adminService = inject(AdminService);
 
   readonly selectedUserId = signal<string | null>(null);
-
-  readonly session = resource({
-    loader: () => this.apiService.getCurrentUser(),
-  });
-
+  readonly session = resource({ loader: () => this.apiService.getCurrentUser() });
   readonly isAdmin = computed(() => this.session.value()?.is_admin ?? false);
 
   readonly users = rxResource({
@@ -40,24 +36,25 @@ export class DutySchedulePageComponent {
   });
 
   readonly selectedUser = computed(
-    () =>
-      (this.users.value() ?? []).find(
-        (u) => String(u?.telegram_id) === this.selectedUserId(),
-      ) ?? null,
+    () => (this.users.value() ?? []).find((u) => u.telegram_id === this.selectedUserId()) ?? null,
   );
 
-  readonly activeUser = computed<User | null>(
-    () => this.selectedUser() ?? this.session.value() ?? null,
-  );
+  readonly viewedUser = computed<ViewedUser | null>(() => {
+    const selected = this.selectedUser();
+    if (selected) {
+      return { user: selected, isViewingSelf: false };
+    }
 
-  readonly isViewingSelf = computed(() => this.selectedUserId() === null);
+    const me = this.session.value();
+    return me ? { user: me, isViewingSelf: true } : null;
+  });
 
   readonly statusMessage = computed(() => {
     if (this.session.error()) {
       return 'Please open this app through Telegram to load your schedule.';
     }
-    const user = this.selectedUser();
-    return user ? `Loading ${user.work_name}'s schedule...` : '';
+    const selected = this.selectedUser();
+    return selected ? `Loading ${selected.work_name}'s schedule...` : '';
   });
 
   constructor() {

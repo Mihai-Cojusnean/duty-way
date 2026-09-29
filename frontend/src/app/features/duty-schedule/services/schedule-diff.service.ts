@@ -51,7 +51,7 @@ export class ScheduleDiffService {
   }
 
   private shiftKey(record: ScheduleRecord): string {
-    return [record.tabName, record.dateStr, record.brand]
+    return [record.terminal, record.dateStr, record.brand]
       .map((value) => value.trim().toLowerCase())
       .join('|');
   }

@@ -1,14 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ScheduleRecord } from '../features/duty-schedule/interfaces/duty.interface';
+import { DailySalesSummary } from '../features/duty-schedule/interfaces/duty.interface';
 import { TelegramService } from './telegram.service';
 import { User } from '../features/duty-schedule/interfaces/user.interface';
-
-export interface AdminScheduleResponse {
-  readonly user: User;
-  readonly shifts: readonly ScheduleRecord[];
-}
 
 @Injectable({
   providedIn: 'root',
@@ -29,9 +24,19 @@ export class AdminService {
       .pipe(map((response) => response.users));
   }
 
-  getUserSchedule(telegramUserId: string): Observable<AdminScheduleResponse> {
-    return this.http.get<AdminScheduleResponse>(
-      `${this.apiUrl}/api/admin/users/${telegramUserId}/schedule`,
+  getUserSchedule(telegramUserId: string): Observable<User> {
+    console.log(telegramUserId);
+    return this.http.get<User>(`${this.apiUrl}/api/admin/users/${telegramUserId}/schedule`, {
+      headers: this.authHeaders,
+    });
+  }
+
+  getUserSalesHistory(
+    telegramUserId: string,
+    days = 7,
+  ): Observable<{ days: readonly DailySalesSummary[] }> {
+    return this.http.get<{ days: readonly DailySalesSummary[] }>(
+      `${this.apiUrl}/api/admin/users/${telegramUserId}/sales/history?days=${days}`,
       { headers: this.authHeaders },
     );
   }

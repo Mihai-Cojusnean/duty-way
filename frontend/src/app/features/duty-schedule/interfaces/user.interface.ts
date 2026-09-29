@@ -8,3 +8,8 @@ export interface User {
   readonly is_admin: boolean;
   readonly shifts?: readonly ScheduleRecord[];
 }
+
+export interface ViewedUser {
+  readonly user: User;
+  readonly isViewingSelf: boolean;
+}

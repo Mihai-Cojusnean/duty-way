@@ -20,7 +20,7 @@ export class UserService {
     });
   }
 
-  getUser(): Observable<User> {
+  getUserSchedule(): Observable<User> {
     return this.http.get<User>(this.apiUrl, { headers: this.authHeaders }).pipe(
       tap((userData: User) => {
         this.user = userData;
@@ -28,7 +28,7 @@ export class UserService {
     );
   }
 
-  saveUser(shifts: readonly unknown[]): Observable<unknown> {
+  saveSchedule(shifts: readonly unknown[]): Observable<unknown> {
     return this.http.post(this.apiUrl, { shifts }, { headers: this.authHeaders });
   }
 }
