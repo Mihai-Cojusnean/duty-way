@@ -6,7 +6,6 @@ import {
   RecordSaleResponse,
   Sale,
   SalesHistoryEntry,
-  SalesSummary,
 } from '../features/duty-schedule/interfaces/duty.interface';
 import { TelegramService } from './telegram.service';
 
@@ -31,7 +30,7 @@ export class SalesService {
         priceLabel: sale.price.label,
         amountCents: sale.price.amountCents,
         currency: sale.price.currency,
-        shiftKey: sale.shiftKey
+        shiftKey: sale.shiftKey,
       },
       { headers: this.authHeaders },
     );
@@ -58,15 +57,6 @@ export class SalesService {
         params,
       })
       .pipe(map((response) => response.days));
-  }
-
-  getTodaySummary(brand?: string): Observable<SalesSummary> {
-    const params = brand ? new HttpParams().set('brand', brand) : undefined;
-
-    return this.http.get<SalesSummary>(`${this.apiUrl}/api/sales/summary`, {
-      headers: this.authHeaders,
-      params,
-    });
   }
 
   deleteSale(saleId: string): Observable<void> {

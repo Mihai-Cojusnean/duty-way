@@ -108,23 +108,11 @@ export class ScheduleFinderComponent {
     }
   }
 
-  shortDay(day: string): string {
-    return day.slice(0, 3);
-  }
-
   formatEuro(amountCents: number): string {
     return new Intl.NumberFormat('en-IE', {
       style: 'currency',
       currency: 'EUR',
     }).format(amountCents / 100);
-  }
-
-  formatSalesDate(date: ISODate): string {
-    return new Intl.DateTimeFormat('en-GB', {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'short',
-    }).format(this.parseISODate(date));
   }
 
   private readonly salesByShiftKey = computed(() => {

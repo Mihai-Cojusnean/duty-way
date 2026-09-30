@@ -1,5 +1,10 @@
 export type ISODate = `${number}-${number}-${number}`;
 
+export interface BrandCatalogCollection {
+  collection: string;
+  parfums: Perfume[];
+}
+
 export interface ScheduleRecord {
   readonly id: string;
   readonly terminal: string;
@@ -17,9 +22,15 @@ export interface ShiftGroup {
   readonly dayLabel: string;
 }
 
-export interface BrandCatalogCollection {
-  collection: string;
-  parfums: Perfume[];
+export interface ChangedShift {
+  readonly previous: ScheduleRecord;
+  readonly current: ScheduleRecord;
+}
+
+export interface ScheduleDiff {
+  readonly added: readonly ScheduleRecord[];
+  readonly removed: readonly ScheduleRecord[];
+  readonly changed: readonly ChangedShift[];
 }
 
 export interface Perfume {
@@ -47,23 +58,11 @@ export interface PerfumeSale {
   readonly brand: string;
   readonly shiftKey: string;
 }
-export type CatalogMap = Record<string, Perfume[]>;
-
-export interface ChangedShift {
-  readonly previous: ScheduleRecord;
-  readonly current: ScheduleRecord;
-}
-
-export interface ScheduleDiff {
-  readonly added: readonly ScheduleRecord[];
-  readonly removed: readonly ScheduleRecord[];
-  readonly changed: readonly ChangedShift[];
-}
 
 export interface Sale {
   readonly id: string;
   readonly brand: string;
-  readonly perfume: SoldPerfume;
+  readonly perfume: string;
   readonly price: PerfumePrice;
   readonly soldAt: Date;
   readonly soldBy: string;
@@ -86,16 +85,4 @@ export interface SalesHistoryEntry {
 export interface RecordSaleResponse {
   readonly id: string;
   readonly summary: SalesSummary;
-}
-
-export interface SoldPerfume {
-  readonly id: string;
-  readonly name: string;
-}
-
-export interface DailySalesSummary {
-  readonly date: string;
-  readonly count: number;
-  readonly totalCents: number;
-  readonly currency: 'EUR';
 }

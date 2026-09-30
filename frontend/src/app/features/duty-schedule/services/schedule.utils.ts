@@ -144,11 +144,11 @@ function formatDateLabel(date: ISODate): string {
 
 export const TERMINAL_NAMES: Readonly<Record<string, string>> = {
   'CDG1 - LAP1 (T1)': 'T1',
-  'CDG2 - LACM (AC)': '2AC',
-  'CDG2 - LEP1 (TE) porte K': '2E - K',
-  'CDG2 -LSM7_LSM8 ( S3) porte L': '2E - L',
-  'CDG2 - LSM4 (S4) porte M': '2E - M',
-  'CDG2 - LFM5_LFM6 (TF)': '2F',
+  'CDG2 - LACM (AC)': 'AC',
+  'CDG2 - LEP1 (TE) porte K': 'K',
+  'CDG2 -LSM7_LSM8 ( S3) porte L': 'L',
+  'CDG2 - LSM4 (S4) porte M': 'M',
+  'CDG2 - LFM5_LFM6 (TF)': 'F',
 };
 
 export function getTerminalName(terminal: string): string {

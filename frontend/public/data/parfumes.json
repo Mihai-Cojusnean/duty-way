@@ -801,11 +801,11 @@
       "collection": "Goldea",
       "parfums": [
         {
-          "id": "goldea_edp",
+          "id": "goldea_edt",
           "name": "Rose Goldea EDT",
           "prices": [
             {
-              "id": "75ml",
+              "id": "75ml_edt",
               "label": "75ml",
               "amountCents": 9584,
               "currency": "EUR"
@@ -828,7 +828,7 @@
           "name": "Rose Goldea EDP",
           "prices": [
             {
-              "id": "75ml",
+              "id": "75ml_edp",
               "label": "75ml",
               "amountCents": 12584,
               "currency": "EUR"
@@ -931,7 +931,7 @@
       "parfums": [
         {
           "id": "bvlgari_pour_homme_edt",
-          "name": "Bvlgari Pour Homme EDT",
+          "name": "Pour Homme EDT",
           "prices": [
             {
               "id": "100ml",
@@ -950,7 +950,7 @@
         },
         {
           "id": "bvlgari_pour_homme_edp",
-          "name": "Bvlgari Pour Homme EDP",
+          "name": "Pour Homme EDP",
           "prices": [
             {
               "id": "100ml",

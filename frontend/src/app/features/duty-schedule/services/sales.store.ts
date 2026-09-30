@@ -32,7 +32,10 @@ export class SalesStore {
 
   loadTodaySales(): void {
     this.salesService.getTodaySales().subscribe({
-      next: (sales) => this.todaySales.set(sales),
+      next: (sales) => {
+        this.todaySales.set(sales)
+        console.log(sales)
+      },
       error: (error: unknown) => {
         console.error('Failed to load today sales', error);
       },

@@ -1,11 +1,15 @@
 .sales-backdrop {
   position: fixed;
-  z-index: 20;
   inset: 0;
   display: grid;
   place-items: end center;
-  padding: 20px;
-  background: rgb(0 0 15 / 68%);
+  background-color: rgba(10, 12, 24, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  padding: 16px;
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
 }
 
 .sales-drawer {
@@ -16,29 +20,29 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 20px;
+  gap: 5px;
+  border-radius: 10px;
   background-color: var(--color-surface-solid);
   color: #ffffff;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .sales-header {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
+  align-items: center;
 }
 
 .eyebrow {
   display: block;
-  margin-bottom: 4px;
   color: var(--color-muted);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
 }
 
 .sales-header h2 {
@@ -47,16 +51,13 @@
 }
 
 .close-button {
-  width: auto;
   margin: 0;
-  padding: 3px 9px;
   border: 0;
   background: transparent;
-  box-shadow: none;
-  color: #ffffff;
-  font-size: 24px;
-  line-height: 1;
   cursor: pointer;
+  color: #8f92b2;
+  font-size: 1.2rem;
+  transition: color 0.15s ease;
 }
 
 .empty-sales {
@@ -71,23 +72,25 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
 }
 
 .sale-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 0.4rem 0.75rem;
-  border: 1px solid rgb(255 255 255 / 13%);
-  border-radius: 0.625rem;
-  background: rgb(11 11 65 / 30%);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 7px 10px;
 }
 
 .sale-info {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  gap: 2px;
 }
 
 .sale-info strong {
@@ -111,29 +114,54 @@
 
 .remove-button {
   flex: 0 0 auto;
-  border: 1px solid rgba(243, 154, 164, 0.35);
-  border-radius: 0.375rem;
-  padding: 0.4rem 0.625rem;
-  background: rgba(243, 154, 164, 0.1);
   color: var(--color-accent-red);
-  font-size: 0.7rem;
-  font-weight: 700;
-  cursor: pointer;
   white-space: nowrap;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 8px;
+  margin-left: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .remove-button:hover {
-  background: rgba(243, 154, 164, 0.2);
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
 .sales-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 4px;
-  padding-top: 14px;
   border-top: 1px solid rgb(255 255 255 / 20%);
-  color: #d8dcfa;
-  font-size: 0.85rem;
   font-weight: 700;
+  padding-top: 12px;
+  margin: 8px 8px 0 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.875rem;
+  color: #a2a6c1;
+}
+
+.sale-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+}
+
+#today-sales-title {
+  margin: 0;
+}
+
+.close-button:hover {
+  color: #ffffff;
+}
+
+.sales-footer strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
 }
