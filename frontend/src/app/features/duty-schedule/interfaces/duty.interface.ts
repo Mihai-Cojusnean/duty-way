@@ -17,12 +17,16 @@ export interface ShiftGroup {
   readonly dayLabel: string;
 }
 
+export interface BrandCatalogCollection {
+  collection: string;
+  parfums: Perfume[];
+}
+
 export interface Perfume {
   readonly id: string;
   readonly name: string;
   readonly prices: readonly PerfumePrice[];
   readonly creator: string;
-  readonly collection: string;
   readonly description: string;
   readonly notes: string;
   readonly longevity: string;

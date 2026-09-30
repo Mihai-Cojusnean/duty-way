@@ -1,7 +1,9 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { CatalogMap, Perfume } from '../interfaces/duty.interface';
+import { BrandCatalogCollection } from '../interfaces/duty.interface';
+
+export type CatalogMap = Record<string, BrandCatalogCollection[]>;
 
 @Injectable({
   providedIn: 'root',
@@ -17,13 +19,12 @@ export class CatalogService {
       return this.catalog;
     }
 
-
     this.catalog = await firstValueFrom(this.http.get<CatalogMap>(this.catalogUrl));
 
     return this.catalog;
   }
 
-  async getBrandCatalog(brand: string): Promise<Perfume[]> {
+  async getBrandCatalog(brand: string): Promise<BrandCatalogCollection[]> {
     const catalog = await this.getCatalog();
 
     return catalog[brand] ?? [];
