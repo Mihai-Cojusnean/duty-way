@@ -1,14 +1,12 @@
 <div class="chart">
-  <div class="chart-labels">
-  </div>
+  <div class="chart-labels"></div>
 
-  <div class="chart-canvas">
+  <div class="chart-canvas" [style.height.px]="chartHeight()">
     <canvas
       baseChart
       [data]="chartData()"
       [options]="chartOptions"
       [type]="chartType"
-      [style.height.px]="chartHeight()"
     ></canvas>
   </div>
 </div>

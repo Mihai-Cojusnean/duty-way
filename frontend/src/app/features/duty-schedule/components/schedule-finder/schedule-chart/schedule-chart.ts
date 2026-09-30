@@ -1,6 +1,15 @@
 import { Component, computed, input } from '@angular/core';
 import { ScheduleRecord } from '../../../interfaces/duty.interface';
-import { ArcElement, Chart, ChartConfiguration, ChartOptions, Legend, registerables, Title, Tooltip } from 'chart.js';
+import {
+  ArcElement,
+  Chart,
+  ChartConfiguration,
+  ChartOptions,
+  Legend,
+  registerables,
+  Title,
+  Tooltip,
+} from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
@@ -23,6 +32,7 @@ export class ScheduleChart {
   private readonly rowHeight = 20;
   private readonly chartPaddingY = 10;
   private readonly maxLabelLength = 22;
+  private lastCounts: number[] = [];
 
   readonly chartHeight = computed(() => {
     const count = this.chartData().labels?.length ?? 0;
@@ -38,11 +48,14 @@ export class ScheduleChart {
       counts[key] = (counts[key] ?? 0) + 1;
     }
 
-    const labels = this.shortenLabels(counts);
+    const labels = Object.keys(counts).map((label) =>
+      label.length > this.maxLabelLength ? `${label.slice(0, this.maxLabelLength - 3)}...` : label,
+    );
     const values = Object.values(counts);
     const total = values.reduce((sum, value) => sum + value, 0);
-
     const percentages = values.map((value) => (total > 0 ? (value / total) * 100 : 0));
+
+    this.lastCounts = values;
 
     return {
       labels,
@@ -65,9 +78,8 @@ export class ScheduleChart {
       x: {
         display: false,
         min: 0,
-        max: 140,
+        max: 150,
       },
-
       y: {
         grid: {
           display: false,
@@ -96,44 +108,12 @@ export class ScheduleChart {
         clip: false,
         color: '#ffffff',
 
-        formatter: (value: number) => {
-          return `${value % 1 === 0 ? value : value.toFixed(1)}%`;
+        formatter: (value: number, context) => {
+          const count = this.lastCounts[context.dataIndex] ?? '';
+          const pct = value % 1 === 0 ? value : value.toFixed(1);
+          return `${count} (${pct}%)`;
         },
       },
     },
   };
-
-  private shortenLabels(counts: Record<string, number>) {
-    return Object.keys(counts).map((label) => {
-      let displayName = label;
-      switch (label.replace(/\s/g, '')) {
-        case 'CDG2-LACM(AC)':
-          displayName = 'LACM';
-          break;
-
-        case 'CDG2-LSM7_LSM8(S3)porteL':
-          displayName = 'LSM7 / LSM8';
-          break;
-
-        case 'CDG2-LEP1(TE)porteK':
-          displayName = 'LEP1';
-          break;
-
-        case 'CDG2-LSM4(S4)porteM':
-          displayName = 'LSM4';
-          break;
-
-        case 'CDG1-LAP1(T1)':
-          displayName = 'LAP1';
-          break;
-
-        default:
-          displayName = label;
-      }
-
-      return displayName.length > this.maxLabelLength
-        ? `${displayName.slice(0, this.maxLabelLength - 3)}...`
-        : displayName;
-    });
-  }
 }
