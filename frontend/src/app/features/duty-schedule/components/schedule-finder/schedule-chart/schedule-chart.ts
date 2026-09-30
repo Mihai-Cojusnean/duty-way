@@ -91,7 +91,7 @@ export class ScheduleChart {
           color: '#e7eaff',
         },
         afterFit: (scale) => {
-          scale.width = 110;
+          scale.width = 80;
         },
       },
     },

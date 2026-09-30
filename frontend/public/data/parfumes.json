@@ -424,7 +424,7 @@
             {
               "id": "100ml",
               "label": "100ml",
-              "amountCents": 25000,
+              "amountCents": 20000,
               "currency": "EUR"
             }
           ],
@@ -447,7 +447,7 @@
             {
               "id": "100ml",
               "label": "100ml",
-              "amountCents": 25000,
+              "amountCents": 20000,
               "currency": "EUR"
             }
           ],
@@ -470,7 +470,7 @@
             {
               "id": "100ml",
               "label": "100ml",
-              "amountCents": 25000,
+              "amountCents": 20000,
               "currency": "EUR"
             }
           ],
@@ -493,7 +493,7 @@
             {
               "id": "100ml",
               "label": "100ml",
-              "amountCents": 25000,
+              "amountCents": 20000,
               "currency": "EUR"
             }
           ],
@@ -539,7 +539,7 @@
             {
               "id": "60ml",
               "label": "60ml",
-              "amountCents": 11750,
+              "amountCents": 10,
               "currency": "EUR"
             }
           ],
@@ -568,7 +568,7 @@
             {
               "id": "60ml",
               "label": "60ml",
-              "amountCents": 10200,
+              "amountCents": 11750,
               "currency": "EUR"
             }
           ],
