@@ -56,15 +56,18 @@
     <h2>Latest changes</h2>
 
     @if (!diff.added.length && !diff.removed.length && !diff.changed.length) {
-    <p class="no-changes">No changes compared with your previous schedule.</p>
+    <p class="no-changes">
+      No changes compared with your previous schedule.
+    </p>
     }
 
     @if (diff.added.length) {
     <div class="change-group">
       <h3>Added</h3>
+
       @for (record of diff.added; track record.id) {
       <p class="change-row added">
-        <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
+        <strong>{{ formatScheduleDate(record.date) }}</strong>
         <span>{{ record.brand }} · {{ record.hours }}</span>
       </p>
       }
@@ -74,13 +77,14 @@
     @if (diff.changed.length) {
     <div class="change-group">
       <h3>Changed</h3>
+
       @for (change of diff.changed; track change.current.id) {
       <p class="change-row changed">
-        <strong>{{ shortDay(change.current.day) }} {{ change.current.dateStr }}</strong>
+        <strong>{{ formatScheduleDate(change.current.date) }}</strong>
         <span>
-          {{ change.current.brand }} ·
-          {{ change.previous.hours }} → {{ change.current.hours }}
-        </span>
+              {{ change.current.brand }} ·
+              {{ change.previous.hours }} → {{ change.current.hours }}
+            </span>
       </p>
       }
     </div>
@@ -89,9 +93,10 @@
     @if (diff.removed.length) {
     <div class="change-group">
       <h3>Removed</h3>
+
       @for (record of diff.removed; track record.id) {
       <p class="change-row removed">
-        <strong>{{ shortDay(record.day) }} {{ record.dateStr }}</strong>
+        <strong>{{ formatScheduleDate(record.date) }}</strong>
         <span>{{ record.brand }} · {{ record.hours }}</span>
       </p>
       }
@@ -113,7 +118,7 @@
         <article class="past-shift">
           <div class="shift-header">
             <strong>
-              {{ shortDay(record.day) }} {{ record.dateStr }} · {{ record.hours }}
+              {{ formatScheduleDate(record.date) }} · {{ record.hours }}
             </strong>
 
             @if (salesForShiftGroup(group.shifts); as sale) {
@@ -149,12 +154,10 @@
     [class.multi-shift-group]="group.isMultiShift"
   >
     @for (record of group.shifts; track record.id) {
-    <article [class.today-shift]="record.isToday">
+    <article [class.today-shift]="isToday(record.date)">
       <div class="shift-header">
         <strong>
-          {{ shortDay(record.day) }}
-          {{ record.dateStr }}
-          · {{ record.hours }}
+          {{ formatScheduleDate(record.date) }} · {{ record.hours }}
         </strong>
 
         <div class="brand-buttons">

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { ScheduleRecord } from '../interfaces/duty.interface';
+import { ISODate, ScheduleRecord } from '../interfaces/duty.interface';
 import { getTerminalName } from './schedule.utils';
 
 @Injectable({
@@ -40,10 +40,8 @@ export class ScheduleParserService {
             id: `${terminal}-${row}-${col}`,
             terminal: getTerminalName(terminal),
             brand,
-            day,
-            dateStr,
-            dateNumber: this.extractDayNumber(dateStr),
-            startHourMinutes: this.extractStartMinutes(hours),
+            date: this.parseScheduleDate(dateStr),
+            startMinutes: this.extractStartMinutes(hours),
             hours,
           });
         }
@@ -51,7 +49,7 @@ export class ScheduleParserService {
     }
 
     return rawRecords.sort(
-      (a, b) => a.dateNumber - b.dateNumber || a.startHourMinutes - b.startHourMinutes,
+      (a, b) => a.date.localeCompare(b.date) || a.startMinutes - b.startMinutes,
     );
   }
 
@@ -92,5 +90,43 @@ export class ScheduleParserService {
     const hourMatch = start.match(/\d+/);
 
     return hourMatch ? Number(hourMatch[0]) * 60 : 9999;
+  }
+
+  private parseScheduleDate(dateStr: string): ISODate {
+    const normalized = dateStr.trim();
+
+    const match = normalized.match(/^(\d{1,2})-([A-Za-z]{3})$/);
+
+    if (!match) {
+      throw new Error(`Invalid schedule date: "${dateStr}"`);
+    }
+
+    const day = Number(match[1]);
+    const monthName = match[2].toLowerCase();
+
+    const months: Record<string, number> = {
+      jan: 1,
+      feb: 2,
+      mar: 3,
+      apr: 4,
+      may: 5,
+      jun: 6,
+      jul: 7,
+      aug: 8,
+      sep: 9,
+      oct: 10,
+      nov: 11,
+      dec: 12,
+    };
+
+    const month = months[monthName];
+
+    if (!month) {
+      throw new Error(`Invalid schedule month: "${dateStr}"`);
+    }
+
+    const year = new Date().getFullYear();
+
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}` as ISODate;
   }
 }

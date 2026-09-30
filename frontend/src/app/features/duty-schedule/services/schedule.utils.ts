@@ -1,141 +1,145 @@
-import { ScheduleRecord, ShiftGroup } from '../interfaces/duty.interface';
+import { ISODate, ScheduleRecord, ShiftGroup } from '../interfaces/duty.interface';
 
-export function checkIsPast(dateStr: string): boolean {
-  const shiftDate = new Date(`${dateStr} ${new Date().getFullYear()}`);
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
-  shiftDate.setHours(0, 0, 0, 0);
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  return !Number.isNaN(shiftDate.getTime()) && shiftDate < today;
+export interface GroupScheduleOptions {
+  readonly includeDaysOff?: boolean;
 }
 
-export function checkIsToday(dateStr: string): boolean {
-  const shiftDate = new Date(`${dateStr} ${new Date().getFullYear()}`);
-
-  shiftDate.setHours(0, 0, 0, 0);
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  return !Number.isNaN(shiftDate.getTime()) && shiftDate.getTime() === today.getTime();
+export function isPast(date: ISODate, today: ISODate = getTodayISO()): boolean {
+  return date < today;
 }
 
-export function prepareScheduleRecords(records: readonly ScheduleRecord[]): ScheduleRecord[] {
-  return records.map((record) => ({
-    ...record,
-    isPast: checkIsPast(record.dateStr),
-    isToday: checkIsToday(record.dateStr),
-  }));
+export function isToday(date: ISODate, today: ISODate = getTodayISO()): boolean {
+  return date === today;
 }
 
 export function groupRecordsByDate(
   records: readonly ScheduleRecord[],
-  includeDaysOff = false,
+  options: GroupScheduleOptions = {},
 ): ShiftGroup[] {
-  const groups = new Map<string, ScheduleRecord[]>();
+  const { includeDaysOff = false } = options;
+
+  if (records.length === 0) {
+    return [];
+  }
+
+  const groups = groupByDate(records);
+  const sortedGroups = sortGroups(groups);
+
+  if (!includeDaysOff) {
+    return sortedGroups.map(([date, shifts]) => createShiftGroup(date, shifts));
+  }
+
+  return addDayOffGroups(sortedGroups);
+}
+
+function groupByDate(records: readonly ScheduleRecord[]): Map<ISODate, ScheduleRecord[]> {
+  const groups = new Map<ISODate, ScheduleRecord[]>();
 
   for (const record of records) {
-    const date = record.dateStr.trim();
-    const existing = groups.get(date);
+    const shifts = groups.get(record.date);
 
-    if (existing) {
-      existing.push(record);
+    if (shifts) {
+      shifts.push(record);
     } else {
-      groups.set(date, [record]);
+      groups.set(record.date, [record]);
     }
   }
 
-  const sortedGroups = [...groups.entries()].sort(
-    ([, a]: [string, ScheduleRecord[]], [, b]: [string, ScheduleRecord[]]): number =>
-      a[0].dateNumber - b[0].dateNumber,
-  );
+  return groups;
+}
 
-  if (records.some((record: ScheduleRecord): boolean => !record.isPast)) {
-    const result: ShiftGroup[] = [];
+function sortGroups(groups: Map<ISODate, ScheduleRecord[]>): [ISODate, ScheduleRecord[]][] {
+  return [...groups.entries()].sort(([dateA], [dateB]) => dateA.localeCompare(dateB));
+}
 
-    const today = new Date();
-    const hasShiftToday = records.some((record) => record.isToday);
-
-    if (includeDaysOff && !hasShiftToday) {
-      result.push({
-        date: `day-off-${today.getTime()}`,
-        shifts: [],
-        isMultiShift: false,
-        isDayOff: true,
-        dayLabel: formatDayOffLabel(today),
-      });
-    }
-
-    for (let i: number = 0; i < sortedGroups.length; i++) {
-      const [date, shifts] = sortedGroups[i];
-
-      result.push({
-        date,
-        shifts,
-        isMultiShift: shifts.length > 1,
-        isDayOff: false,
-        dayLabel: date,
-      });
-
-      const next: [string, ScheduleRecord[]] = sortedGroups[i + 1];
-
-      if (!next) {
-        continue;
-      }
-
-      const currentDate: Date = parseScheduleDate(date);
-      const nextDate: Date = parseScheduleDate(next[0]);
-
-      if (includeDaysOff) {
-        if (!Number.isNaN(currentDate.getTime()) && !Number.isNaN(nextDate.getTime())) {
-          const daysBetween: number = Math.round(
-            (nextDate.getTime() - currentDate.getTime()) / 86_400_000,
-          );
-
-          for (let day: number = 1; day < daysBetween; day++) {
-            const dayOff = new Date(currentDate);
-            dayOff.setDate(dayOff.getDate() + day);
-
-            result.push({
-              date: `day-off-${dayOff.getTime()}`,
-              shifts: [],
-              isMultiShift: false,
-              isDayOff: true,
-              dayLabel: formatDayOffLabel(dayOff),
-            });
-          }
-        }
-      }
-    }
-
-    return result;
-  }
-
-  return sortedGroups.map(([date, shifts]) => ({
+function createShiftGroup(date: ISODate, shifts: readonly ScheduleRecord[]): ShiftGroup {
+  return {
     date,
     shifts,
     isMultiShift: shifts.length > 1,
     isDayOff: false,
-    dayLabel: date,
-  }));
+    dayLabel: formatDateLabel(date),
+  };
 }
 
-function parseScheduleDate(dateStr: string): Date {
-  const date = new Date(`${dateStr} ${new Date().getFullYear()}`);
+function addDayOffGroups(groups: readonly [ISODate, ScheduleRecord[]][]): ShiftGroup[] {
+  if (groups.length === 0) {
+    return [];
+  }
 
-  date.setHours(12, 0, 0, 0);
+  const result: ShiftGroup[] = [];
 
-  return date;
+  for (let index = 0; index < groups.length; index++) {
+    const [currentDate, shifts] = groups[index];
+
+    result.push(createShiftGroup(currentDate, shifts));
+
+    const nextGroup = groups[index + 1];
+
+    if (!nextGroup) {
+      continue;
+    }
+
+    const nextDate = nextGroup[0];
+
+    for (let date = addDays(currentDate, 1); date < nextDate; date = addDays(date, 1)) {
+      result.push(createDayOffGroup(date));
+    }
+  }
+
+  return result;
 }
 
-function formatDayOffLabel(date: Date): string {
+function createDayOffGroup(date: ISODate): ShiftGroup {
+  return {
+    date,
+    shifts: [],
+    isMultiShift: false,
+    isDayOff: true,
+    dayLabel: formatDateLabel(date),
+  };
+}
+
+function addDays(date: ISODate, days: number): ISODate {
+  const parsed = parseISODate(date);
+
+  parsed.setDate(parsed.getDate() + days);
+
+  return formatISODate(parsed);
+}
+
+function parseISODate(date: ISODate): Date {
+  const [year, month, day] = date.split('-').map(Number);
+
+  return new Date(year, month - 1, day, 12, 0, 0, 0);
+}
+
+function formatISODate(date: Date): ISODate {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}` as ISODate;
+}
+
+function getTodayISO(): ISODate {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}` as ISODate;
+}
+
+function formatDateLabel(date: ISODate): string {
   return new Intl.DateTimeFormat('en-GB', {
     weekday: 'short',
     day: 'numeric',
     month: 'short',
-  }).format(date);
+  }).format(parseISODate(date));
 }
 
 export const TERMINAL_NAMES: Readonly<Record<string, string>> = {
@@ -150,4 +154,12 @@ export function getTerminalName(terminal: string): string {
   const normalized = terminal.trim();
 
   return TERMINAL_NAMES[normalized] ?? normalized;
+}
+
+export function formatScheduleDate(date: ISODate): string {
+  return new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }).format(parseISODate(date));
 }

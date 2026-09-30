@@ -1,14 +1,20 @@
+export type ISODate = `${number}-${number}-${number}`;
+
 export interface ScheduleRecord {
   readonly id: string;
   readonly terminal: string;
   readonly brand: string;
-  readonly day: string;
-  readonly dateStr: string;
-  readonly dateNumber: number;
-  readonly startHourMinutes: number;
-  readonly hours: string;
-  readonly isPast?: boolean;
-  readonly isToday?: boolean;
+  readonly date: ISODate;
+  readonly startMinutes: number;
+  readonly hours: string
+}
+
+export interface ShiftGroup {
+  readonly date: ISODate;
+  readonly shifts: readonly ScheduleRecord[];
+  readonly isMultiShift: boolean;
+  readonly isDayOff: boolean;
+  readonly dayLabel: string;
 }
 
 export interface Perfume {
@@ -80,14 +86,6 @@ export interface RecordSaleResponse {
 export interface SoldPerfume {
   readonly id: string;
   readonly name: string;
-}
-
-export interface ShiftGroup {
-  date: string;
-  shifts: ScheduleRecord[];
-  isMultiShift: boolean;
-  isDayOff: boolean;
-  dayLabel: string;
 }
 
 export interface DailySalesSummary {

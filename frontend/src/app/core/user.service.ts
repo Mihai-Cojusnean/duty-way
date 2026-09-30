@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { User } from '../features/duty-schedule/interfaces/user.interface';
+import {ScheduleRecord} from "../features/duty-schedule/interfaces/duty.interface";
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,8 @@ export class UserService {
     );
   }
 
-  saveSchedule(shifts: readonly unknown[]): Observable<unknown> {
+  saveSchedule(shifts: readonly ScheduleRecord[]): Observable<unknown> {
+    console.log(shifts);
     return this.http.post(this.apiUrl, { shifts }, { headers: this.authHeaders });
   }
 }
