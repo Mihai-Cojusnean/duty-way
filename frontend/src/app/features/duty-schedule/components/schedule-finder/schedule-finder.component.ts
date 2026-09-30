@@ -19,7 +19,7 @@ import {
   ScheduleRecord,
 } from '../../interfaces/duty.interface';
 import { ScheduleChart } from './schedule-chart/schedule-chart';
-import { groupRecordsByDate, isPast } from '../../services/schedule.utils';
+import { groupRecordsByDate, isPast, shiftKey } from '../../services/schedule.utils';
 import { AdminService } from '../../../../core/admin.service';
 import { UserService } from '../../../../core/user.service';
 import { ScheduleDiffService } from '../../services/schedule-diff.service';
@@ -50,18 +50,14 @@ export class ScheduleFinderComponent {
   readonly selectedFile = signal<File | null>(null);
   readonly isToday = isToday;
   readonly formatScheduleDate = formatScheduleDate;
-
   readonly salesHistory = this.salesStore.salesHistory;
-
   readonly viewedUser = input<ViewedUser | null>(null);
   readonly soldTodayCount = input<number>(0);
   readonly todaySalesTotalCents = input<number>(0);
-
   readonly openBrand = output<string>();
-  readonly fileSelected = output<File>();
-
   readonly getBrand = (record: ScheduleRecord) => record.brand;
   readonly getTerminal = (record: ScheduleRecord) => record.terminal;
+  readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -89,8 +85,6 @@ export class ScheduleFinderComponent {
       includeDaysOff: true,
     }),
   );
-
-  readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
 
   constructor() {
     effect(() => {
@@ -133,14 +127,16 @@ export class ScheduleFinderComponent {
     }).format(this.parseISODate(date));
   }
 
-  salesForShiftGroup(records: readonly ScheduleRecord[]): SalesHistoryEntry | null {
-    const date = records[0]?.date;
-
-    if (!date) {
-      return null;
+  private readonly salesByShiftKey = computed(() => {
+    const map = new Map<string, SalesHistoryEntry>();
+    for (const sale of this.salesHistory()) {
+      if (sale.shiftKey) map.set(sale.shiftKey, sale);
     }
+    return map;
+  });
 
-    return this.salesHistory().find((sale) => sale.date === date) ?? null;
+  salesForShiftGroup(record: ScheduleRecord): SalesHistoryEntry | null {
+    return this.salesByShiftKey().get(shiftKey(record)) ?? null;
   }
 
   private saveSchedule(records: readonly ScheduleRecord[]): void {

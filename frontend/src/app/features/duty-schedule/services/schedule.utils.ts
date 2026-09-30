@@ -148,6 +148,7 @@ export const TERMINAL_NAMES: Readonly<Record<string, string>> = {
   'CDG2 - LEP1 (TE) porte K': '2E - K',
   'CDG2 -LSM7_LSM8 ( S3) porte L': '2E - L',
   'CDG2 - LSM4 (S4) porte M': '2E - M',
+  'CDG2 - LFM5_LFM6 (TF)': '2F',
 };
 
 export function getTerminalName(terminal: string): string {
@@ -162,4 +163,36 @@ export function formatScheduleDate(date: ISODate): string {
     day: 'numeric',
     month: 'short',
   }).format(parseISODate(date));
+}
+
+export function shiftKey(record: ScheduleRecord): string {
+  return [
+    record.terminal.trim().toLowerCase(),
+    record.date,
+    record.brand.trim().toLowerCase(),
+    String(record.startMinutes),
+  ].join('|');
+}
+
+export function findCurrentShift(
+  records: readonly ScheduleRecord[],
+  now: Date = new Date(),
+): ScheduleRecord | null {
+  const todayISO = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+  return (
+    records.find((record) => {
+      if (record.date !== todayISO) return false;
+
+      const match = record.hours.match(/^(\d{2}):(\d{2})-(\d{2}):(\d{2})$/);
+      if (!match) return false;
+
+      const [, startH, startM, endH, endM] = match;
+      const start = Number(startH) * 60 + Number(startM);
+      const end = Number(endH) * 60 + Number(endM);
+
+      return nowMinutes >= start && nowMinutes <= end;
+    }) ?? null
+  );
 }

@@ -41,7 +41,7 @@ export class ScheduleParserService {
             brand,
             date: this.parseScheduleDate(dateStr),
             startMinutes: this.extractStartMinutes(hours),
-            hours: this.normalizeHours(hours),
+            hours: this.normalizeHours(hours)
           });
         }
       }

@@ -121,7 +121,7 @@
               {{ formatScheduleDate(record.date) }} · {{ record.hours }}
             </strong>
 
-            @if (salesForShiftGroup(group.shifts); as sale) {
+            @if (salesForShiftGroup(record); as sale) {
             <span class="shift-sales">
                   <strong class="sale-amount">{{ formatEuro(sale.totalCents) }}</strong>
                   <span class="sale-count">· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>

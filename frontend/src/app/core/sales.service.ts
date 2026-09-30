@@ -31,6 +31,7 @@ export class SalesService {
         priceLabel: sale.price.label,
         amountCents: sale.price.amountCents,
         currency: sale.price.currency,
+        shiftKey: sale.shiftKey
       },
       { headers: this.authHeaders },
     );

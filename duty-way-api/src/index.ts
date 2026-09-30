@@ -3,7 +3,7 @@ import { getMe } from './routes/me';
 import { getUser, postUser } from './routes/user';
 import { getSalesSummary, getSalesToday, getSalesHistoryRoute, postSale, deleteSale } from './routes/sales';
 import { getAdminUsers, getAdminUserSalesHistory, getAdminUserSchedule } from './routes/admin';
-import {json} from "./utlis";
+import { json } from "./utlis";
 
 
 export default {

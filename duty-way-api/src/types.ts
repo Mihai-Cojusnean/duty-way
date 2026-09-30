@@ -30,6 +30,7 @@ export interface SaleRequest {
 	readonly priceLabel: string;
 	readonly amountCents: number;
 	readonly currency: 'EUR';
+	readonly shiftKey: string;
 }
 
 export interface SalesSummary {
@@ -40,6 +41,7 @@ export interface SalesSummary {
 
 export interface DailySalesSummary {
 	readonly date: string;
+	readonly shiftKey: string;
 	readonly count: number;
 	readonly totalCents: number;
 	readonly currency: 'EUR';

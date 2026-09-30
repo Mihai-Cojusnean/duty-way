@@ -41,8 +41,8 @@ export interface PerfumeSale {
   readonly perfume: Perfume;
   readonly price: PerfumePrice;
   readonly brand: string;
+  readonly shiftKey: string;
 }
-
 export type CatalogMap = Record<string, Perfume[]>;
 
 export interface ChangedShift {
@@ -73,6 +73,7 @@ export interface SalesSummary {
 
 export interface SalesHistoryEntry {
   readonly date: string;
+  readonly shiftKey: string;
   readonly count: number;
   readonly totalCents: number;
   readonly currency: 'EUR';

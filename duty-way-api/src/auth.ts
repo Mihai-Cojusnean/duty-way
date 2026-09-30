@@ -14,37 +14,37 @@ export async function authenticateTelegramUser(request: Request, env: Env): Prom
 		is_admin: true,
 	};
 
-	// if (!initData || !env.TELEGRAM_BOT_TOKEN) {
-	// 	return null;
-	// }
-	//
-	// const telegramUser = await validateTelegramInitData(initData, env.TELEGRAM_BOT_TOKEN);
-	//
-	// if (!telegramUser) {
-	// 	return null;
-	// }
-	//
-	// const telegramId = String(telegramUser.id);
-	//
-	// await env.DB.prepare(
-	// 	"INSERT OR IGNORE INTO app_users (telegram_user_id, role) VALUES (?, 'user')",
-	// )
-	// 	.bind(telegramId)
-	// 	.run();
-	//
-	// const dbUser = await env.DB.prepare(
-	// 	'SELECT role, work_name FROM app_users WHERE telegram_user_id = ?',
-	// )
-	// 	.bind(telegramId)
-	// 	.first<{ role: Role; work_name: string | null }>();
-	//
-	// return {
-	// 	telegram_id: telegramId,
-	// 	username: telegramUser.username ?? '',
-	// 	language: telegramUser.language_code ?? 'en',
-	// 	work_name: dbUser?.work_name ?? '',
-	// 	is_admin: dbUser?.role === 'admin',
-	// };
+	if (!initData || !env.TELEGRAM_BOT_TOKEN) {
+		return null;
+	}
+
+	const telegramUser = await validateTelegramInitData(initData, env.TELEGRAM_BOT_TOKEN);
+
+	if (!telegramUser) {
+		return null;
+	}
+
+	const telegramId = String(telegramUser.id);
+
+	await env.DB.prepare(
+		"INSERT OR IGNORE INTO app_users (telegram_user_id, role) VALUES (?, 'user')",
+	)
+		.bind(telegramId)
+		.run();
+
+	const dbUser = await env.DB.prepare(
+		'SELECT role, work_name FROM app_users WHERE telegram_user_id = ?',
+	)
+		.bind(telegramId)
+		.first<{ role: Role; work_name: string | null }>();
+
+	return {
+		telegram_id: telegramId,
+		username: telegramUser.username ?? '',
+		language: telegramUser.language_code ?? 'en',
+		work_name: dbUser?.work_name ?? '',
+		is_admin: dbUser?.role === 'admin',
+	};
 }
 
 async function validateTelegramInitData(

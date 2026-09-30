@@ -84,26 +84,10 @@ export async function postSale(
 	const saleId = crypto.randomUUID();
 
 	await env.DB.prepare(
-		`INSERT INTO sales (id,
-		                    telegram_user_id,
-		                    brand,
-		                    perfume_id,
-		                    perfume_name,
-		                    price_label,
-		                    amount_cents,
-		                    currency)
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+		`INSERT INTO sales (id, telegram_user_id, brand, perfume_id, perfume_name, price_label, amount_cents, currency, shift_key)
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 	)
-		.bind(
-			saleId,
-			currentUser.telegram_id,
-			body.brand.trim(),
-			body.perfumeId.trim(),
-			body.perfumeName.trim(),
-			body.priceLabel.trim(),
-			body.amountCents,
-			body.currency,
-		)
+		.bind(saleId, currentUser.telegram_id, body.brand.trim(), body.perfumeId.trim(), body.perfumeName.trim(), body.priceLabel.trim(), body.amountCents, body.currency, body.shiftKey.trim())
 		.run();
 
 	return json(
@@ -165,31 +149,25 @@ async function getTodaySalesSummary(
 	};
 }
 
-export async function getSalesHistory(
-	env: Env,
-	telegramId: string,
-	days: number,
-): Promise<readonly DailySalesSummary[]> {
+export async function getSalesHistory(env: Env, telegramId: string, days: number): Promise<readonly DailySalesSummary[]> {
 	const result = await env.DB.prepare(
 		`SELECT
-			date(sold_at) AS date,
-			COUNT(*) AS count,
-			COALESCE(SUM(amount_cents), 0) AS total_cents
+			 date(sold_at) AS date,
+			 shift_key,
+			 COUNT(*) AS count,
+			 COALESCE(SUM(amount_cents), 0) AS total_cents
 		 FROM sales
 		 WHERE telegram_user_id = ?
 		   AND date(sold_at) >= date('now', ?)
-		 GROUP BY date(sold_at)
+		 GROUP BY date(sold_at), shift_key
 		 ORDER BY date(sold_at) DESC`,
 	)
 		.bind(telegramId, `-${days - 1} days`)
-		.all<{
-			date: string;
-			count: number;
-			total_cents: number;
-		}>();
+		.all<{ date: string; shift_key: string; count: number; total_cents: number }>();
 
 	return result.results.map((row) => ({
 		date: row.date,
+		shiftKey: row.shift_key,
 		count: row.count,
 		totalCents: row.total_cents,
 		currency: 'EUR' as const,

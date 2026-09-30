@@ -6,15 +6,17 @@ import {
   resource,
   signal,
 } from '@angular/core';
-import { Perfume, PerfumePrice } from '../../interfaces/duty.interface';
+import { Perfume, PerfumePrice, ScheduleRecord } from '../../interfaces/duty.interface';
 import { PerfumeModalComponent } from '../perfume-modal/perfume-modal.component';
 import { CatalogService } from '../../services/catalog.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { SalesStore } from '../../services/sales.store';
 import { CurrencyPipe } from '@angular/common';
 import { TodaySales } from './today-sales/today-sales';
+import { UserService } from '../../../../core/user.service';
+import { findCurrentShift, shiftKey } from '../../services/schedule.utils';
 
 @Component({
   selector: 'app-brand-catalog',
@@ -29,6 +31,7 @@ export class BrandCatalogComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly catalogService = inject(CatalogService);
   private readonly salesStore = inject(SalesStore);
+  private readonly userService = inject(UserService);
 
   protected readonly salesOpen = signal(false);
   readonly soldTodayCount = this.salesStore.soldTodayCount;
@@ -41,6 +44,15 @@ export class BrandCatalogComponent {
     this.route.paramMap.pipe(map((params) => params.get('brand')?.trim() ?? '')),
     { initialValue: '' },
   );
+
+  private readonly mySchedule = resource({
+    loader: () => firstValueFrom(this.userService.getUserSchedule()),
+  });
+
+  private readonly currentShift = computed<ScheduleRecord | null>(() => {
+    const shifts = this.mySchedule.value()?.shifts as ScheduleRecord[] | undefined;
+    return shifts ? findCurrentShift(shifts) : null;
+  });
 
   protected openPerfume(perfume: Perfume): void {
     this.selectedPerfume.set(perfume);
@@ -96,10 +108,13 @@ export class BrandCatalogComponent {
   }
 
   addSale(perfume: Perfume, price: PerfumePrice): void {
+    const shift = this.currentShift();
+
     this.salesStore.recordSale({
       perfume,
       price,
-      brand: perfume.id,
+      brand: this.brandName(),
+      shiftKey: shift ? shiftKey(shift) : '',
     });
 
     const key = `${perfume.id}-${price.label}`;
@@ -109,7 +124,7 @@ export class BrandCatalogComponent {
       if (this.addedSale() === key) {
         this.addedSale.set(null);
       }
-    }, 1000);
+    }, 500);
   }
 
   protected openSales(): void {

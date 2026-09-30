@@ -39,6 +39,7 @@ export function isSaleRequest(value: unknown): value is SaleRequest {
 		Number.isSafeInteger(value.amountCents) &&
 		value.amountCents >= 0 &&
 		'currency' in value &&
-		value.currency === 'EUR'
+		value.currency === 'EUR' &&
+		'shiftKey' in value && typeof value.shiftKey === 'string'
 	);
 }
