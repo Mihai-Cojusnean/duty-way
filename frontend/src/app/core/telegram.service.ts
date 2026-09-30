@@ -11,10 +11,6 @@ export class TelegramService {
     WebApp.expand();
   }
 
-  getUser() {
-    return WebApp.initDataUnsafe?.user;
-  }
-
   getInitData(): string {
     return WebApp.initData;
   }

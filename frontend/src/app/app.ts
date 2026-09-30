@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { User } from './features/duty-schedule/interfaces/user.interface';
-import { UserService } from './core/user.service';
 import { RouterOutlet } from '@angular/router';
 import { ApiService } from './core/api.service';
 

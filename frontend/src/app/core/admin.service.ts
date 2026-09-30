@@ -24,7 +24,6 @@ export class AdminService {
   }
 
   getUserSchedule(telegramUserId: string): Observable<User> {
-    console.log(telegramUserId);
     return this.http.get<User>(`${this.apiUrl}/api/admin/users/${telegramUserId}/schedule`, {
       headers: this.authHeaders,
     });

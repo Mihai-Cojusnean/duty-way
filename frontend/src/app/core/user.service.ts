@@ -30,7 +30,6 @@ export class UserService {
   }
 
   saveSchedule(shifts: readonly ScheduleRecord[]): Observable<unknown> {
-    console.log(shifts);
     return this.http.post(this.apiUrl, { shifts }, { headers: this.authHeaders });
   }
 }

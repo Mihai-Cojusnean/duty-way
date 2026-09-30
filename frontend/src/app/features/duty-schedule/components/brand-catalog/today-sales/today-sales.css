@@ -7,9 +7,6 @@
   backdrop-filter: blur(8px);
   z-index: 1000;
   padding: 16px;
-  /*display: flex;*/
-  /*align-items: center;*/
-  /*justify-content: center;*/
 }
 
 .sales-drawer {
@@ -48,16 +45,6 @@
 .sales-header h2 {
   margin: 0;
   font-size: 1.25rem;
-}
-
-.close-button {
-  margin: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  color: #8f92b2;
-  font-size: 1.2rem;
-  transition: color 0.15s ease;
 }
 
 .empty-sales {
@@ -154,10 +141,6 @@
 
 #today-sales-title {
   margin: 0;
-}
-
-.close-button:hover {
-  color: #ffffff;
 }
 
 .sales-footer strong {

@@ -1,10 +1,10 @@
 .admin-schedule-picker {
   display: grid;
   gap: 8px;
-  margin: 12px 0;
-  padding: 12px;
+  margin: 10px 0;
+  padding: 10px;
   border: 1px solid var(--color-panel-border);
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--color-panel-bg);
 }
 
@@ -15,19 +15,9 @@
 
 .admin-schedule-picker select {
   width: 100%;
-  padding: 9px;
+  padding: 10px;
   border: 1px solid rgb(255 255 255 / 16%);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--color-surface-solid);
   color: #fff;
-}
-
-.admin-schedule-picker p {
-  margin: 0;
-  color: var(--color-muted);
-  font-size: 0.82rem;
-}
-
-.admin-schedule-picker button {
-  margin-left: 8px;
 }

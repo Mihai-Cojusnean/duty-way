@@ -193,7 +193,8 @@ article p {
   list-style: none;
   display: flex;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  margin: 1px;
 }
 
 .form-summary::-webkit-details-marker {

@@ -35,8 +35,12 @@ export class DutySchedulePageComponent {
     stream: () => this.adminService.getUsers(),
   });
 
+  readonly otherUsers = computed(() =>
+    (this.users.value() ?? []).filter((u) => u.telegram_id !== this.session.value()?.telegram_id),
+  );
+
   readonly selectedUser = computed(
-    () => (this.users.value() ?? []).find((u) => u.telegram_id === this.selectedUserId()) ?? null,
+    () => this.otherUsers().find((u) => u.telegram_id === this.selectedUserId()) ?? null,
   );
 
   readonly viewedUser = computed<ViewedUser | null>(() => {

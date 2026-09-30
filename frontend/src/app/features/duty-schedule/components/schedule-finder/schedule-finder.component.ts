@@ -202,10 +202,4 @@ export class ScheduleFinderComponent {
 
     this.statusMessage.set(message);
   }
-
-  private parseISODate(date: ISODate): Date {
-    const [year, month, day] = date.split('-').map(Number);
-
-    return new Date(year, month - 1, day, 12, 0, 0, 0);
-  }
 }

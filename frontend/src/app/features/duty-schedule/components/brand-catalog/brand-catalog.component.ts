@@ -128,6 +128,6 @@ export class BrandCatalogComponent {
   }
 
   goBack(): void {
-    this.router.navigate(['/']).then((r) => console.log(r));
+    this.router.navigate(['/']).then((r) => console.log("Back..."));
   }
 }
