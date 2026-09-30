@@ -26,7 +26,6 @@ export class ScheduleParserService {
             continue;
           }
 
-          const day = this.getCellText(sheet, row, 1);
           const dateStr = this.getCellText(sheet, row, 2);
           const hours = col > 0 ? this.getCellText(sheet, row, col - 1) : '';
           const brand = this.getBrandForColumn(sheet, col);
@@ -42,7 +41,7 @@ export class ScheduleParserService {
             brand,
             date: this.parseScheduleDate(dateStr),
             startMinutes: this.extractStartMinutes(hours),
-            hours,
+            hours: this.normalizeHours(hours),
           });
         }
       }
@@ -70,12 +69,6 @@ export class ScheduleParserService {
     }
 
     return 'Unknown Brand';
-  }
-
-  private extractDayNumber(dateStr: string): number {
-    const match = dateStr.match(/\d+/);
-
-    return match ? Number(match[0]) : 99;
   }
 
   private extractStartMinutes(hours: string): number {
@@ -128,5 +121,17 @@ export class ScheduleParserService {
     const year = new Date().getFullYear();
 
     return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}` as ISODate;
+  }
+
+  private normalizeHours(hours: string): string {
+    const match = hours.trim().match(/^(\d{1,2})h(\d{2})?\s*-\s*(\d{1,2})h(\d{2})?$/i);
+
+    if (!match) {
+      return hours.trim();
+    }
+
+    const [, startHour, startMinute = '00', endHour, endMinute = '00'] = match;
+
+    return `${startHour.padStart(2, '0')}:${startMinute.padStart(2, '0')}-${endHour.padStart(2, '0')}:${endMinute.padStart(2, '0')}`;
   }
 }
