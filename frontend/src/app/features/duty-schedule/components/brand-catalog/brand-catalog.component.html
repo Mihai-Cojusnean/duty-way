@@ -47,37 +47,32 @@
 
   @if (!catalog.isLoading() && !catalog.error()) {
   <section class="catalog-list">
-    @for (col of collections(); track col.name) {
+    @for (col of collections(); track col.collection) {
     <div class="accordion-group">
       <button
         type="button"
         class="accordion-header collection-row"
-        [attr.aria-expanded]="expandedCollection() === col.name"
-        (click)="toggleCollection(col.name)"
+        [attr.aria-expanded]="expandedCollection() === col.collection"
+        (click)="toggleCollection(col.collection)"
       >
-            <span>
-              <strong>{{ col.name }}</strong>
-              <small>
-                {{ col.perfumes.length }}
-                {{ col.perfumes.length === 1 ? 'Fragrance' : 'Fragrances' }}
-              </small>
-            </span>
+        <span>
+          <strong>{{ col.collection }}</strong>
+          <small>
+            {{ col.parfums.length }}
+            {{ col.parfums.length === 1 ? 'Fragrance' : 'Fragrances' }}
+          </small>
+        </span>
 
         <span aria-hidden="true" class="toggle-icon">
-              {{ expandedCollection() === col.name ? '−' : '+' }}
-            </span>
+          {{ expandedCollection() === col.collection ? '−' : '+' }}
+        </span>
       </button>
 
-      @if (expandedCollection() === col.name) {
+      @if (expandedCollection() === col.collection) {
       <div class="accordion-content perfume-list">
-        @for (perfume of col.perfumes; track perfume.id) {
+        @for (perfume of col.parfums; track perfume.id) {
         <div
           class="perfume-subitem perfume-row"
-          [style.background-image]="
-    perfume.imageUrl
-      ? 'url(' + perfume.imageUrl + ')'
-      : null
-  "
           (click)="openPerfume(perfume)"
         >
           <div class="perfume-info">
@@ -94,13 +89,13 @@
               class="price-pill"
               [class.sale-added]="addedSale() === key"
               [attr.aria-label]="
-        'Record sale of ' +
-        perfume.name +
-        ', ' +
-        price.label +
-        ', ' +
-        (price.amountCents / 100 | currency:'EUR':'symbol':'1.2-2':'en-IE')
-      "
+                'Record sale of ' +
+                perfume.name +
+                ', ' +
+                price.label +
+                ', ' +
+                (price.amountCents / 100 | currency:'EUR':'symbol':'1.2-2':'en-IE')
+              "
               (click)="addSale(perfume, price); $event.stopPropagation()"
             >
               @if (addedSale() === key) {

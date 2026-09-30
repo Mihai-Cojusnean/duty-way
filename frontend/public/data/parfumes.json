@@ -1,631 +1,1051 @@
 {
   "BVLGARI": [
     {
-      "id": "tygar",
-      "name": "Tygar",
-      "prices": [
+      "collection": "Le Gemme",
+      "parfums": [
         {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
+          "id": "tygar",
+          "name": "Tygar",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 22917,
+              "currency": "EUR"
+            },
+            {
+              "id": "125ml",
+              "label": "10ml trvl",
+              "amountCents": 12530,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par la pierre d'œil de tigre, Tygar est une explosion de pamplemousse étincelant mariée à un accord d'ambroxan profond et boisé.",
+          "notes": "Grapefruit, Ambroxan, Woody Notes",
+          "longevity": "9h",
+          "sillage": "Strong",
+          "imageUrl": "https://i8.amplience.net/i/manor/10003063924_05",
+          "pros": [
+            "Ouverture de pamplemousse extrêmement juteuse et naturelle",
+            "Sillage d'ambroxan moderne et envoûtant",
+            "Parfait pour les journées ensoleillées et l'été"
+          ]
         },
         {
-          "id": "60ml",
-          "label": "60ml",
-          "amountCents": 22900,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Inspiré par la pierre d'œil de tigre, Tygar est une explosion de pamplemousse étincelant mariée à un accord d'ambroxan profond et boisé.",
-      "notes": "Grapefruit, Ambroxan, Woody Notes",
-      "longevity": "9h",
-      "sillage": "Strong",
-      "imageUrl": "https://i8.amplience.net/i/manor/10003063924_05",
-      "pros": [
-        "Ouverture de pamplemousse extrêmement juteuse et naturelle",
-        "Sillage d'ambroxan moderne et envoûtant",
-        "Parfait pour les journées ensoleillées et l'été"
-      ]
-    },
-    {
-      "id": "tygar_extrait",
-      "name": "Tygar Extrait",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 42100,
-          "currency": "EUR"
+          "id": "tygar_extrait",
+          "name": "Tygar Extrait",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 42167,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 31584,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Une déclinaison olfactive hautement concentrée de Le Gemme Tygar. Élaboré autour d’accords de pamplemousse intense et d’ambre gris exceptionnel, il magnifie les notes boisées et hespéridées avec une profondeur et une sensualité raffinées.",
+          "notes": "Grapefruit, Ambergris, Amber, Citruses, Peru Balsam",
+          "longevity": "12h",
+          "sillage": "Enormous",
+          "imageUrl": "https://fimgs.net/himg/o.DXPPaVxpeWO.png",
+          "pros": [
+            "Profondeur accrue avec un ambre gris luxueux",
+            "Performance et tenue hors du commun",
+            "Caractère extrêmement riche et sophistiqué"
+          ]
         },
         {
-          "id": "60ml",
-          "label": "60ml",
-          "amountCents": 31500,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Une déclinaison olfactive hautement concentrée de Le Gemme Tygar. Élaboré autour d’accords de pamplemousse intense et d’ambre gris exceptionnel, il magnifie les notes boisées et hespéridées avec une profondeur et une sensualité raffinées.",
-      "notes": "Grapefruit, Ambergris, Amber, Citruses, Peru Balsam",
-      "longevity": "12h",
-      "sillage": "Enormous",
-      "imageUrl": "https://fimgs.net/himg/o.DXPPaVxpeWO.png",
-      "pros": [
-        "Profondeur accrue avec un ambre gris luxueux",
-        "Performance et tenue hors du commun",
-        "Caractère extrêmement riche et sophistiqué"
-      ]
-    },
-    {
-      "id": "amunae",
-      "name": "Amunae",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Sophie Labbé",
-      "collection": "Le Gemme",
-      "description": "Inspiré par la turquoise d'Iran, Amunae associe la fraîcheur d'un accord floral délicat à des notes boisées et musquées équilibrées.",
-      "notes": "Jasmine, Musk, Oak, Olibanum",
-      "longevity": "7h",
-      "sillage": "Strong",
-      "imageUrl": "https://fimgs.net/himg/o.A9xHVWihKSF.jpg",
-      "pros": [
-        "Harmonie parfaite entre fraîcheur et sensualité",
-        "Fleurs blanches élégantes et aériennes",
-        "Sillage propre et très raffiné"
-      ]
-    },
-    {
-      "id": "sahare",
-      "name": "Sahare",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Yann Vasnier",
-      "collection": "Le Gemme",
-      "description": "Un voyage au cœur du Sahara, où le jaspe rose impérial et la mythique rose de Taïf s’unissent pour révéler une beauté rare, née de la force des éléments et éclairée par l’espoir de l’aube.",
-      "notes": "Taif Rose, Ambergris, Lemon, Myrrh, Pepper, Bergamot",
-      "longevity": "9h",
-      "sillage": "Enormous",
-      "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114353649/sku_sr_114353651/202406250834/eau_de_parfumvaporisateur060_ml-4.jpg",
-      "pros": [
-        "Projection et sillage puissants",
-        "Profil olfactif complexe et évolutif",
-        "Accord de rose de Taïf de haute qualité"
-      ]
-    },
-    {
-      "id": "kobraa",
-      "name": "Kobraa",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Inspiré par le jaspe vert snake de Nouvelle-Zélande, Kobraa est un parfum boisé oriental mariant un géranium épicé à un encens vert fumé.",
-      "notes": "Olibanum, Geranium, Oud",
-      "longevity": "8h",
-      "sillage": "Strong",
-      "imageUrl": "https://www.verso.com/cdn/shop/files/le-gemme-kobraa-eau-de-parfum-bvlgari-parfums-verso-3.jpg?v=1778227289&width=1080",
-      "pros": [
-        "Combinaison originale de géranium et d'encens",
-        "Profil épicé et aromatique très distingué",
-        "Excellente présence en soirée"
-      ]
-    },
-    {
-      "id": "onekh",
-      "name": "Onekh",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Inspiré par l'onyx noir d'Arabie, Onekh exprime la puissance du cuir noir et du laudanum sous une facette riche et fumée d'oud.",
-      "notes": "Spice Notes, Leather, Labdanum, Agarwood (Oud)",
-      "longevity": "8h",
-      "sillage": "Strong",
-      "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114353857/sku_sr_114353901/202507021317/eau_de_parfumvaporisateur060_ml-2.jpg",
-      "pros": [
-        "Accord de cuir fumé d'une immense qualité",
-        "Sillage sombre, mystérieux et dominant",
-        "Tenue exceptionnelle sur peau et vêtements"
-      ]
-    },
-    {
-      "id": "azaran",
-      "name": "Azaran",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Inspiré par l'énergie enflammée de l'aventurine rouge et des Oural, Azaran est un parfum cuivré et boisé chaleureux, mêlant une infusion de safran cuiré à l'essence charismatique du bois de cèdre de Virginie.",
-      "notes": "Saffron, Bergamot, Red Cedarwood, Leather, Beeswax, Tea",
-      "longevity": "8h",
-      "sillage": "Strong",
-      "imageUrl": "https://www.verso.com/cdn/shop/files/le-gemme-azaran-eau-de-parfum-bvlgari-parfums-verso-3.jpg?v=1778227529&width=1080",
-      "pros": [
-        "Safran épicé et chaleureux d'une grande noblesse",
-        "Cèdre rouge et cuir magnifiquement fondus",
-        "Signature olfactive unique"
-      ]
-    },
-    {
-      "id": "gyan",
-      "name": "Gyan",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Inspiré par le saphir bleu du Cachemire, Gyan associe la noblesse du jasmin Sambac à un patchouli d'Indonésie d'une élégance absolue.",
-      "notes": "Jasmine, Indonesian Patchouli, Incense",
-      "longevity": "7h",
-      "sillage": "Strong",
-      "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114353720/sku_sr_114353721/202406250834/eau_de_parfumvaporisateur060_ml-2.jpg",
-      "pros": [
-        "Patchouli d'une grande pureté sans facette terreuse",
-        "Jasmin velouté et nocturne",
-        "Profil floral masculin unique et de haute qualité"
-      ]
-    },
-    {
-      "id": "yasep",
-      "name": "Yasep",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Inspiré par le jaspe rouge de Madagascar, Yasep célèbre la chaleur du musc rouge combiné au bois de santal et aux poivres épicés.",
-      "notes": "Sichuan Pepper, Mandarin Orange, Sandalwood, Musk, Cedarwood",
-      "longevity": "7h",
-      "sillage": "Strong",
-      "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114353921/sku_sr_114353922/202507021317/eau_de_parfumvaporisateur125_ml-2.jpg",
-      "pros": [
-        "Musc chaud et légèrement épicé",
-        "Santal crémeux et réconfortant",
-        "Texture olfactive très douce"
-      ]
-    },
-    {
-      "id": "orom",
-      "name": "Orom",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
+          "id": "amunae",
+          "name": "Amunae",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Sophie Labbé",
+          "description": "Inspiré par la turquoise d'Iran, Amunae associe la fraîcheur d'un accord floral délicat à des notes boisées et musquées équilibrées.",
+          "notes": "Jasmine, Musk, Oak, Olibanum",
+          "longevity": "7h",
+          "sillage": "Strong",
+          "imageUrl": "https://fimgs.net/himg/o.A9xHVWihKSF.jpg",
+          "pros": [
+            "Harmonie parfaite entre fraîcheur et sensualité",
+            "Fleurs blanches élégantes et aériennes",
+            "Sillage propre et très raffiné"
+          ]
         },
         {
-          "id": "60ml",
-          "label": "60ml",
-          "amountCents": 22900,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Inspiré par la labradorite de Madagascar, Orom est un parfum ambré boisé axé sur une vanille bourbon intense et un bois d'oud d'Assam précieux.",
-      "notes": "Bourbon Vanilla, Assam Oud, Benzoin",
-      "longevity": "8h",
-      "sillage": "Strong",
-      "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114354053/sku_sr_114354055/202507021317/eau_de_parfumvaporisateur060_ml-3.jpg",
-      "pros": [
-        "Vanille bourbon riche et boisée",
-        "Accord oud d'Assam chaleureux",
-        "Profil extrêmement gourmand et addictif"
-      ]
-    },
-    {
-      "id": "falkar",
-      "name": "Falkar",
-      "prices": [
-        {
-          "id": "125ml",
-          "label": "125ml",
-          "amountCents": 32400,
-          "currency": "EUR"
+          "id": "sahare",
+          "name": "Sahare",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Yann Vasnier",
+          "description": "Un voyage au cœur du Sahara, où le jaspe rose impérial et la mythique rose de Taïf s’unissent pour révéler une beauté rare, née de la force des éléments et éclairée par l’espoir de l’aube.",
+          "notes": "Taif Rose, Ambergris, Lemon, Myrrh, Pepper, Bergamot",
+          "longevity": "9h",
+          "sillage": "Enormous",
+          "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114353649/sku_sr_114353651/202406250834/eau_de_parfumvaporisateur060_ml-4.jpg",
+          "pros": [
+            "Projection et sillage puissants",
+            "Profil olfactif complexe et évolutif",
+            "Accord de rose de Taïf de haute qualité"
+          ]
         },
         {
-          "id": "60ml",
-          "label": "60ml",
-          "amountCents": 22900,
-          "currency": "EUR"
+          "id": "kobraa",
+          "name": "Kobraa",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par le jaspe vert snake de Nouvelle-Zélande, Kobraa est un parfum boisé oriental mariant un géranium épicé à un encens vert fumé.",
+          "notes": "Olibanum, Geranium, Oud",
+          "longevity": "8h",
+          "sillage": "Strong",
+          "imageUrl": "https://www.verso.com/cdn/shop/files/le-gemme-kobraa-eau-de-parfum-bvlgari-parfums-verso-3.jpg?v=1778227289&width=1080",
+          "pros": [
+            "Combinaison originale de géranium et d'encens",
+            "Profil épicé et aromatique très distingué",
+            "Excellente présence en soirée"
+          ]
+        },
+        {
+          "id": "onekh",
+          "name": "Onekh",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par l'onyx noir d'Arabie, Onekh exprime la puissance du cuir noir et du laudanum sous une facette riche et fumée d'oud.",
+          "notes": "Spice Notes, Leather, Labdanum, Agarwood (Oud)",
+          "longevity": "8h",
+          "sillage": "Strong",
+          "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114353857/sku_sr_114353901/202507021317/eau_de_parfumvaporisateur060_ml-2.jpg",
+          "pros": [
+            "Accord de cuir fumé d'une immense qualité",
+            "Sillage sombre, mystérieux et dominant",
+            "Tenue exceptionnelle sur peau et vêtements"
+          ]
+        },
+        {
+          "id": "azaran",
+          "name": "Azaran",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par l'énergie enflammée de l'aventurine rouge et des Oural, Azaran est un parfum cuivré et boisé chaleureux, mêlant une infusion de safran cuiré à l'essence charismatique du bois de cèdre de Virginie.",
+          "notes": "Saffron, Bergamot, Red Cedarwood, Leather, Beeswax, Tea",
+          "longevity": "8h",
+          "sillage": "Strong",
+          "imageUrl": "https://www.verso.com/cdn/shop/files/le-gemme-azaran-eau-de-parfum-bvlgari-parfums-verso-3.jpg?v=1778227529&width=1080",
+          "pros": [
+            "Safran épicé et chaleureux d'une grande noblesse",
+            "Cèdre rouge et cuir magnifiquement fondus",
+            "Signature olfactive unique"
+          ]
+        },
+        {
+          "id": "gyan",
+          "name": "Gyan",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par le saphir bleu du Cachemire, Gyan associe la noblesse du jasmin Sambac à un patchouli d'Indonésie d'une élégance absolue.",
+          "notes": "Jasmine, Indonesian Patchouli, Incense",
+          "longevity": "7h",
+          "sillage": "Strong",
+          "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114353720/sku_sr_114353721/202406250834/eau_de_parfumvaporisateur060_ml-2.jpg",
+          "pros": [
+            "Patchouli d'une grande pureté sans facette terreuse",
+            "Jasmin velouté et nocturne",
+            "Profil floral masculin unique et de haute qualité"
+          ]
+        },
+        {
+          "id": "yasep",
+          "name": "Yasep",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par le jaspe rouge de Madagascar, Yasep célèbre la chaleur du musc rouge combiné au bois de santal et aux poivres épicés.",
+          "notes": "Sichuan Pepper, Mandarin Orange, Sandalwood, Musk, Cedarwood",
+          "longevity": "7h",
+          "sillage": "Strong",
+          "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114353921/sku_sr_114353922/202507021317/eau_de_parfumvaporisateur125_ml-2.jpg",
+          "pros": [
+            "Musc chaud et légèrement épicé",
+            "Santal crémeux et réconfortant",
+            "Texture olfactive très douce"
+          ]
+        },
+        {
+          "id": "orom",
+          "name": "Orom",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 22917,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par la labradorite de Madagascar, Orom est un parfum ambré boisé axé sur une vanille bourbon intense et un bois d'oud d'Assam précieux.",
+          "notes": "Bourbon Vanilla, Assam Oud, Benzoin",
+          "longevity": "8h",
+          "sillage": "Strong",
+          "imageUrl": "https://static.galerieslafayette.com/media/images/hp_mod_114/hp_mod_114354053/sku_sr_114354055/202507021317/eau_de_parfumvaporisateur060_ml-3.jpg",
+          "pros": [
+            "Vanille bourbon riche et boisée",
+            "Accord oud d'Assam chaleureux",
+            "Profil extrêmement gourmand et addictif"
+          ]
+        },
+        {
+          "id": "falkar",
+          "name": "Falkar",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "125ml",
+              "amountCents": 32417,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 22917,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par l'œil de faucon du Brésil, Falkar exprime la puissance de la forêt profonde à travers un mélange opulent de cuir, d'oud et de safran.",
+          "notes": "Nutmeg, Saffron, Cypriol, Leather, Oud, Black Musk",
+          "longevity": "9h",
+          "sillage": "Enormous",
+          "imageUrl": "https://cdn.media.amplience.net/i/frasersdev/88778369_o_a2.jpg?v=20241210160056",
+          "pros": [
+            "Épices chaudes et cuir ténébreux",
+            "Sillage boisé puissant et mystérieux",
+            "Sensation de luxe oriental affirmé"
+          ]
         }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Le Gemme",
-      "description": "Inspiré par l'œil de faucon du Brésil, Falkar exprime la puissance de la forêt profonde à travers un mélange opulent de cuir, d'oud et de safran.",
-      "notes": "Nutmeg, Saffron, Cypriol, Leather, Oud, Black Musk",
-      "longevity": "9h",
-      "sillage": "Enormous",
-      "imageUrl": "https://cdn.media.amplience.net/i/frasersdev/88778369_o_a2.jpg?v=20241210160056",
-      "pros": [
-        "Épices chaudes et cuir ténébreux",
-        "Sillage boisé puissant et mystérieux",
-        "Sensation de luxe oriental affirmé"
       ]
     },
     {
-      "id": "baciami",
-      "name": "Baciami",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 20000,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
       "collection": "Allegra",
-      "description": "Un élixir ambré floral envoûtant célébrant la passion italienne à travers un gardenia hypnotique et une vanille chaleureuse.",
-      "notes": "Gardenia, Vanilla, Amber",
-      "longevity": "8h",
-      "sillage": "Strong",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.71887.jpg",
-      "pros": [
-        "Vanille crémeuse et gourmande",
-        "Flacon au design bonbon élégant",
-        "Tenue excellente"
+      "parfums": [
+        {
+          "id": "riva_solare",
+          "name": "Riva Solare",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 20000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Capture l'esprit des vacances infinies sur la Riviera italienne avec des agrumes étincelants et une fleur d'oranger solaire.",
+          "notes": "Bergamot, Neroli, Orange Blossom, Osmanthus, Musk",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64810.jpg",
+          "pros": ["Sensation de soleil et de mer", "Agrumes lumineux", "Très rafraîchissant"]
+        },
+        {
+          "id": "chill_sole",
+          "name": "Chill & Sole",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 20000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Capture l'esprit des vacances infinies sur la Riviera italienne avec des agrumes étincelants et une fleur d'oranger solaire.",
+          "notes": "Bergamot, Neroli, Orange Blossom, Osmanthus, Musk",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64810.jpg",
+          "pros": ["Sensation de soleil et de mer", "Agrumes lumineux", "Très rafraîchissant"]
+        },
+        {
+          "id": "passeggiata",
+          "name": "Passeggiata",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 20000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Capture l'esprit des vacances infinies sur la Riviera italienne avec des agrumes étincelants et une fleur d'oranger solaire.",
+          "notes": "Bergamot, Neroli, Orange Blossom, Osmanthus, Musk",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64810.jpg",
+          "pros": ["Sensation de soleil et de mer", "Agrumes lumineux", "Très rafraîchissant"]
+        },
+        {
+          "id": "fiori_damore",
+          "name": "Fiori d'Amore",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 20000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un bouquet passionné de roses rouges sublimé par une touche sucrée de framboise sauvage.",
+          "notes": "Turkish Rose, Bulgarian Rose, Raspberry",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64811.jpg",
+          "pros": [
+            "Rose fraîche et veloutée",
+            "Touche fruitée de framboise",
+            "Romantique et féminin"
+          ]
+        },
+        {
+          "id": "baciami",
+          "name": "Baciami",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 20000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un élixir ambré floral envoûtant célébrant la passion italienne à travers un gardenia hypnotique et une vanille chaleureuse.",
+          "notes": "Gardenia, Vanilla, Amber",
+          "longevity": "8h",
+          "sillage": "Strong",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.71887.jpg",
+          "pros": [
+            "Vanille crémeuse et gourmande",
+            "Flacon au design bonbon élégant",
+            "Tenue excellente"
+          ]
+        },
+        {
+          "id": "baciami_ancora",
+          "name": "Baciami Ancora",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 25000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un bouquet passionné de roses rouges sublimé par une touche sucrée de framboise sauvage.",
+          "notes": "Turkish Rose, Bulgarian Rose, Raspberry",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64811.jpg",
+          "pros": [
+            "Rose fraîche et veloutée",
+            "Touche fruitée de framboise",
+            "Romantique et féminin"
+          ]
+        },
+        {
+          "id": "fantasia_veneta",
+          "name": "Fantasia Veneta",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 25000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un bouquet passionné de roses rouges sublimé par une touche sucrée de framboise sauvage.",
+          "notes": "Turkish Rose, Bulgarian Rose, Raspberry",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64811.jpg",
+          "pros": [
+            "Rose fraîche et veloutée",
+            "Touche fruitée de framboise",
+            "Romantique et féminin"
+          ]
+        },
+        {
+          "id": "spettacolore",
+          "name": "Spettacolore",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 25000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un bouquet passionné de roses rouges sublimé par une touche sucrée de framboise sauvage.",
+          "notes": "Turkish Rose, Bulgarian Rose, Raspberry",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64811.jpg",
+          "pros": [
+            "Rose fraîche et veloutée",
+            "Touche fruitée de framboise",
+            "Romantique et féminin"
+          ]
+        },
+        {
+          "id": "insieme",
+          "name": "Insieme",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 25000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un bouquet passionné de roses rouges sublimé par une touche sucrée de framboise sauvage.",
+          "notes": "Turkish Rose, Bulgarian Rose, Raspberry",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64811.jpg",
+          "pros": [
+            "Rose fraîche et veloutée",
+            "Touche fruitée de framboise",
+            "Romantique et féminin"
+          ]
+        },
+        {
+          "id": "mamagnifica",
+          "name": "Ma’magnifica",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 25000,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un bouquet passionné de roses rouges sublimé par une touche sucrée de framboise sauvage.",
+          "notes": "Turkish Rose, Bulgarian Rose, Raspberry",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64811.jpg",
+          "pros": [
+            "Rose fraîche et veloutée",
+            "Touche fruitée de framboise",
+            "Romantique et féminin"
+          ]
+        }
       ]
     },
     {
-      "id": "riva_solare",
-      "name": "Riva Solare",
-      "prices": [
+      "collection": "Bvlgari Man",
+      "parfums": [
         {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 20000,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Allegra",
-      "description": "Capture l'esprit des vacances infinies sur la Riviera italienne avec des agrumes étincelants et une fleur d'oranger solaire.",
-      "notes": "Bergamot, Neroli, Orange Blossom, Osmanthus, Musk",
-      "longevity": "6h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64810.jpg",
-      "pros": ["Sensation de soleil et de mer", "Agrumes lumineux", "Très rafraîchissant"]
-    },
-    {
-      "id": "fiori_damore",
-      "name": "Fiori d'Amore",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 20000,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Allegra",
-      "description": "Un bouquet passionné de roses rouges sublimé par une touche sucrée de framboise sauvage.",
-      "notes": "Turkish Rose, Bulgarian Rose, Raspberry",
-      "longevity": "7h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.64811.jpg",
-      "pros": ["Rose fraîche et veloutée", "Touche fruitée de framboise", "Romantique et féminin"]
-    },
-    {
-      "id": "man_in_black_edp",
-      "name": "Bvlgari Man In Black",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 12800,
-          "currency": "EUR"
+          "id": "man_in_black_edp",
+          "name": "Black EDP",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml reff",
+              "amountCents": 16200,
+              "currency": "EUR"
+            },
+            {
+              "id": "travel",
+              "label": "trvl",
+              "amountCents": 13600,
+              "currency": "EUR"
+            },
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12834,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 11750,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "Une Eau de Parfum ambrée néo-orientale au caractère audacieux, avec des notes de rhum épicé, de cuir et de fève tonka.",
+          "notes": "Spices, Rum, Tobacco, Leather, Iris, Tonka Bean",
+          "longevity": "8h",
+          "sillage": "Strong",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.26358.jpg",
+          "pros": [
+            "Accord rhum et épices séduisant",
+            "Parfait pour l'hiver",
+            "Sillage chaleureux et mystérieux"
+          ]
         },
         {
-          "id": "60ml",
-          "label": "60ml",
-          "amountCents": 10200,
-          "currency": "EUR"
+          "id": "man_in_black_p",
+          "name": "Black Parfum",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12834,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 10200,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "?Une Eau de Parfum ambrée néo-orientale au caractère audacieux, avec des notes de rhum épicé, de cuir et de fève tonka.",
+          "notes": "?Spices, Rum, Tobacco, Leather, Iris, Tonka Bean",
+          "longevity": "?8h",
+          "sillage": "?Strong",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.26358.jpg",
+          "pros": [
+            "?Accord rhum et épices séduisant",
+            "?Parfait pour l'hiver",
+            "?Sillage chaleureux et mystérieux"
+          ]
+        },
+        {
+          "id": "man_wood_essence_edp",
+          "name": "Wood EDP",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12834,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 8333,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "Une alliance entre la nature urbaine et le bois, associant agrumes italiens, cèdre et vétiver.",
+          "notes": "Citruses, Lemon Zest, Cedar, Vetiver, Cypress",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.51229.jpg",
+          "pros": ["Boisé vert et dynamique", "Très polyvalent", "Bonne fraîcheur d'ouverture"]
+        },
+        {
+          "id": "man_wood_essence_p",
+          "name": "Wood Parfum",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 15167,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 10750,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "?Une alliance entre la nature urbaine et le bois, associant agrumes italiens, cèdre et vétiver.",
+          "notes": "?Citruses, Lemon Zest, Cedar, Vetiver, Cypress",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.51229.jpg",
+          "pros": ["?Boisé vert et dynamique", "Très polyvalent", "Bonne fraîcheur d'ouverture"]
+        },
+        {
+          "id": "man_rain_essence",
+          "name": "Rain",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12834,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 8300,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "Un parfum musqué boisé frais célébrant la force régénérante et réparatrice de la pluie.",
+          "notes": "Green Tea, Orange, White Lotus, Musk, Amber, Guaiac Wood",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.79374.jpg",
+          "pros": [
+            "Fraîcheur aquatique et propre",
+            "Note de thé apaisante",
+            "Très agréable au printemps"
+          ]
+        },
+        {
+          "id": "man_glacial_essence",
+          "name": "Glacial",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12834,
+              "currency": "EUR"
+            },
+            {
+              "id": "60ml",
+              "label": "60ml",
+              "amountCents": 8800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "Un parfum musqué boisé frais célébrant la force régénérante et réparatrice de la pluie.",
+          "notes": "Green Tea, Orange, White Lotus, Musk, Amber, Guaiac Wood",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.79374.jpg",
+          "pros": [
+            "Fraîcheur aquatique et propre",
+            "Note de thé apaisante",
+            "Très agréable au printemps"
+          ]
         }
-      ],
-      "creator": "Alberto Morillas",
-      "collection": "Bvlgari Man",
-      "description": "Une Eau de Parfum ambrée néo-orientale au caractère audacieux, avec des notes de rhum épicé, de cuir et de fève tonka.",
-      "notes": "Spices, Rum, Tobacco, Leather, Iris, Tonka Bean",
-      "longevity": "8h",
-      "sillage": "Strong",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.26358.jpg",
-      "pros": [
-        "Accord rhum et épices séduisant",
-        "Parfait pour l'hiver",
-        "Sillage chaleureux et mystérieux"
       ]
     },
     {
-      "id": "man_wood_essence_edp",
-      "name": "Man Wood Essence EDP",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 12834,
-          "currency": "EUR"
-        },
-        {
-          "id": "60ml",
-          "label": "60ml",
-          "amountCents": 8300,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Alberto Morillas",
-      "collection": "Bvlgari Man",
-      "description": "Une alliance entre la nature urbaine et le bois, associant agrumes italiens, cèdre et vétiver.",
-      "notes": "Citruses, Lemon Zest, Cedar, Vetiver, Cypress",
-      "longevity": "7h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.51229.jpg",
-      "pros": ["Boisé vert et dynamique", "Très polyvalent", "Bonne fraîcheur d'ouverture"]
-    },
-    {
-      "id": "man_rain_essence",
-      "name": "Bvlgari Man Rain Essence",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 13800,
-          "currency": "EUR"
-        },
-        {
-          "id": "60ml",
-          "label": "60ml",
-          "amountCents": 9800,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Alberto Morillas",
-      "collection": "Bvlgari Man",
-      "description": "Un parfum musqué boisé frais célébrant la force régénérante et réparatrice de la pluie.",
-      "notes": "Green Tea, Orange, White Lotus, Musk, Amber, Guaiac Wood",
-      "longevity": "6h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.79374.jpg",
-      "pros": [
-        "Fraîcheur aquatique et propre",
-        "Note de thé apaisante",
-        "Très agréable au printemps"
-      ]
-    },
-    {
-      "id": "crystalline_edt",
-      "name": "Omnia Crystalline",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 13500,
-          "currency": "EUR"
-        },
-        {
-          "id": "50ml",
-          "label": "50ml",
-          "amountCents": 9800,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Alberto Morillas",
       "collection": "Omnia",
-      "description": "Inspiré par la clarté du cristal, évoquant la transparence du lotus, du bambou et du bois de balsa.",
-      "notes": "Bamboo, Nashi Pear, Lotus, Tea, Guaiac Wood, Musk",
-      "longevity": "6h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.152.jpg",
-      "pros": ["Fraîcheur délicate et aquatique", "Propre et intemporel", "Idéal pour le quotidien"]
-    },
-    {
-      "id": "amethyste_edt",
-      "name": "Omnia Amethyste",
-      "prices": [
+      "parfums": [
         {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 13500,
-          "currency": "EUR"
+          "id": "crystalline_edt",
+          "name": "Omnia Crystalline EDT",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12084,
+              "currency": "EUR"
+            },
+            {
+              "id": "50ml",
+              "label": "50ml",
+              "amountCents": 8200,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "Inspiré par la clarté du cristal, évoquant la transparence du lotus, du bambou et du bois de balsa.",
+          "notes": "Bamboo, Nashi Pear, Lotus, Tea, Guaiac Wood, Musk",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.152.jpg",
+          "pros": [
+            "Fraîcheur délicate et aquatique",
+            "Propre et intemporel",
+            "Idéal pour le quotidien"
+          ]
         },
         {
-          "id": "50ml",
-          "label": "50ml",
-          "amountCents": 9800,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Alberto Morillas",
-      "collection": "Omnia",
-      "description": "Inspiré par les nuances nobles de l'améthyste, un bouquet poudré d'iris et de rose arrosé de rosée du matin.",
-      "notes": "Green Sap, Pink Grapefruit, Iris, Bulgarian Rose, Heliotrope",
-      "longevity": "6h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.153.jpg",
-      "pros": ["Iris poudré très élégant", "Douceur florale raffinée", "Flacon bijoux emblématique"]
-    },
-    {
-      "id": "goldea_edp",
-      "name": "Rose Goldea",
-      "prices": [
-        {
-          "id": "90ml",
-          "label": "90ml",
-          "amountCents": 14500,
-          "currency": "EUR"
+          "id": "crystalline_edp",
+          "name": "Omnia Crystalline EDP",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 15750,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "?Inspiré par la clarté du cristal, évoquant la transparence du lotus, du bambou et du bois de balsa.",
+          "notes": "?Bamboo, Nashi Pear, Lotus, Tea, Guaiac Wood, Musk",
+          "longevity": "?h",
+          "sillage": "?Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.152.jpg",
+          "pros": [
+            "?Fraîcheur délicate et aquatique",
+            "?Propre et intemporel",
+            "?Idéal pour le quotidien"
+          ]
         },
         {
-          "id": "50ml",
-          "label": "50ml",
-          "amountCents": 10500,
-          "currency": "EUR"
+          "id": "amethyste_edt",
+          "name": "Omnia Amethyste",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12084,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "Inspiré par les nuances nobles de l'améthyste, un bouquet poudré d'iris et de rose arrosé de rosée du matin.",
+          "notes": "Green Sap, Pink Grapefruit, Iris, Bulgarian Rose, Heliotrope",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.153.jpg",
+          "pros": [
+            "Iris poudré très élégant",
+            "Douceur florale raffinée",
+            "Flacon bijoux emblématique"
+          ]
+        },
+        {
+          "id": "coral_edt",
+          "name": "Omnia Coral",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12084,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "?Inspiré par les nuances nobles de l'améthyste, un bouquet poudré d'iris et de rose arrosé de rosée du matin.",
+          "notes": "?Green Sap, Pink Grapefruit, Iris, Bulgarian Rose, Heliotrope",
+          "longevity": "?6h",
+          "sillage": "?Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.153.jpg",
+          "pros": [
+            "?Iris poudré très élégant",
+            "?Douceur florale raffinée",
+            "?Flacon bijoux emblématique"
+          ]
         }
-      ],
-      "creator": "Alberto Morillas",
+      ]
+    },
+    {
       "collection": "Goldea",
-      "description": "Un hommage à la féminité et à la séduction, mariant la rose royale au musc blanc envoûtant.",
-      "notes": "Rose, Pomegranate, Musk, Damask Rose, Jasmine, Peony, Peach",
-      "longevity": "7h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.39862.jpg",
-      "pros": [
-        "Rose musquée très romantique",
-        "Note de grenade fruitée",
-        "Sillage doux et séduisant"
+      "parfums": [
+        {
+          "id": "goldea_edp",
+          "name": "Rose Goldea EDT",
+          "prices": [
+            {
+              "id": "75ml",
+              "label": "75ml",
+              "amountCents": 9584,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "Un hommage à la féminité et à la séduction, mariant la rose royale au musc blanc envoûtant.",
+          "notes": "Rose, Pomegranate, Musk, Damask Rose, Jasmine, Peony, Peach",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.39862.jpg",
+          "pros": [
+            "Rose musquée très romantique",
+            "Note de grenade fruitée",
+            "Sillage doux et séduisant"
+          ]
+        },
+        {
+          "id": "goldea_edp",
+          "name": "Rose Goldea EDP",
+          "prices": [
+            {
+              "id": "75ml",
+              "label": "75ml",
+              "amountCents": 12584,
+              "currency": "EUR"
+            },
+            {
+              "id": "50ml",
+              "label": "50ml",
+              "amountCents": 10800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Alberto Morillas",
+          "description": "Un hommage à la féminité et à la séduction, mariant la rose royale au musc blanc envoûtant.",
+          "notes": "Rose, Pomegranate, Musk, Damask Rose, Jasmine, Peony, Peach",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.39862.jpg",
+          "pros": [
+            "Rose musquée très romantique",
+            "Note de grenade fruitée",
+            "Sillage doux et séduisant"
+          ]
+        }
       ]
     },
     {
-      "id": "the_vert",
-      "name": "Eau Parfumée au Thé Vert",
-      "prices": [
-        {
-          "id": "75ml",
-          "label": "75ml",
-          "amountCents": 10800,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jean-Claude Ellena",
       "collection": "Eau Parfumée",
-      "description": "Un parfum de thé extraordinaire avec une touche florale et une subtile note d'agrumes.",
-      "notes": "Green Tea, Bergamot, Petitgrain",
-      "longevity": "5h",
-      "sillage": "Modéré",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.144.jpg",
-      "pros": ["Apaisant", "Thérapeutique", "Parfait pour se détendre"]
-    },
-    {
-      "id": "the_blanc",
-      "name": "Eau Parfumée au Thé Blanc",
-      "prices": [
+      "parfums": [
         {
-          "id": "75ml",
-          "label": "75ml",
-          "amountCents": 10800,
-          "currency": "EUR"
+          "id": "the_vert",
+          "name": "Thé Vert",
+          "prices": [
+            {
+              "id": "350ml",
+              "label": "350ml",
+              "amountCents": 39750,
+              "currency": "EUR"
+            },
+            {
+              "id": "75ml",
+              "label": "75ml",
+              "amountCents": 10800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jean-Claude Ellena",
+          "description": "Un parfum de thé extraordinaire avec une touche florale et une subtile note d'agrumes.",
+          "notes": "Green Tea, Bergamot, Petitgrain",
+          "longevity": "5h",
+          "sillage": "Modéré",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.144.jpg",
+          "pros": ["Apaisant", "Thérapeutique", "Parfait pour se détendre"]
+        },
+        {
+          "id": "the_imperial",
+          "name": "Thé Impérial",
+          "prices": [
+            {
+              "id": "75ml",
+              "label": "75ml",
+              "amountCents": 10800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Thé Impérial tire son nom évocateur d’une époque où les empires prospéraient grâce au commerce de marchandises précieuses. Le thé et les agrumes, autrefois réservés à la royauté et à l’élite, sont devenus de puissants symboles de pouvoir et d’échanges culturels. En Chine, le thé est devenu un symbole de sagesse et a donné naissance à un art raffiné, tandis qu’à Rome, les agrumes incarnaient la vitalité et l’abondance et agrémentaient les fêtes impériales et les jardins. Le terme « Impérial » reflète l’union de deux héritages – celui de l’Est et de l’Ouest.",
+          "notes": "Agrumes, Musk, Thé noir",
+          "longevity": "6h",
+          "sillage": "Modéré",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.145.jpg",
+          "pros": ["Elégant, luxueux et lumineux", "Profil boisé-musqué délicat", "Aérien et pur"]
+        },
+        {
+          "id": "the_blanc",
+          "name": "Thé Blanc",
+          "prices": [
+            {
+              "id": "75ml",
+              "label": "75ml",
+              "amountCents": 10800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un élixir réconfortant et doux inspiré par le thé blanc rare de l'Himalaya, avec des nuances d'armoise et de musc.",
+          "notes": "Tea, Musk",
+          "longevity": "5h",
+          "sillage": "Modéré",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.145.jpg",
+          "pros": [
+            "Extrêmement doux et réconfortant",
+            "Profil boisé-musqué délicat",
+            "Propreté luxueuse"
+          ]
         }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Eau Parfumée",
-      "description": "Un élixir réconfortant et doux inspiré par le thé blanc rare de l'Himalaya, avec des nuances d'armoise et de musc.",
-      "notes": "Tea, Musk",
-      "longevity": "5h",
-      "sillage": "Modéré",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.145.jpg",
-      "pros": [
-        "Extrêmement doux et réconfortant",
-        "Profil boisé-musqué délicat",
-        "Propreté luxueuse"
       ]
     },
     {
-      "id": "bvlgari_pour_homme_edt",
-      "name": "Bvlgari Pour Homme EDT",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 10800,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
       "collection": "Pour Homme",
-      "description": "",
-      "notes": "",
-      "longevity": "6h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.143.jpg",
-      "pros": ["Délicat", "Pur et discret", "Parfum élégant à base de thé"]
+      "parfums": [
+        {
+          "id": "bvlgari_pour_homme_edt",
+          "name": "Bvlgari Pour Homme EDT",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 10834,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "",
+          "notes": "",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.143.jpg",
+          "pros": ["Délicat", "Pur et discret", "Parfum élégant à base de thé"]
+        },
+        {
+          "id": "bvlgari_pour_homme_edp",
+          "name": "Bvlgari Pour Homme EDP",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 12500,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum boisé, musqué, harmonieux et raffiné, qui incarne l'équilibre parfait entre les grands espaces et le confort de la maison.",
+          "notes": "Darjeeling Tea, Musk, Gingembre, Guaiac Wood",
+          "longevity": "6h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.143.jpg",
+          "pros": ["Arôme apaisant", "Pur et discret", "Parfum élégant à base de thé"]
+        }
+      ]
     },
     {
-      "id": "bvlgari_pour_homme_edp",
-      "name": "Bvlgari Pour Homme EDP",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 12500,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
-      "collection": "Pour Homme",
-      "description": "Un parfum boisé, musqué, harmonieux et raffiné, qui incarne l'équilibre parfait entre les grands espaces et le confort de la maison.",
-      "notes": "Darjeeling Tea, Musk, Gingembre, Guaiac Wood",
-      "longevity": "6h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.143.jpg",
-      "pros": ["Arôme apaisant", "Pur et discret", "Parfum élégant à base de thé"]
-    },
-    {
-      "id": "aqva_pour_homme",
-      "name": "Aqva Pour Homme",
-      "prices": [
-        {
-          "id": "100ml",
-          "label": "100ml",
-          "amountCents": 10800,
-          "currency": "EUR"
-        }
-      ],
-      "creator": "Jacques Cavallier",
       "collection": "Aqva",
-      "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
-      "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
-      "longevity": "7h",
-      "sillage": "Moderate",
-      "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
-      "pros": [
-        "Note marine et iodée réaliste",
-        "Masculinité sombre et aquatique",
-        "Design galet emblématique"
+      "parfums": [
+        {
+          "id": "aqva_pour_homme",
+          "name": "Aqva Pour Homme",
+          "prices": [
+            {
+              "id": "100ml",
+              "label": "100ml",
+              "amountCents": 10800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        }
+      ]
+    },
+    {
+      "collection": "Gel & Lotion",
+      "parfums": [
+        {
+          "id": "gel",
+          "name": "Gel",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 5800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        },
+        {
+          "id": "lotion",
+          "name": "Lotion",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 6600,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        }
       ]
     }
   ]

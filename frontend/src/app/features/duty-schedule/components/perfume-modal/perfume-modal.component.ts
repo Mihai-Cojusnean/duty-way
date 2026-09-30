@@ -20,9 +20,4 @@ export class PerfumeModalComponent {
           .map((note) => note.trim())
       : [],
   );
-
-  readonly bgOverlayStyle = computed(() => {
-    const url = this.perfume().imageUrl;
-    return url ? `url("${url}")` : 'none';
-  });
 }

@@ -1,7 +1,7 @@
 :root {
   --color-panel-bg: rgb(10 11 34 / 0.4);
   --color-panel-border: rgb(255 255 255 / 0.2);
-  --color-surface-solid: #121324;
+  --color-surface-solid: #1f213a;
 
   --color-white: #ffffff;
   --color-muted: #aeb7d9;
@@ -52,7 +52,7 @@ summary:focus-visible {
 
 button {
   display: block;
-  min-width: 6rem;
+  min-width: 5rem;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 0.375rem;
   font-size: 0.75rem;

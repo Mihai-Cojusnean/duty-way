@@ -6,7 +6,12 @@ import {
   resource,
   signal,
 } from '@angular/core';
-import { Perfume, PerfumePrice, ScheduleRecord } from '../../interfaces/duty.interface';
+import {
+  BrandCatalogCollection,
+  Perfume,
+  PerfumePrice,
+  ScheduleRecord,
+} from '../../interfaces/duty.interface';
 import { PerfumeModalComponent } from '../perfume-modal/perfume-modal.component';
 import { CatalogService } from '../../services/catalog.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,6 +44,7 @@ export class BrandCatalogComponent {
   readonly selectedPerfume = signal<Perfume | null>(null);
   readonly searchQuery = signal<string>('');
   readonly addedSale = signal<string | null>(null);
+  readonly expandedCollection = signal<string | null>(null);
 
   protected readonly brandName = toSignal(
     this.route.paramMap.pipe(map((params) => params.get('brand')?.trim() ?? '')),
@@ -54,11 +60,7 @@ export class BrandCatalogComponent {
     return shifts ? findCurrentShift(shifts) : null;
   });
 
-  protected openPerfume(perfume: Perfume): void {
-    this.selectedPerfume.set(perfume);
-  }
-
-  readonly catalog = resource<Perfume[], { brand: string } | undefined>({
+  readonly catalog = resource<BrandCatalogCollection[], { brand: string } | undefined>({
     params: () => {
       const brand = this.brandName().trim();
       return brand ? { brand } : undefined;
@@ -67,37 +69,27 @@ export class BrandCatalogComponent {
     loader: ({ params }) => this.catalogService.getBrandCatalog(params.brand),
   });
 
-  private readonly catalogPerfumes = computed(() =>
-    this.catalog.hasValue() ? this.catalog.value() : [],
-  );
-
-  readonly filteredPerfumes = computed(() => {
-    const perfumes = this.catalog.value() ?? [];
-    const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return perfumes;
-
-    return perfumes.filter((p) =>
-      `${p.name} ${p.creator} ${p.notes}`.toLowerCase().includes(query),
-    );
-  });
-
-  readonly expandedCollection = signal<string | null>(null);
-
   readonly collections = computed(() => {
-    const perfumesList = this.filteredPerfumes();
-    const grouped = new Map<string, Perfume[]>();
+    const rawCollections = this.catalog.value() ?? [];
+    const query = this.searchQuery().toLowerCase().trim();
 
-    for (const p of perfumesList) {
-      const key = p.collection || this.brandName();
-      if (!grouped.has(key)) grouped.set(key, []);
-      grouped.get(key)!.push(p);
+    if (!query) {
+      return rawCollections;
     }
 
-    return Array.from(grouped.entries()).map(([name, perfumes]) => ({
-      name,
-      perfumes,
-    }));
+    return rawCollections
+      .map((col) => ({
+        ...col,
+        parfums: col.parfums.filter((p) =>
+          `${p.name} ${p.creator} ${p.notes}`.toLowerCase().includes(query),
+        ),
+      }))
+      .filter((col) => col.parfums.length > 0);
   });
+
+  protected openPerfume(perfume: Perfume): void {
+    this.selectedPerfume.set(perfume);
+  }
 
   toggleCollection(name: string): void {
     this.expandedCollection.update((curr) => (curr === name ? null : name));
