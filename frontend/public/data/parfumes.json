@@ -512,24 +512,97 @@
       ]
     },
     {
+      "collection": "Magnifying",
+      "parfums": [
+        {
+          "id": "bergamot",
+          "name": "Bergamot",
+          "prices": [
+            {
+              "id": "bergamot",
+              "label": "40ml",
+              "amountCents": 14250,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Capture l'esprit des vacances infinies sur la Riviera italienne avec des agrumes étincelants et une fleur d'oranger solaire.",
+          "notes": "?Bergamot, Neroli, Orange Blossom, Osmanthus, Musk",
+          "longevity": "?6h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.64810.jpg",
+          "pros": ["?Sensation de soleil et de mer", "Agrumes lumineux", "Très rafraîchissant"]
+        },
+        {
+          "id": "sandalwood",
+          "name": "Sandalwood",
+          "prices": [
+            {
+              "id": "sandalwood",
+              "label": "40ml",
+              "amountCents": 14250,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Capture l'esprit des vacances infinies sur la Riviera italienne avec des agrumes étincelants et une fleur d'oranger solaire.",
+          "notes": "?Bergamot, Neroli, Orange Blossom, Osmanthus, Musk",
+          "longevity": "?6h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.64810.jpg",
+          "pros": ["?Sensation de soleil et de mer", "Agrumes lumineux", "Très rafraîchissant"]
+        },
+        {
+          "id": "neroli",
+          "name": "Neroli",
+          "prices": [
+            {
+              "id": "neroli",
+              "label": "40ml",
+              "amountCents": 14250,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Capture l'esprit des vacances infinies sur la Riviera italienne avec des agrumes étincelants et une fleur d'oranger solaire.",
+          "notes": "?Bergamot, Neroli, Orange Blossom, Osmanthus, Musk",
+          "longevity": "?6h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.64810.jpg",
+          "pros": ["?Sensation de soleil et de mer", "Agrumes lumineux", "Très rafraîchissant"]
+        },
+        {
+          "id": "musk",
+          "name": "Musk",
+          "prices": [
+            {
+              "id": "musk",
+              "label": "40ml",
+              "amountCents": 14250,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Un bouquet passionné de roses rouges sublimé par une touche sucrée de framboise sauvage.",
+          "notes": "?Turkish Rose, Bulgarian Rose, Raspberry",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.64811.jpg",
+          "pros": [
+            "?Rose fraîche et veloutée",
+            "?Touche fruitée de framboise",
+            "?Romantique et féminin"
+          ]
+        }
+      ]
+    },
+    {
       "collection": "Bvlgari Man",
       "parfums": [
         {
           "id": "man_in_black_edp",
           "name": "Black EDP",
           "prices": [
-            {
-              "id": "200ml",
-              "label": "200ml reff",
-              "amountCents": 16200,
-              "currency": "EUR"
-            },
-            {
-              "id": "travel",
-              "label": "trvl",
-              "amountCents": 13600,
-              "currency": "EUR"
-            },
             {
               "id": "100ml",
               "label": "100ml",
@@ -539,7 +612,7 @@
             {
               "id": "60ml",
               "label": "60ml",
-              "amountCents": 10,
+              "amountCents": 10250,
               "currency": "EUR"
             }
           ],
@@ -562,7 +635,7 @@
             {
               "id": "100ml",
               "label": "100ml",
-              "amountCents": 12834,
+              "amountCents": 16167,
               "currency": "EUR"
             },
             {
@@ -597,7 +670,7 @@
             {
               "id": "60ml",
               "label": "60ml",
-              "amountCents": 8333,
+              "amountCents": 10250,
               "currency": "EUR"
             }
           ],
@@ -622,7 +695,7 @@
             {
               "id": "60ml",
               "label": "60ml",
-              "amountCents": 10750,
+              "amountCents": 1,
               "currency": "EUR"
             }
           ],
@@ -647,7 +720,7 @@
             {
               "id": "60ml",
               "label": "60ml",
-              "amountCents": 8300,
+              "amountCents": 10250,
               "currency": "EUR"
             }
           ],
@@ -699,7 +772,7 @@
       "parfums": [
         {
           "id": "crystalline_edt",
-          "name": "Omnia Crystalline EDT",
+          "name": "Crystalline EDT",
           "prices": [
             {
               "id": "100ml",
@@ -728,7 +801,7 @@
         },
         {
           "id": "crystalline_edp",
-          "name": "Omnia Crystalline EDP",
+          "name": "Crystalline EDP",
           "prices": [
             {
               "id": "100ml",
@@ -751,7 +824,7 @@
         },
         {
           "id": "amethyste_edt",
-          "name": "Omnia Amethyste",
+          "name": "Amethyste",
           "prices": [
             {
               "id": "100ml",
@@ -774,7 +847,7 @@
         },
         {
           "id": "coral_edt",
-          "name": "Omnia Coral",
+          "name": "Coral",
           "prices": [
             {
               "id": "100ml",
@@ -931,7 +1004,7 @@
       "parfums": [
         {
           "id": "bvlgari_pour_homme_edt",
-          "name": "Pour Homme EDT",
+          "name": "EDT",
           "prices": [
             {
               "id": "100ml",
@@ -950,7 +1023,7 @@
         },
         {
           "id": "bvlgari_pour_homme_edp",
-          "name": "Pour Homme EDP",
+          "name": "EDP",
           "prices": [
             {
               "id": "100ml",
@@ -974,7 +1047,7 @@
       "parfums": [
         {
           "id": "aqva_pour_homme",
-          "name": "Aqva Pour Homme",
+          "name": "Pour Homme",
           "prices": [
             {
               "id": "100ml",
@@ -1044,6 +1117,353 @@
             "Note marine et iodée réaliste",
             "Masculinité sombre et aquatique",
             "Design galet emblématique"
+          ]
+        }
+      ]
+    },
+    {
+      "collection": "Gel & Lotion",
+      "parfums": [
+        {
+          "id": "gel",
+          "name": "Gel",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 5800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        },
+        {
+          "id": "lotion",
+          "name": "Lotion",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 6600,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        }
+      ]
+    },
+    {
+      "collection": "Gel & Lotion",
+      "parfums": [
+        {
+          "id": "gel",
+          "name": "Gel",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 5800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        },
+        {
+          "id": "lotion",
+          "name": "Lotion",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 6600,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        }
+      ]
+    },
+    {
+      "collection": "Gel & Lotion",
+      "parfums": [
+        {
+          "id": "gel",
+          "name": "Gel",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 5800,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        },
+        {
+          "id": "lotion",
+          "name": "Lotion",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 6600,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        }
+      ]
+    },
+    {
+      "collection": "Gel & Lotion",
+      "parfums": [
+        {
+          "id": "gel",
+          "name": "Gel",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 5837,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        },
+        {
+          "id": "lotion",
+          "name": "Lotion",
+          "prices": [
+            {
+              "id": "200ml",
+              "label": "200ml",
+              "amountCents": 6617,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "7h",
+          "sillage": "Moderate",
+          "imageUrl": "https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "Note marine et iodée réaliste",
+            "Masculinité sombre et aquatique",
+            "Design galet emblématique"
+          ]
+        }
+      ]
+    },
+    {
+      "collection": "Travel | coffret | refill",
+      "parfums": [
+        {
+          "id": "tygar",
+          "name": "Tygar",
+          "prices": [
+            {
+              "id": "125ml",
+              "label": "10ml",
+              "amountCents": 13750,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "Inspiré par la pierre d'œil de tigre, Tygar est une explosion de pamplemousse étincelant mariée à un accord d'ambroxan profond et boisé.",
+          "notes": "Grapefruit, Ambroxan, Woody Notes",
+          "longevity": "9h",
+          "sillage": "Strong",
+          "imageUrl": "https://i8.amplience.net/i/manor/10003063924_05",
+          "pros": [
+            "Ouverture de pamplemousse extrêmement juteuse et naturelle",
+            "Sillage d'ambroxan moderne et envoûtant",
+            "Parfait pour les journées ensoleillées et l'été"
+          ]
+        },
+        {
+          "id": "omnia_edp_trvl",
+          "name": "Omnia EDP",
+          "prices": [
+            {
+              "id": "omnia_edp_coffret",
+              "label": "110ml",
+              "amountCents": 16100,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "U?n parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "?Note marine et iodée réaliste",
+            "?Masculinité sombre et aquatique",
+            "?Design galet emblématique"
+          ]
+        },
+        {
+          "id": "black_edp_trvl",
+          "name": "Black EDP",
+          "prices": [
+            {
+              "id": "black_edp_trvl",
+              "label": "110ml",
+              "amountCents": 13600,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "?Note marine et iodée réaliste",
+            "?Masculinité sombre et aquatique",
+            "/Design galet emblématique"
+          ]
+        },
+        {
+          "id": "black_edp_refill",
+          "name": "Black EDP",
+          "prices": [
+            {
+              "id": "black_edp_refill",
+              "label": "200ml",
+              "amountCents": 16250,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "?Note marine et iodée réaliste",
+            "?Masculinité sombre et aquatique",
+            "/Design galet emblématique"
+          ]
+        },
+        {
+          "id": "crystalline_edt_refill",
+          "name": "Crystalline EDT",
+          "prices": [
+            {
+              "id": "crystalline_edt_refill",
+              "label": "200ml",
+              "amountCents": 16584,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "?Note marine et iodée réaliste",
+            "?Masculinité sombre et aquatique",
+            "/Design galet emblématique"
+          ]
+        },
+        {
+          "id": "wood_edp_refill",
+          "name": "Wood EDP",
+          "prices": [
+            {
+              "id": "wood_edp_refill",
+              "label": "200ml",
+              "amountCents": 16250,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "?Note marine et iodée réaliste",
+            "?Masculinité sombre et aquatique",
+            "/Design galet emblématique"
           ]
         }
       ]
