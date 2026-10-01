@@ -18,12 +18,6 @@
               "label": "60ml",
               "amountCents": 22917,
               "currency": "EUR"
-            },
-            {
-              "id": "125ml",
-              "label": "10ml trvl",
-              "amountCents": 12530,
-              "currency": "EUR"
             }
           ],
           "creator": "Jacques Cavallier",
@@ -749,7 +743,7 @@
             {
               "id": "60ml",
               "label": "60ml",
-              "amountCents": 8800,
+              "amountCents": 10250,
               "currency": "EUR"
             }
           ],
@@ -1148,29 +1142,6 @@
           ]
         },
         {
-          "id": "omnia_edp_trvl",
-          "name": "Omnia EDP",
-          "prices": [
-            {
-              "id": "omnia_edp_coffret",
-              "label": "110ml",
-              "amountCents": 16100,
-              "currency": "EUR"
-            }
-          ],
-          "creator": "Jacques Cavallier",
-          "description": "U?n parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
-          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
-          "longevity": "?7h",
-          "sillage": "?Moderate",
-          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
-          "pros": [
-            "?Note marine et iodée réaliste",
-            "?Masculinité sombre et aquatique",
-            "?Design galet emblématique"
-          ]
-        },
-        {
           "id": "black_edp_trvl",
           "name": "Black EDP",
           "prices": [
@@ -1217,13 +1188,13 @@
           ]
         },
         {
-          "id": "crystalline_edt_refill",
-          "name": "Crystalline EDT",
+          "id": "wood_edp_refill",
+          "name": "Wood EDP",
           "prices": [
             {
-              "id": "crystalline_edt_refill",
+              "id": "wood_edp_refill",
               "label": "200ml",
-              "amountCents": 16584,
+              "amountCents": 16250,
               "currency": "EUR"
             }
           ],
@@ -1240,13 +1211,36 @@
           ]
         },
         {
-          "id": "wood_edp_refill",
-          "name": "Wood EDP",
+          "id": "crystalline_edp_coffret",
+          "name": "Crystalline EDP",
           "prices": [
             {
-              "id": "wood_edp_refill",
+              "id": "Crystalline_edp_coffret",
+              "label": "110ml",
+              "amountCents": 16100,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "Jacques Cavallier",
+          "description": "U?n parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "?Note marine et iodée réaliste",
+            "?Masculinité sombre et aquatique",
+            "?Design galet emblématique"
+          ]
+        },
+        {
+          "id": "crystalline_edt_refill",
+          "name": "Crystalline EDT",
+          "prices": [
+            {
+              "id": "crystalline_edt_refill",
               "label": "200ml",
-              "amountCents": 16250,
+              "amountCents": 16584,
               "currency": "EUR"
             }
           ],
