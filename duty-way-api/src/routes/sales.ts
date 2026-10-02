@@ -43,7 +43,7 @@ export async function getSalesToday(
 	const sales = result.results.map((row) => ({
 		id: row.id,
 		brand: row.brand,
-		perfume: { id: row.perfume_id, name: row.perfume_name },
+		perfume: row.perfume_name,
 		price: {
 			label: row.price_label,
 			amountCents: row.amount_cents,
@@ -172,4 +172,73 @@ export async function getSalesHistory(env: Env, telegramId: string, days: number
 		totalCents: row.total_cents,
 		currency: 'EUR' as const,
 	}));
+}
+
+// -----------  ADMIN ONLY
+
+export async function getAdminUserSalesToday(
+	currentUser: User,
+	telegramId: string,
+	env: Env,
+	corsHeaders: Record<string, string>,
+): Promise<Response> {
+	if (!currentUser.is_admin) {
+		return json({ error: 'Admin access required.' }, corsHeaders, 403);
+	}
+
+	const today = new Date().toISOString().slice(0, 10);
+
+	const result = await env.DB.prepare(
+		`SELECT id, brand, perfume_id, perfume_name, price_label, amount_cents, currency, sold_at
+		 FROM sales
+		 WHERE telegram_user_id = ?
+		   AND date(sold_at) = ?
+		 ORDER BY sold_at DESC`,
+	)
+		.bind(telegramId, today)
+		.all<{
+			id: string;
+			brand: string;
+			perfume_id: string;
+			perfume_name: string;
+			price_label: string;
+			amount_cents: number;
+			currency: 'EUR';
+			sold_at: string;
+		}>();
+
+	const row = await env.DB.prepare(`SELECT work_name FROM app_users WHERE telegram_user_id = ?`)
+		.bind(telegramId)
+		.first<{ work_name: string | null }>();
+
+	const soldBy = row?.work_name || 'Unknown';
+
+	const sales = result.results.map((r) => ({
+		id: r.id,
+		brand: r.brand,
+		perfume: { id: r.perfume_id, name: r.perfume_name },
+		price: { label: r.price_label, amountCents: r.amount_cents, currency: r.currency },
+		soldAt: new Date(r.sold_at).toISOString(),
+		soldBy,
+	}));
+
+	return json(sales, corsHeaders);
+}
+
+export async function getAdminUserSalesHistory(
+	currentUser: User,
+	telegramId: string,
+	url: URL,
+	env: Env,
+	corsHeaders: Record<string, string>,
+): Promise<Response> {
+	if (!currentUser.is_admin) {
+		return json({ error: 'Admin access required.' }, corsHeaders, 403);
+	}
+
+	const requestedDays = Number(url.searchParams.get('days') ?? '7');
+	const days =
+		Number.isInteger(requestedDays) && requestedDays >= 1 && requestedDays <= 31 ? requestedDays : 7;
+
+	return json({ days: await getSalesHistory(env, telegramId, days) }, corsHeaders);
 }

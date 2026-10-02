@@ -6,13 +6,13 @@ const maxInitDataAgeSeconds = 24 * 60 * 60;
 export async function authenticateTelegramUser(request: Request, env: Env): Promise<User | null> {
 	const initData = request.headers.get('X-Telegram-Init-Data');
 
-	return {
-		telegram_id: '972344705',
-		username: 'Mihai',
-		language: 'en',
-		work_name: 'Mihail Cojusnean',
-		is_admin: true,
-	};
+	// return {
+	// 	telegram_id: '972344705',
+	// 	username: 'Mihai',
+	// 	language: 'en',
+	// 	work_name: 'Mihail Cojusnean',
+	// 	is_admin: true,
+	// };
 
 	if (!initData || !env.TELEGRAM_BOT_TOKEN) {
 		return null;

@@ -1,10 +1,13 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { SalesService } from '../../../core/sales.service';
+import { AdminService } from '../../../core/admin.service';
 import { PerfumeSale, Sale, SalesHistoryEntry } from '../interfaces/duty.interface';
+import { ViewedUser } from '../interfaces/user.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SalesStore {
   private readonly salesService = inject(SalesService);
+  private readonly adminService = inject(AdminService);
 
   readonly todaySales = signal<readonly Sale[]>([]);
   readonly salesHistory = signal<readonly SalesHistoryEntry[]>([]);
@@ -16,12 +19,11 @@ export class SalesStore {
 
   constructor() {
     this.loadTodaySales();
-    this.loadSalesHistory();
   }
 
   recordSale(sale: PerfumeSale): void {
     this.salesService.recordSale(sale).subscribe({
-      next: (response) => {
+      next: () => {
         this.loadTodaySales();
       },
       error: (error: unknown) => {
@@ -33,7 +35,7 @@ export class SalesStore {
   loadTodaySales(): void {
     this.salesService.getTodaySales().subscribe({
       next: (sales) => {
-        this.todaySales.set(sales)
+        this.todaySales.set(sales);
       },
       error: (error: unknown) => {
         console.error('Failed to load today sales', error);
@@ -41,8 +43,12 @@ export class SalesStore {
     });
   }
 
-  loadSalesHistory(): void {
-    this.salesService.getRecentHistory(31).subscribe({
+  loadSalesHistory(viewed: ViewedUser, days = 31): void {
+    const request$ = viewed.isViewingSelf
+      ? this.salesService.getRecentHistory(days)
+      : this.adminService.getUserSalesHistory(viewed.user.telegram_id, days);
+
+    request$.subscribe({
       next: (history) => {
         this.salesHistory.set(history);
       },

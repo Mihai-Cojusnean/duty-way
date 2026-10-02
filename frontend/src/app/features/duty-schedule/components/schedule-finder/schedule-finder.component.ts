@@ -88,10 +88,9 @@ export class ScheduleFinderComponent {
   constructor() {
     effect(() => {
       const viewed = this.viewedUser();
-
       if (viewed) {
         this.loadScheduleFor(viewed);
-        this.salesStore.loadSalesHistory();
+        this.salesStore.loadSalesHistory(viewed);
       }
     });
   }

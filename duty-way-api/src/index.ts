@@ -1,7 +1,7 @@
 import { authenticateTelegramUser } from './auth';
 import { getMe } from './routes/me';
 import { getUser, postUser } from './routes/user';
-import { getSalesSummary, getSalesToday, getSalesHistoryRoute, postSale, deleteSale } from './routes/sales';
+import { getSalesSummary, getSalesToday, getSalesHistoryRoute, postSale, deleteSale, getAdminUserSalesToday} from './routes/sales';
 import { getAdminUsers, getAdminUserSalesHistory, getAdminUserSchedule } from './routes/admin';
 import { json } from "./utlis";
 
@@ -67,6 +67,16 @@ export default {
 				return getAdminUsers(currentUser, env, corsHeaders);
 			}
 
+			const adminSalesTodayMatch = url.pathname.match(/^\/api\/admin\/users\/(\d+)\/sales\/today$/);
+			if (request.method === 'GET' && adminSalesTodayMatch) {
+				return getAdminUserSalesToday(currentUser, adminSalesTodayMatch[1], env, corsHeaders);
+			}
+
+			const adminSalesHistoryMatch = url.pathname.match(/^\/api\/admin\/users\/(\d+)\/sales\/history$/);
+			if (request.method === 'GET' && adminSalesHistoryMatch) {
+				return getAdminUserSalesHistory(currentUser, adminSalesHistoryMatch[1], url, env, corsHeaders);
+			}
+
 			const adminScheduleMatch = url.pathname.match(/^\/api\/admin\/users\/(\d+)\/schedule$/);
 
 			if (request.method === 'GET' && adminScheduleMatch) {
@@ -77,12 +87,6 @@ export default {
 
 			if (request.method === 'DELETE' && saleIdMatch) {
 				return deleteSale(saleIdMatch[1], currentUser, env, corsHeaders);
-			}
-
-			const adminSalesHistoryMatch = url.pathname.match(/^\/api\/admin\/users\/(\d+)\/sales\/history$/);
-
-			if (request.method === 'GET' && adminSalesHistoryMatch) {
-				return getAdminUserSalesHistory(currentUser, adminSalesHistoryMatch[1], url, env, corsHeaders);
 			}
 
 			return json({ error: 'Endpoint not found.' }, corsHeaders, 404);
