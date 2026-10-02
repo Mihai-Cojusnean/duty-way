@@ -1,19 +1,9 @@
-<header class="topbar">
-  <button
-    class="back-button"
-    type="button"
-    (click)="goBack()"
-  >
-    ← Schedule
-  </button>
-</header>
+<div class="assigned-brand">
+  <span>Brand</span>
+  <h3>{{ brandName() }}</h3>
+</div>
 
 <section class="page-container">
-  <div class="assigned-brand">
-    <span>Brand</span>
-    <h3>{{ brandName() }}</h3>
-  </div>
-
   <div class="catalog-header">
     <h3>Catalogue</h3>
 
@@ -137,6 +127,12 @@
     </button>
   </div>
 </section>
+
+<button
+  class="back-button back-button--floating"
+  type="button"
+  (click)="goBack()"> ← Schedule
+</button>
 
 @if (salesOpen()) {
 <app-today-sales

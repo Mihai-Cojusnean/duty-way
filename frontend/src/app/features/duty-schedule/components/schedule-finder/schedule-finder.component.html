@@ -11,43 +11,30 @@
   <span class="help">My schedule</span>
 </header>
 
-@if (records().length !== 0) {
-<details class="form-details">
-  <summary class="form-summary">
-    <span class="summary-arrow" aria-hidden="true">▶</span>
-    Upload new schedule
-  </summary>
+<div class="toolbar-row">
+  @if (records().length > 0) {
+  <h2 id="schedule-heading" class="schedule-title">
+    Schedule <span class="shift-count">{{ records().length }} shifts</span>
+  </h2>
+  }
+  <input
+    id="scheduleFile"
+    class="visually-hidden"
+    type="file"
+    accept=".xlsx,.xls"
+    (change)="onFileChange($event)"
+  />
 
-  <ng-container *ngTemplateOutlet="scheduleForm"></ng-container>
-</details>
-} @else {
-<ng-container *ngTemplateOutlet="scheduleForm"></ng-container>
-}
-
-<ng-template #scheduleForm>
-  <section class="form-card" aria-labelledby="search-heading">
-    <input
-      id="scheduleFile"
-      class="visually-hidden"
-      type="file"
-      accept=".xlsx,.xls"
-      (change)="onFileChange($event)"
-    />
-
-    <label class="file-input" for="scheduleFile">
-      <span>{{ selectedFile()?.name ?? 'Excel schedule' }}</span>
-      <span class="file-input-button">Choose file</span>
-    </label>
-  </section>
-</ng-template>
+  <label class="file-input-text" for="scheduleFile">
+    upload new
+  </label>
+</div>
 
 @if (records().length > 0 || scheduleDiff()) {
 <section class="results" aria-labelledby="schedule-heading">
   <div class="schedule-header">
-    <h2 id="schedule-heading">Schedule</h2>
-
     @if (statusMessage()) {
-    <p class="status-message" role="status"> {{ statusMessage() }}</p>
+    <p class="status-message" role="status">{{ statusMessage() }}</p>
     }
   </div>
 

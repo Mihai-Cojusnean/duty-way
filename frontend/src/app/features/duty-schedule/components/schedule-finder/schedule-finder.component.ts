@@ -8,31 +8,30 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-import {
-  ISODate,
-  SalesHistoryEntry,
-  ScheduleDiff,
-  ScheduleRecord,
-} from '../../interfaces/duty.interface';
+import { SalesHistoryEntry, ScheduleDiff, ScheduleRecord } from '../../interfaces/duty.interface';
 import { ScheduleChart } from './schedule-chart/schedule-chart';
-import { groupRecordsByDate, isPast, shiftKey } from '../../services/schedule.utils';
+import {
+  formatScheduleDate,
+  groupRecordsByDate,
+  isPast,
+  isToday,
+  shiftKey,
+} from '../../services/schedule.utils';
 import { AdminService } from '../../../../core/admin.service';
 import { UserService } from '../../../../core/user.service';
 import { ScheduleDiffService } from '../../services/schedule-diff.service';
 import { ScheduleParserService } from '../../services/schedule-parser.service';
 import { SalesStore } from '../../services/sales.store';
 import { User, ViewedUser } from '../../interfaces/user.interface';
-import { isToday, formatScheduleDate } from '../../services/schedule.utils'
 
 @Component({
   selector: 'app-schedule-finder',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, ScheduleChart],
+  imports: [ScheduleChart],
   templateUrl: './schedule-finder.component.html',
   styleUrl: './schedule-finder.component.css',
 })
@@ -145,9 +144,7 @@ export class ScheduleFinderComponent {
 
         this.applySchedule(
           records,
-          records.length
-            ? `${records.length} shifts`
-            : `${viewed.user.work_name} has no saved schedule.`,
+          records.length ? '' : `${viewed.user.work_name} has no saved schedule.`,
         );
       },
       error: () => {
@@ -169,9 +166,7 @@ export class ScheduleFinderComponent {
 
       this.applySchedule(
         records,
-        records.length
-          ? `${records.length} shifts loaded from Excel.`
-          : `No shifts found for "${viewed.user.work_name}".`,
+        records.length ? '' : `No shifts found for "${viewed.user.work_name}".`,
       );
 
       this.saveSchedule(records);
