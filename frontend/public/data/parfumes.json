@@ -1255,6 +1255,52 @@
             "?Masculinité sombre et aquatique",
             "/Design galet emblématique"
           ]
+        },
+        {
+          "id": "discovery_pack_women",
+          "name": "DPW",
+          "prices": [
+            {
+              "id": "discovery_pack_women",
+              "label": "40ml",
+              "amountCents": 7500,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "?Note marine et iodée réaliste",
+            "?Masculinité sombre et aquatique",
+            "/Design galet emblématique"
+          ]
+        },
+        {
+          "id": "discovery_pack_men",
+          "name": "DPW",
+          "prices": [
+            {
+              "id": "discovery_pack_men",
+              "label": "40ml",
+              "amountCents": 7500,
+              "currency": "EUR"
+            }
+          ],
+          "creator": "?Jacques Cavallier",
+          "description": "?Un parfum aquatique aromatique évoquant la profondeur et la puissance de la mer grâce à l'algue Posidonia.",
+          "notes": "?Mandarin, Santolina, Posidonia Seaweed, Mineral Amber, Clary Sage",
+          "longevity": "?7h",
+          "sillage": "?Moderate",
+          "imageUrl": "?https://fimgs.net/mdimg/perfume/375x500.155.jpg",
+          "pros": [
+            "?Note marine et iodée réaliste",
+            "?Masculinité sombre et aquatique",
+            "/Design galet emblématique"
+          ]
         }
       ]
     }
