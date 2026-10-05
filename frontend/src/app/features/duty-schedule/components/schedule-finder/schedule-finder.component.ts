@@ -16,6 +16,7 @@ import { ScheduleChart } from './schedule-chart/schedule-chart';
 import {
   formatScheduleDate,
   groupRecordsByDate,
+  formatShiftHours,
   isPast,
   isToday,
   shiftKey,
@@ -46,13 +47,11 @@ export class ScheduleFinderComponent {
   readonly statusMessage = signal('');
   readonly records = signal<ScheduleRecord[]>([]);
   readonly scheduleDiff = signal<ScheduleDiff | null>(null);
-  readonly selectedFile = signal<File | null>(null);
   readonly isToday = isToday;
+  readonly formatShiftHours = formatShiftHours;
   readonly formatScheduleDate = formatScheduleDate;
   readonly salesHistory = this.salesStore.salesHistory;
   readonly viewedUser = input<ViewedUser | null>(null);
-  readonly soldTodayCount = input<number>(0);
-  readonly todaySalesTotalCents = input<number>(0);
   readonly openBrand = output<string>();
   readonly getBrand = (record: ScheduleRecord) => record.brand;
   readonly getTerminal = (record: ScheduleRecord) => record.terminal;
@@ -97,13 +96,13 @@ export class ScheduleFinderComponent {
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
-
-    this.selectedFile.set(file);
+    const file = input.files?.[0];
 
     if (file) {
-      this.loadSchedule();
+      void this.loadSchedule(file);
     }
+
+    input.value = '';
   }
 
   formatEuro(amountCents: number): string {
@@ -127,8 +126,7 @@ export class ScheduleFinderComponent {
 
   private saveSchedule(records: readonly ScheduleRecord[]): void {
     this.userService.saveSchedule([...records]).subscribe({
-      next: () => console.log('Successfully saved to KV!'),
-      error: (err) => console.error('Error saving:', err),
+      error: (err) => console.error('Error saving schedule:', err),
     });
   }
 
@@ -152,13 +150,10 @@ export class ScheduleFinderComponent {
     });
   }
 
-  async loadSchedule(): Promise<void> {
-    const file = this.selectedFile();
+  async loadSchedule(file: File): Promise<void> {
     const viewed = this.viewedUser();
 
-    if (!file || !viewed) {
-      return;
-    }
+    if (!viewed) return;
 
     try {
       const records = await this.scheduleParserService.parse(file, viewed.user.work_name);
@@ -169,14 +164,12 @@ export class ScheduleFinderComponent {
       );
 
       this.saveSchedule(records);
-    } catch (error) {
-      console.error('Error loading schedule:', error);
+    } catch {
       this.statusMessage.set('Could not read the schedule file.');
     }
   }
 
   goToBrand(brand: string): void {
-    this.openBrand.emit(brand);
     this.router.navigate(['/brand-catalog', brand]).catch((error) => {
       console.error('Navigation error:', error);
     });

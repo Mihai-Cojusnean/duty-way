@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { User } from './features/duty-schedule/interfaces/user.interface';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ApiService } from './core/api.service';
+import { TelegramService } from './core/telegram.service';
 
 @Component({
   selector: 'app-root',
@@ -12,23 +11,9 @@ import { ApiService } from './core/api.service';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
-  user?: User;
-
-  constructor(private apiService: ApiService) {}
+  private readonly telegramService = inject(TelegramService);
 
   ngOnInit(): void {
-    const tg = window.Telegram?.WebApp;
-
-    if (tg) {
-      tg.ready();
-      tg.expand();
-    } else {
-      console.warn('Running outside Telegram');
-    }
-
-    this.apiService.getCurrentUser().then(
-      (user) => (this.user = user),
-      (err) => console.error('Failed to load user', err),
-    );
+    this.telegramService.init();
   }
 }

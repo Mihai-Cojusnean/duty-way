@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
-import { Perfume, PerfumePrice } from '../../interfaces/duty.interface';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { Perfume } from '../../interfaces/duty.interface';
 
 @Component({
   selector: 'app-perfume-modal',
@@ -11,7 +11,6 @@ import { Perfume, PerfumePrice } from '../../interfaces/duty.interface';
 export class PerfumeModalComponent {
   readonly perfume = input.required<Perfume>();
   readonly close = output<void>();
-  readonly selectedPrice = signal<PerfumePrice | null>(null);
 
   readonly fragranceNotes = computed(() =>
     this.perfume().notes

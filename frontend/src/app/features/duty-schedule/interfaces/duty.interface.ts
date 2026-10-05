@@ -1,4 +1,4 @@
-export type ISODate = `${number}-${number}-${number}`;
+export type ISODate = `${number}-${string}-${string}`;
 
 export interface BrandCatalogCollection {
   collection: string;
@@ -11,7 +11,7 @@ export interface ScheduleRecord {
   readonly brand: string;
   readonly date: ISODate;
   readonly startMinutes: number;
-  readonly hours: string
+  readonly endMinutes: number;
 }
 
 export interface ShiftGroup {

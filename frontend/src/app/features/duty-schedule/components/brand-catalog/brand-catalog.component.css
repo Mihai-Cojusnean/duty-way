@@ -34,12 +34,6 @@
   text-transform: uppercase;
 }
 
-/*.catalog-list h2 {*/
-/*  margin-bottom: 10px;*/
-/*  font-size: 15px;*/
-/*  text-transform: uppercase;*/
-/*}*/
-
 .catalog-header {
   display: flex;
   gap: 0.75em;

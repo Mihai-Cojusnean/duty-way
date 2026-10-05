@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { TelegramService } from './telegram.service';
 import { User } from '../features/duty-schedule/interfaces/user.interface';
-import { Sale, SalesHistoryEntry } from '../features/duty-schedule/interfaces/duty.interface';
+import { SalesHistoryEntry } from '../features/duty-schedule/interfaces/duty.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -28,14 +28,6 @@ export class AdminService {
     return this.http.get<User>(`${this.apiUrl}/api/admin/users/${telegramUserId}/schedule`, {
       headers: this.authHeaders,
     });
-  }
-
-  getUserSalesToday(telegramUserId: string): Observable<Sale[]> {
-    return this.http
-      .get<Sale[]>(`${this.apiUrl}/api/admin/users/${telegramUserId}/sales/today`, {
-        headers: this.authHeaders,
-      })
-      .pipe(map((sales) => sales.map((sale) => ({ ...sale, soldAt: new Date(sale.soldAt) }))));
   }
 
   getUserSalesHistory(telegramUserId: string, days = 7): Observable<readonly SalesHistoryEntry[]> {

@@ -17,6 +17,7 @@
     Schedule <span class="shift-count">{{ records().length }} shifts</span>
   </h2>
   }
+
   <input
     id="scheduleFile"
     class="visually-hidden"
@@ -55,7 +56,7 @@
       @for (record of diff.added; track record.id) {
       <p class="change-row added">
         <strong>{{ formatScheduleDate(record.date) }}</strong>
-        <span>{{ record.brand }} · {{ record.hours }}</span>
+        <span>{{ record.brand }} · {{ formatShiftHours(record) }}</span>
       </p>
       }
     </div>
@@ -69,9 +70,10 @@
       <p class="change-row changed">
         <strong>{{ formatScheduleDate(change.current.date) }}</strong>
         <span>
-              {{ change.current.brand }} ·
-              {{ change.previous.hours }} → {{ change.current.hours }}
-            </span>
+                  {{ change.current.brand }} ·
+                  {{ formatShiftHours(change.previous) }} →
+                  {{ formatShiftHours(change.current) }}
+                </span>
       </p>
       }
     </div>
@@ -84,7 +86,7 @@
       @for (record of diff.removed; track record.id) {
       <p class="change-row removed">
         <strong>{{ formatScheduleDate(record.date) }}</strong>
-        <span>{{ record.brand }} · {{ record.hours }}</span>
+        <span>{{ record.brand }} · {{ formatShiftHours(record) }}</span>
       </p>
       }
     </div>
@@ -105,18 +107,25 @@
         <article class="past-shift">
           <div class="shift-header">
             <strong>
-              {{ formatScheduleDate(record.date) }} · {{ record.hours }}
+              {{ formatScheduleDate(record.date) }} ·
+              {{ formatShiftHours(record) }}
             </strong>
 
             @if (salesForShiftGroup(record); as sale) {
             <span class="shift-sales">
-                  <strong class="sale-amount">{{ formatEuro(sale.totalCents) }}</strong>
-                  <span class="sale-count">· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
-                </span>
+                        <strong class="sale-amount">
+                          {{ formatEuro(sale.totalCents) }}
+                        </strong>
+                        <span class="sale-count">
+                          · {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}
+                        </span>
+                      </span>
             }
           </div>
 
-          <p class="shift-details">{{ record.brand }} · {{ record.terminal }}</p>
+          <p class="shift-details">
+            {{ record.brand }} · {{ record.terminal }}
+          </p>
         </article>
         }
       </div>
@@ -126,13 +135,12 @@
   }
 
   @for (group of upcomingShiftGroups(); track group.date) {
-
   @if (group.isDayOff) {
   <div class="day-off-separator">
     <span class="day-off-line"></span>
     <span class="day-off-label">
-        {{ group.dayLabel }} · Day off
-      </span>
+            {{ group.dayLabel }} · Day off
+          </span>
     <span class="day-off-line"></span>
   </div>
   } @else {
@@ -144,7 +152,8 @@
     <article [class.today-shift]="isToday(record.date)">
       <div class="shift-header">
         <strong>
-          {{ formatScheduleDate(record.date) }} · {{ record.hours }}
+          {{ formatScheduleDate(record.date) }} ·
+          {{ formatShiftHours(record) }}
         </strong>
 
         <div class="brand-buttons">
@@ -176,5 +185,3 @@
   [records]="records()"
   [groupBy]="getTerminal">
 </app-schedule-chart>
-
-

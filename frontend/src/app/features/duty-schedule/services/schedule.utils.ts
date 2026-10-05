@@ -1,7 +1,5 @@
 import { ISODate, ScheduleRecord, ShiftGroup } from '../interfaces/duty.interface';
 
-const DAY_IN_MS = 24 * 60 * 60 * 1000;
-
 export interface GroupScheduleOptions {
   readonly includeDaysOff?: boolean;
 }
@@ -60,7 +58,7 @@ function createShiftGroup(date: ISODate, shifts: readonly ScheduleRecord[]): Shi
     shifts,
     isMultiShift: shifts.length > 1,
     isDayOff: false,
-    dayLabel: formatDateLabel(date),
+    dayLabel: formatScheduleDate(date),
   };
 }
 
@@ -98,7 +96,7 @@ function createDayOffGroup(date: ISODate): ShiftGroup {
     shifts: [],
     isMultiShift: false,
     isDayOff: true,
-    dayLabel: formatDateLabel(date),
+    dayLabel: formatScheduleDate(date),
   };
 }
 
@@ -132,14 +130,6 @@ function getTodayISO(): ISODate {
   const day = String(now.getDate()).padStart(2, '0');
 
   return `${year}-${month}-${day}` as ISODate;
-}
-
-function formatDateLabel(date: ISODate): string {
-  return new Intl.DateTimeFormat('en-GB', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-  }).format(parseISODate(date));
 }
 
 export const TERMINAL_NAMES: Readonly<Record<string, string>> = {
@@ -178,21 +168,23 @@ export function findCurrentShift(
   records: readonly ScheduleRecord[],
   now: Date = new Date(),
 ): ScheduleRecord | null {
-  const todayISO = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  const today =
+    `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}` as ISODate;
   const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
   return (
-    records.find((record) => {
-      if (record.date !== todayISO) return false;
-
-      const match = record.hours.match(/^(\d{2}):(\d{2})-(\d{2}):(\d{2})$/);
-      if (!match) return false;
-
-      const [, startH, startM, endH, endM] = match;
-      const start = Number(startH) * 60 + Number(startM);
-      const end = Number(endH) * 60 + Number(endM);
-
-      return nowMinutes >= start && nowMinutes <= end;
-    }) ?? null
+    records.find(
+      (record) =>
+        record.date === today &&
+        nowMinutes >= record.startMinutes &&
+        nowMinutes < record.endMinutes,
+    ) ?? null
   );
+}
+
+export function formatShiftHours(record: ScheduleRecord): string {
+  const format = (minutes: number) =>
+    `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+
+  return `${format(record.startMinutes)}-${format(record.endMinutes)}`;
 }

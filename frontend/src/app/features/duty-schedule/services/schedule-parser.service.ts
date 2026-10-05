@@ -7,7 +7,11 @@ import { getTerminalName } from './schedule.utils';
   providedIn: 'root',
 })
 export class ScheduleParserService {
-  async parse(file: File, personName: string): Promise<ScheduleRecord[]> {
+  async parse(
+    file: File,
+    personName: string,
+    scheduleYear = new Date().getFullYear(),
+  ): Promise<ScheduleRecord[]> {
     const fileData = await file.arrayBuffer();
     const workbook = XLSX.read(fileData, { type: 'array' });
     const targetName = personName.trim().toLowerCase();
@@ -30,6 +34,7 @@ export class ScheduleParserService {
           const hours = col > 0 ? this.getCellText(sheet, row, col - 1) : '';
           const brand = this.getBrandForColumn(sheet, col);
           const lowerBrand = brand.toLowerCase();
+          const { startMinutes, endMinutes } = this.parseTimeRange(hours);
 
           if (lowerBrand === 'heure pause matin' || lowerBrand === 'heure pause soir') {
             continue;
@@ -39,9 +44,9 @@ export class ScheduleParserService {
             id: `${terminal}-${row}-${col}`,
             terminal: getTerminalName(terminal),
             brand,
-            date: this.parseScheduleDate(dateStr),
-            startMinutes: this.extractStartMinutes(hours),
-            hours: this.normalizeHours(hours)
+            date: this.parseScheduleDate(dateStr, scheduleYear),
+            startMinutes,
+            endMinutes,
           });
         }
       }
@@ -71,31 +76,12 @@ export class ScheduleParserService {
     return 'Unknown Brand';
   }
 
-  private extractStartMinutes(hours: string): number {
-    const start = hours.split('-')[0]?.trim().toLowerCase() ?? '';
-
-    const timeMatch = start.match(/(\d{1,2})\s*[h:]\s*(\d{1,2})?/);
-
-    if (timeMatch) {
-      return Number(timeMatch[1]) * 60 + Number(timeMatch[2] ?? 0);
-    }
-
-    const hourMatch = start.match(/\d+/);
-
-    return hourMatch ? Number(hourMatch[0]) * 60 : 9999;
-  }
-
-  private parseScheduleDate(dateStr: string): ISODate {
-    const normalized = dateStr.trim();
-
-    const match = normalized.match(/^(\d{1,2})-([A-Za-z]{3})$/);
+  private parseScheduleDate(dateStr: string, year: number): ISODate {
+    const match = dateStr.trim().match(/^(\d{1,2})-([A-Za-z]{3})$/);
 
     if (!match) {
       throw new Error(`Invalid schedule date: "${dateStr}"`);
     }
-
-    const day = Number(match[1]);
-    const monthName = match[2].toLowerCase();
 
     const months: Record<string, number> = {
       jan: 1,
@@ -112,26 +98,51 @@ export class ScheduleParserService {
       dec: 12,
     };
 
-    const month = months[monthName];
+    const day = Number(match[1]);
+    const month = months[match[2].toLowerCase()];
 
     if (!month) {
       throw new Error(`Invalid schedule month: "${dateStr}"`);
     }
 
-    const year = new Date().getFullYear();
+    const date = new Date(year, month - 1, day);
 
-    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}` as ISODate;
-  }
-
-  private normalizeHours(hours: string): string {
-    const match = hours.trim().match(/^(\d{1,2})h(\d{2})?\s*-\s*(\d{1,2})h(\d{2})?$/i);
-
-    if (!match) {
-      return hours.trim();
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+      throw new Error(`Invalid schedule date: "${dateStr}"`);
     }
 
-    const [, startHour, startMinute = '00', endHour, endMinute = '00'] = match;
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  }
 
-    return `${startHour.padStart(2, '0')}:${startMinute.padStart(2, '0')}-${endHour.padStart(2, '0')}:${endMinute.padStart(2, '0')}`;
+  private parseTimeRange(value: string): { startMinutes: number; endMinutes: number } {
+    const match = value
+      .trim()
+      .match(/^(\d{1,2})\s*[h:]\s*(\d{2})?\s*-\s*(\d{1,2})\s*[h:]\s*(\d{2})?$/i);
+
+    if (!match) {
+      throw new Error(`Invalid shift hours: "${value}"`);
+    }
+
+    const [, startHourText, startMinuteText, endHourText, endMinuteText] = match;
+    const startHour = Number(startHourText);
+    const startMinute = Number(startMinuteText ?? 0);
+    const endHour = Number(endHourText);
+    const endMinute = Number(endMinuteText ?? 0);
+
+    const validTime = (hour: number, minute: number) =>
+      hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59;
+
+    if (!validTime(startHour, startMinute) || !validTime(endHour, endMinute)) {
+      throw new Error(`Invalid shift hours: "${value}"`);
+    }
+
+    const startMinutes = startHour * 60 + startMinute;
+    const endMinutes = endHour * 60 + endMinute;
+
+    if (endMinutes <= startMinutes) {
+      throw new Error(`Shift must end after it starts: "${value}"`);
+    }
+
+    return { startMinutes, endMinutes };
   }
 }

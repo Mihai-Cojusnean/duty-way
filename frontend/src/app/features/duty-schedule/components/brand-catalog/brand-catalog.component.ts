@@ -56,7 +56,7 @@ export class BrandCatalogComponent {
   });
 
   private readonly currentShift = computed<ScheduleRecord | null>(() => {
-    const shifts = this.mySchedule.value()?.shifts as ScheduleRecord[] | undefined;
+    const shifts = this.mySchedule.value()?.shifts;
     return shifts ? findCurrentShift(shifts) : null;
   });
 
@@ -127,7 +127,7 @@ export class BrandCatalogComponent {
     this.salesOpen.set(false);
   }
 
-  goBack(): void {
-    this.router.navigate(['/']).then((r) => console.log("Back..."));
+  async goBack(): Promise<void> {
+    await this.router.navigate(['/']);
   }
 }
