@@ -25,7 +25,7 @@ Chart.register(ChartDataLabels);
 })
 export class ScheduleChart {
   readonly records = input.required<ScheduleRecord[]>();
-  readonly groupBy = input.required<(record: ScheduleRecord) => string>();
+  readonly groupBy = input.required<'brand' | 'terminal'>();
 
   public chartType = 'bar' as const;
 
@@ -44,7 +44,7 @@ export class ScheduleChart {
     const counts: Record<string, number> = {};
 
     for (const record of this.records()) {
-      const key = this.groupBy()(record) || 'Unknown';
+      const key = record[this.groupBy()] || 'Unknown';
       counts[key] = (counts[key] ?? 0) + 1;
     }
 

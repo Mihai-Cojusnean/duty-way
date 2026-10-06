@@ -1,13 +1,5 @@
 <header class="topbar">
-  <button
-    class="brand"
-    type="button"
-    aria-label="Open Duty Way"
-    (click)="openBrand.emit('Duty Way')"
-  >
-    <span class="brand-mark" aria-hidden="true">✦</span>
-    <span>Duty Way</span>
-  </button>
+  <span class="brand">✦ Duty Way</span>
   <span class="help">My schedule</span>
 </header>
 
@@ -70,10 +62,10 @@
       <p class="change-row changed">
         <strong>{{ formatScheduleDate(change.current.date) }}</strong>
         <span>
-                  {{ change.current.brand }} ·
-                  {{ formatShiftHours(change.previous) }} →
-                  {{ formatShiftHours(change.current) }}
-                </span>
+          {{ change.current.brand }} ·
+          {{ formatShiftHours(change.previous) }} →
+          {{ formatShiftHours(change.current) }}
+        </span>
       </p>
       }
     </div>
@@ -113,13 +105,13 @@
 
             @if (salesForShiftGroup(record); as sale) {
             <span class="shift-sales">
-                        <strong class="sale-amount">
-                          {{ formatEuro(sale.totalCents) }}
-                        </strong>
-                        <span class="sale-count">
-                          · {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}
-                        </span>
-                      </span>
+              <strong class="sale-amount">
+                {{ formatEuro(sale.totalCents) }}
+              </strong>
+              <span class="sale-count">
+                · {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}
+              </span>
+            </span>
             }
           </div>
 
@@ -139,8 +131,8 @@
   <div class="day-off-separator">
     <span class="day-off-line"></span>
     <span class="day-off-label">
-            {{ group.dayLabel }} · Day off
-          </span>
+      {{ group.dayLabel }} · Day off
+    </span>
     <span class="day-off-line"></span>
   </div>
   } @else {
@@ -176,12 +168,5 @@
 </section>
 }
 
-<app-schedule-chart
-  [records]="records()"
-  [groupBy]="getBrand">
-</app-schedule-chart>
-
-<app-schedule-chart
-  [records]="records()"
-  [groupBy]="getTerminal">
-</app-schedule-chart>
+<app-schedule-chart [records]="records()" groupBy="brand"></app-schedule-chart>
+<app-schedule-chart [records]="records()" groupBy="terminal"></app-schedule-chart>

@@ -5,7 +5,6 @@ import {
   effect,
   inject,
   input,
-  output,
   signal,
 } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -15,8 +14,8 @@ import { SalesHistoryEntry, ScheduleDiff, ScheduleRecord } from '../../interface
 import { ScheduleChart } from './schedule-chart/schedule-chart';
 import {
   formatScheduleDate,
-  groupRecordsByDate,
   formatShiftHours,
+  groupRecordsByDate,
   isPast,
   isToday,
   shiftKey,
@@ -52,9 +51,6 @@ export class ScheduleFinderComponent {
   readonly formatScheduleDate = formatScheduleDate;
   readonly salesHistory = this.salesStore.salesHistory;
   readonly viewedUser = input<ViewedUser | null>(null);
-  readonly openBrand = output<string>();
-  readonly getBrand = (record: ScheduleRecord) => record.brand;
-  readonly getTerminal = (record: ScheduleRecord) => record.terminal;
   readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
 
   private readonly shiftsByPeriod = computed(() => {
@@ -62,26 +58,18 @@ export class ScheduleFinderComponent {
     const upcoming: ScheduleRecord[] = [];
 
     for (const record of this.records()) {
-      if (isPast(record.date)) {
-        past.push(record);
-      } else {
-        upcoming.push(record);
-      }
+      isPast(record.date) ? past.push(record) : upcoming.push(record);
     }
 
     return { past, upcoming };
   });
 
   readonly pastShiftGroups = computed(() =>
-    groupRecordsByDate(this.shiftsByPeriod().past, {
-      includeDaysOff: false,
-    }),
+    groupRecordsByDate(this.shiftsByPeriod().past, { includeDaysOff: false }),
   );
 
   readonly upcomingShiftGroups = computed(() =>
-    groupRecordsByDate(this.shiftsByPeriod().upcoming, {
-      includeDaysOff: true,
-    }),
+    groupRecordsByDate(this.shiftsByPeriod().upcoming, { includeDaysOff: true }),
   );
 
   constructor() {
@@ -98,9 +86,7 @@ export class ScheduleFinderComponent {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
 
-    if (file) {
-      void this.loadSchedule(file);
-    }
+    if (file) void this.loadNewSchedule(file);
 
     input.value = '';
   }
@@ -150,7 +136,7 @@ export class ScheduleFinderComponent {
     });
   }
 
-  async loadSchedule(file: File): Promise<void> {
+  async loadNewSchedule(file: File): Promise<void> {
     const viewed = this.viewedUser();
 
     if (!viewed) return;
@@ -161,6 +147,7 @@ export class ScheduleFinderComponent {
       this.applySchedule(
         records,
         records.length ? '' : `No shifts found for "${viewed.user.work_name}".`,
+        true,
       );
 
       this.saveSchedule(records);
@@ -169,24 +156,28 @@ export class ScheduleFinderComponent {
     }
   }
 
-  goToBrand(brand: string): void {
-    this.router.navigate(['/brand-catalog', brand]).catch((error) => {
-      console.error('Navigation error:', error);
-    });
-  }
-
-  private applySchedule(records: readonly ScheduleRecord[], message: string): void {
+  private applySchedule(
+    records: readonly ScheduleRecord[],
+    message: string,
+    compareWithPrevious = false,
+  ): void {
     const previous = this.records();
     const viewed = this.viewedUser();
 
     this.records.set([...records]);
 
     this.scheduleDiff.set(
-      viewed?.isViewingSelf && previous.length
+      compareWithPrevious && viewed?.isViewingSelf && previous.length
         ? this.scheduleDiffService.compare(previous, records)
         : null,
     );
 
     this.statusMessage.set(message);
+  }
+
+  goToBrand(brand: string): void {
+    this.router.navigate(['/brand-catalog', brand]).catch((error) => {
+      console.error('Navigation error:', error);
+    });
   }
 }

@@ -15,9 +15,7 @@ export class CatalogService {
   private catalog: CatalogMap | null = null;
 
   async getCatalog(): Promise<CatalogMap> {
-    if (this.catalog) {
-      return this.catalog;
-    }
+    if (this.catalog) return this.catalog;
 
     this.catalog = await firstValueFrom(this.http.get<CatalogMap>(this.catalogUrl));
 

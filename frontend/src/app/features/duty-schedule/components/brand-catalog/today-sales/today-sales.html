@@ -1,8 +1,4 @@
-<div
-  class="sales-backdrop"
-  role="presentation"
-  (click)="closeSales()"
->
+<div class="sales-backdrop" role="presentation" (click)="closeSales()">
   <aside
     class="sales-drawer"
     aria-modal="true"
@@ -10,9 +6,7 @@
     (click)="$event.stopPropagation()"
   >
     <header class="sales-header">
-      <div>
-        <h4 id="today-sales-title">Today's Sales</h4>
-      </div>
+      <h4 id="today-sales-title">Today's Sales</h4>
     </header>
 
     @if (todaySales().length === 0) {
@@ -27,18 +21,17 @@
           <div class="sale-details">
             <strong class="perfume-name">{{ sale.perfume }}</strong>
             <span class="sale-meta">
-        {{ sale.price.label }} · {{ sale.price.amountCents / 100 | currency:'EUR' }}
-      </span>
+              {{ sale.price.label }} · {{ sale.price.amountCents / 100 | currency:'EUR' }}
+            </span>
           </div>
-          <small class="sale-time">
-            {{ sale.soldAt | date:'HH:mm' }}
-          </small>
+          <small class="sale-time">{{ sale.soldAt | date:'HH:mm' }}</small>
         </div>
 
         <button type="button"
-          class="remove-button"
-          [attr.aria-label]="'Remove sale of ' + sale.perfume"
-          (click)="removeSale(sale.id)"> Remove </button>
+                class="remove-button"
+                [attr.aria-label]="'Remove sale of ' + sale.perfume"
+                (click)="removeSale(sale.id)"> Remove
+        </button>
 
       </article>
       }

@@ -32,16 +32,6 @@
   align-items: center;
 }
 
-.eyebrow {
-  display: block;
-  color: var(--color-muted);
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  margin-bottom: 2px;
-}
-
 .sales-header h2 {
   margin: 0;
   font-size: 1.25rem;

@@ -53,14 +53,6 @@ export class DutySchedulePageComponent {
     return me ? { user: me, isViewingSelf: true } : null;
   });
 
-  readonly statusMessage = computed(() => {
-    if (this.session.error()) {
-      return 'Please open this app through Telegram to load your schedule.';
-    }
-    const selected = this.selectedUser();
-    return selected ? `Loading ${selected.work_name}'s schedule...` : '';
-  });
-
   constructor() {
     this.telegramService.init();
   }

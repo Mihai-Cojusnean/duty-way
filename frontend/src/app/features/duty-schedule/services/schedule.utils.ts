@@ -147,14 +147,6 @@ export function getTerminalName(terminal: string): string {
   return TERMINAL_NAMES[normalized] ?? normalized;
 }
 
-export function formatScheduleDate(date: ISODate): string {
-  return new Intl.DateTimeFormat('en-GB', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-  }).format(parseISODate(date));
-}
-
 export function shiftKey(record: ScheduleRecord): string {
   return [
     record.terminal.trim().toLowerCase(),
@@ -187,4 +179,12 @@ export function formatShiftHours(record: ScheduleRecord): string {
     `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
 
   return `${format(record.startMinutes)}-${format(record.endMinutes)}`;
+}
+
+export function formatScheduleDate(date: ISODate): string {
+  return new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }).format(parseISODate(date));
 }

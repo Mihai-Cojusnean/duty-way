@@ -27,7 +27,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 5vh;
+  margin-bottom: 6vh;
 }
 
 .modal-header h2 {
@@ -66,45 +66,11 @@ label {
   font-size: 0.8rem;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.stat-card {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.stat-label {
-  color: #a1a1aa;
-  font-size: 0.75rem;
-}
-
-.stat-value {
-  margin-top: 2px;
-  font-weight: 600;
-}
-
 .perfume-meta {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
-}
-
-.quick-stats {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.quick-stats strong {
-  color: #ffffff;
 }
 
 .description-text {

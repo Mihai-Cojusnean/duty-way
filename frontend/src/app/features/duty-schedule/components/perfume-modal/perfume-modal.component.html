@@ -1,12 +1,8 @@
 <div class="modal-backdrop" (click)="close.emit()">
-  <section
-    class="perfume-modal"
-    (click)="$event.stopPropagation()"
-  >
+  <section class="perfume-modal" (click)="$event.stopPropagation()">
     <header class="modal-header">
       <div>
         <h2>{{ perfume().name }}</h2>
-
         <div class="perfume-meta">
           <span class="creator">by {{ perfume().creator }}</span>
           <div class="performance-line">
