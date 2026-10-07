@@ -1,43 +1,43 @@
 <div class="modal-backdrop" (click)="close.emit()">
-  <section class="perfume-modal" (click)="$event.stopPropagation()">
+  <section class="modal-panel perfume-modal" (click)="$event.stopPropagation()">
+
     <header class="modal-header">
-      <div>
-        <h2>{{ perfume().name }}</h2>
-        <div class="perfume-meta">
+      <div class="perfume-title-group">
+        <div class="perfume-header">
+          <h2>{{ perfume().name }}</h2>
           <span class="creator">by {{ perfume().creator }}</span>
-          <div class="performance-line">
-            <span><strong>{{ perfume().longevity }}</strong> longevity</span>
-            <span><strong>{{ perfume().sillage }}</strong> sillage</span>
-          </div>
+        </div>
+        <div class="perfume-meta">
+          <span class="meta-badge">Longevity <strong class="meta-val">{{ perfume().longevity }}</strong></span>
+          <span class="meta-badge">Sillage <strong class="meta-val">{{ perfume().sillage }}</strong></span>
         </div>
       </div>
     </header>
 
-    @if (perfume().description) {
-    <div class="section-block">
-      <label>Description</label>
-      <p class="description-text">{{ perfume().description }}</p>
-    </div>
-    }
+    <div class="modal-body">
+      <section class="modal-section">
+        <label class="section-label">Description</label>
+        <p class="description-text">{{ perfume().description }}</p>
+      </section>
 
-    <div class="section-block">
-      <label>Fragrance Notes</label>
-      <div class="chips-container">
-        @for (note of fragranceNotes(); track note) {
-        <span class="note-chip">{{ note }}</span>
-        }
-      </div>
-    </div>
-    @if (perfume().pros?.length) {
-    <div class="section-block">
-      <label>Highlights</label>
+      <section class="modal-section">
+        <label class="section-label">Fragrance Notes</label>
+        <div class="chips-container">
+          @for (note of fragranceNotes(); track note) {
+          <span class="note-chip">{{ note }}</span>
+          }
+        </div>
+      </section>
 
-      <ul class="pros-list">
-        @for (pro of perfume().pros; track pro) {
-        <li>✓ {{ pro }}</li>
-        }
-      </ul>
+      <section class="modal-section">
+        <label class="section-label">Highlights</label>
+        <ul class="pros-list">
+          @for (pro of perfume().pros; track pro) {
+          <li><span class="check-mark">✓</span> {{ pro }}</li>
+          }
+        </ul>
+      </section>
     </div>
-    }
+
   </section>
 </div>

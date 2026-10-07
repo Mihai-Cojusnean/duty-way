@@ -1,54 +1,68 @@
-.modal-backdrop {
-  position: fixed;
-  z-index: 10;
-  inset: 0;
-  display: grid;
-  place-items: end center;
-  padding: 20px;
-  background: rgb(0 0 15 / 68%);
-}
-
-.perfume-modal {
-  position: relative;
-  isolation: isolate;
-  width: min(100%, 440px);
-  max-height: 82vh;
-  box-sizing: border-box;
-  overflow-y: auto;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 20px;
-  padding: 0.5em 0 0.7em 0.7em;
-  background-color: var(--color-surface-solid);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-  color: #ffffff;
+.modal-body {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 6vh;
+  gap: 8px;
+}
+
+.perfume-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .modal-header h2 {
   margin: 0;
-  padding-bottom: 5px;
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   font-weight: 700;
+  color: #ffffff;
+}
+
+.perfume-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .creator {
-  color: #a1a1aa;
+  color: #8f92b2;
   font-size: 0.85rem;
 }
 
-label {
+.perfume-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.meta-badge {
+  font-size: 0.75rem;
+  color: #8f92b2;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.meta-val {
+  color: #ffffff;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.section-label {
   display: block;
   margin-bottom: 6px;
-  color: #94a3b8;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
+  color: #7277a1;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.description-text {
+  margin: 0;
+  color: #d1d5f0;
+  font-size: 0.875rem;
+  line-height: 1.45;
 }
 
 .chips-container {
@@ -60,43 +74,30 @@ label {
 .note-chip {
   padding: 4px 10px;
   border: 1px solid rgba(96, 165, 250, 0.25);
-  border-radius: 0.375rem;
-  background: rgba(96, 165, 250, 0.12);
+  border-radius: 6px;
+  background: rgba(96, 165, 250, 0.1);
   color: #93c5fd;
   font-size: 0.8rem;
 }
 
-.perfume-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.description-text {
-  margin: 0;
-  color: #d3d7f6;
-  font-size: 0.875rem;
-}
-
-.performance-line strong {
-  color: #ffffff;
-}
-
 .pros-list {
-  display: grid;
-  gap: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .pros-list li {
-  color: #d9e0fb;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #d1d5f0;
   font-size: 0.85rem;
-  line-height: 1.35;
 }
 
-.pros-list li::first-letter {
-  color: var(--color-accent-green);
+.check-mark {
+  color: #4ade80;
+  font-weight: 700;
 }

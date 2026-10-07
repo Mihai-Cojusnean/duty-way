@@ -174,7 +174,9 @@ export function findCurrentShift(
   );
 }
 
-export function formatShiftHours(record: ScheduleRecord): string {
+export function formatShiftHours(
+  record: Pick<ScheduleRecord, 'startMinutes' | 'endMinutes'>,
+): string {
   const format = (minutes: number) =>
     `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
 

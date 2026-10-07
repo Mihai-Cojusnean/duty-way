@@ -143,29 +143,79 @@
     @for (record of group.shifts; track record.id) {
     <article [class.today-shift]="isToday(record.date)">
       <div class="shift-header">
-        <strong>
-          {{ formatScheduleDate(record.date) }} ·
-          {{ formatShiftHours(record) }}
-        </strong>
+        <button
+          class="shift-open-button"
+          type="button"
+          [attr.aria-label]="'Show coworkers for ' + formatScheduleDate(record.date)"
+          (click)="openShift(record)"
+        >
+          <strong>
+            {{ formatScheduleDate(record.date) }} ·
+            {{ formatShiftHours(record) }}
+          </strong>
+          <strong>
+            {{ record.terminal }}
+          </strong>
+        </button>
 
-        <div class="brand-buttons">
-          <button
-            class="brand-button"
-            type="button"
-            [attr.aria-label]="'Open ' + record.brand"
-            (click)="goToBrand(record.brand)"
-          >
-            {{ record.brand }}
-          </button>
-        </div>
+        <button
+          class="brand-button"
+          type="button"
+          [attr.aria-label]="'Open ' + record.brand"
+          (click)="goToBrand(record.brand)"
+        >
+          {{ record.brand }}
+        </button>
       </div>
-      <p class="shift-details">{{ record.terminal }}</p>
     </article>
     }
   </div>
   }
   }
 </section>
+}
+
+@if (selectedShift(); as shift) {
+<div class="modal-backdrop" (click)="closeShift()">
+  <section
+    class="modal-panel shift-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="shift-modal-title"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="shift-modal-header">
+      <div>
+        <h2 id="shift-modal-title">
+          {{ formatScheduleDate(shift.date) }} · {{ formatShiftHours(shift) }}
+        </h2>
+        <p class="shift-subtitle">{{ shift.brand }} · {{ shift.terminal }}</p>
+      </div>
+    </header>
+
+    <div class="shift-modal-body">
+      <span class="section-label">Overlapping Coworkers</span>
+
+      @if (shift.coworkers.length) {
+      <ul class="coworker-list">
+        @for ( coworker of shift.coworkers;
+        track coworker.name + coworker.brand + coworker.startMinutes + coworker.endMinutes
+        ) {
+        <li class="coworker-card">
+          <strong class="coworker-name">{{ coworker.name }}</strong>
+          <div class="coworker-meta">
+            <span class="coworker-brand">{{ coworker.brand }}</span>
+            <span class="coworker-hours">{{ formatShiftHours(coworker) }}</span>
+          </div>
+        </li>
+        }
+      </ul>
+      } @else {
+      <p class="empty-state">No overlapping coworkers listed for this shift.</p>
+      }
+    </div>
+  </section>
+</div>
 }
 
 <app-schedule-chart [records]="records()" groupBy="brand"></app-schedule-chart>

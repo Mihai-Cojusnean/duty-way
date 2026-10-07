@@ -52,6 +52,7 @@ export class ScheduleFinderComponent {
   readonly salesHistory = this.salesStore.salesHistory;
   readonly viewedUser = input<ViewedUser | null>(null);
   readonly totalPastShiftCount = computed(() => this.shiftsByPeriod().past.length);
+  readonly selectedShift = signal<ScheduleRecord | null>(null);
 
   private readonly shiftsByPeriod = computed(() => {
     const past: ScheduleRecord[] = [];
@@ -151,8 +152,9 @@ export class ScheduleFinderComponent {
       );
 
       this.saveSchedule(records);
-    } catch {
-      this.statusMessage.set('Could not read the schedule file.');
+    } catch (error) {
+      console.error('Failed to parse schedule file:', error);
+      this.statusMessage.set(error instanceof Error ? error.message : String(error));
     }
   }
 
@@ -173,6 +175,14 @@ export class ScheduleFinderComponent {
     );
 
     this.statusMessage.set(message);
+  }
+
+  openShift(shift: ScheduleRecord): void {
+    this.selectedShift.set(shift);
+  }
+
+  closeShift(): void {
+    this.selectedShift.set(null);
   }
 
   goToBrand(brand: string): void {

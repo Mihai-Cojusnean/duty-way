@@ -3,6 +3,10 @@ import * as XLSX from 'xlsx';
 import { ISODate, ScheduleRecord } from '../interfaces/duty.interface';
 import { getTerminalName } from './schedule.utils';
 
+interface ParsedEmployeeShift extends ScheduleRecord {
+  readonly employeeName: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,49 +16,109 @@ export class ScheduleParserService {
     personName: string,
     scheduleYear = new Date().getFullYear(),
   ): Promise<ScheduleRecord[]> {
-    const fileData = await file.arrayBuffer();
-    const workbook = XLSX.read(fileData, { type: 'array' });
     const targetName = personName.trim().toLowerCase();
 
-    const rawRecords: ScheduleRecord[] = [];
+    if (!targetName) {
+      throw new Error('Person name is required.');
+    }
 
-    for (const terminal of workbook.SheetNames) {
-      const sheet = workbook.Sheets[terminal];
+    const fileData = await file.arrayBuffer();
+    const workbook = XLSX.read(fileData, { type: 'array' });
+    const allShifts: ParsedEmployeeShift[] = [];
+
+    for (const sheetName of workbook.SheetNames) {
+      const sheet = workbook.Sheets[sheetName];
       const range = XLSX.utils.decode_range(sheet['!ref'] ?? 'A1');
+      const terminal = getTerminalName(sheetName);
+      let currentDate: ISODate | null = null;
 
       for (let row = Math.max(5, range.s.r); row <= range.e.r; row++) {
-        for (let col = range.s.c; col <= range.e.c; col++) {
-          const person = this.getCellText(sheet, row, col);
+        const dateText = this.getCellText(sheet, row, 2);
+        const rowHasContent = Array.from({ length: range.e.c - range.s.c + 1 }, (_, index) =>
+          this.getCellText(sheet, row, range.s.c + index),
+        ).some(Boolean);
 
-          if (!person || !person.toLowerCase().includes(targetName)) {
+        if (dateText) {
+          if (!/^\d{1,2}-[A-Za-z]{3}$/.test(dateText.trim())) {
+            currentDate = null;
             continue;
           }
 
-          const dateStr = this.getCellText(sheet, row, 2);
+          currentDate = this.parseScheduleDate(dateText, scheduleYear);
+        } else if (!rowHasContent) {
+          currentDate = null;
+          continue;
+        }
+
+        const rowDate = currentDate;
+        if (!rowDate) {
+          continue;
+        }
+
+        for (let col = range.s.c; col <= range.e.c; col++) {
+          const employeeName = this.getCellText(sheet, row, col);
+
+          if (!employeeName || this.isTimeRange(employeeName)) {
+            continue;
+          }
+
           const hours = col > 0 ? this.getCellText(sheet, row, col - 1) : '';
+
+          if (!this.isTimeRange(hours)) {
+            continue;
+          }
+
           const brand = this.getBrandForColumn(sheet, col);
-          const lowerBrand = brand.toLowerCase();
+          if (/^heure pause (matin|soir)$/i.test(brand.trim())) {
+            continue;
+          }
+
+          if (this.isCancelledShift(employeeName, hours, brand)) {
+            continue;
+          }
+
           const { startMinutes, endMinutes } = this.parseTimeRange(hours);
 
-          if (lowerBrand === 'heure pause matin' || lowerBrand === 'heure pause soir') {
-            continue;
-          }
-
-          rawRecords.push({
-            id: `${terminal}-${row}-${col}`,
-            terminal: getTerminalName(terminal),
+          allShifts.push({
+            id: `${sheetName}-${row}-${col}`,
+            employeeName,
+            terminal,
             brand,
-            date: this.parseScheduleDate(dateStr, scheduleYear),
+            date: rowDate,
             startMinutes,
             endMinutes,
+            coworkers: [],
           });
         }
       }
     }
 
-    return rawRecords.sort(
-      (a, b) => a.date.localeCompare(b.date) || a.startMinutes - b.startMinutes,
-    );
+    return allShifts
+      .filter((shift) => shift.employeeName.trim().toLowerCase() === targetName)
+      .map((shift) => ({
+        id: shift.id,
+        terminal: shift.terminal,
+        brand: shift.brand,
+        date: shift.date,
+        startMinutes: shift.startMinutes,
+        endMinutes: shift.endMinutes,
+        coworkers: allShifts
+          .filter(
+            (other) =>
+              other.employeeName.trim().toLowerCase() !== targetName &&
+              other.date === shift.date &&
+              other.terminal === shift.terminal &&
+              other.startMinutes < shift.endMinutes &&
+              other.endMinutes > shift.startMinutes,
+          )
+          .map((other) => ({
+            name: other.employeeName,
+            brand: other.brand,
+            startMinutes: other.startMinutes,
+            endMinutes: other.endMinutes,
+          })),
+      }))
+      .sort((a, b) => a.date.localeCompare(b.date) || a.startMinutes - b.startMinutes);
   }
 
   private getCellText(sheet: XLSX.WorkSheet, row: number, col: number): string {
@@ -144,5 +208,19 @@ export class ScheduleParserService {
     }
 
     return { startMinutes, endMinutes };
+  }
+
+  private isTimeRange(value: string): boolean {
+    return /^\d{1,2}\s*[h:]\s*\d{0,2}\s*-\s*\d{1,2}\s*[h:]\s*\d{0,2}$/i.test(value.trim());
+  }
+
+  private isCancelledShift(...values: string[]): boolean {
+    return values.some((value) =>
+      value
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .includes('annul'),
+    );
   }
 }

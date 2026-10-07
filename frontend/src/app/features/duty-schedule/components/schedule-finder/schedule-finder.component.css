@@ -100,7 +100,7 @@ article p {
 .schedule-header h2,
 .schedule-header .status-message,
 .change-group h3 {
-  margin: 0;
+  margin: 8px 0;
 }
 
 .schedule-changes {
@@ -232,6 +232,118 @@ article:has(.shift-header) {
   margin-left: 2px;
 }
 
+.shift-open-button {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .topbar {
   margin: 10px 0;
+}
+
+.shift-modal-header {
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.shift-modal h2 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+}
+
+.shift-subtitle {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #8f92b2;
+  margin: 0;
+}
+
+.section-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7277a1;
+  margin-bottom: 10px;
+}
+
+.coworker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.coworker-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.15s ease;
+}
+
+.coworker-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.coworker-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.coworker-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.coworker-brand {
+  color: #a2a6c1;
+}
+
+.coworker-hours {
+  color: #8f92b2;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.empty-state {
+  font-size: 0.85rem;
+  color: #8f92b2;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .shift-modal {
+    padding: 16px;
+  }
+
+  .coworker-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
 }

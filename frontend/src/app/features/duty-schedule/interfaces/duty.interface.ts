@@ -12,6 +12,7 @@ export interface ScheduleRecord {
   readonly date: ISODate;
   readonly startMinutes: number;
   readonly endMinutes: number;
+  readonly coworkers: readonly CoworkerShift[];
 }
 
 export interface ShiftGroup {
@@ -31,6 +32,13 @@ export interface ScheduleDiff {
   readonly added: readonly ScheduleRecord[];
   readonly removed: readonly ScheduleRecord[];
   readonly changed: readonly ChangedShift[];
+}
+
+export interface CoworkerShift {
+  readonly name: string;
+  readonly brand: string;
+  readonly startMinutes: number;
+  readonly endMinutes: number;
 }
 
 export interface Perfume {
