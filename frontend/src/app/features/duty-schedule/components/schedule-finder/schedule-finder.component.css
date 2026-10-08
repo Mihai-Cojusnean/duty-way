@@ -304,6 +304,7 @@ article:has(.shift-header) {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
   transition: background 0.15s ease;
+  flex-direction: column;
 }
 
 .coworker-card:hover {
@@ -311,20 +312,25 @@ article:has(.shift-header) {
 }
 
 .coworker-name {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  color: #ffffff;
-}
-
-.coworker-meta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 .coworker-brand {
   color: #a2a6c1;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 .coworker-hours {
@@ -333,6 +339,11 @@ article:has(.shift-header) {
   background: rgba(255, 255, 255, 0.05);
   padding: 2px 6px;
   border-radius: 4px;
+  font-size: 0.78rem;
+  width: 80px;
+  flex-shrink: 0;
+  margin-left: auto;
+  text-align: right;
 }
 
 .empty-state {
@@ -341,9 +352,36 @@ article:has(.shift-header) {
   margin: 0;
 }
 
-@media (max-width: 480px) {
-  .coworker-card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.coworker-top-row,
+.coworker-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+
+.timeline-bar {
+  display: flex;
+  height: 6px;
+  width: 80px;
+  flex-shrink: 0;
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.segment {
+  height: 100%;
+}
+
+.segment.green {
+  background: #4ade80;
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.4);
+}
+
+.segment.red {
+  background: #f87171;
+  opacity: 0.6;
 }

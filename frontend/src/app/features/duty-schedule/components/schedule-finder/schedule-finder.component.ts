@@ -190,4 +190,47 @@ export class ScheduleFinderComponent {
       console.error('Navigation error:', error);
     });
   }
+
+  private parseTimeToMinutes(timeStr: string): number {
+    if (!timeStr) return 0;
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+
+  getOverlapSegments(coworker: any, myShift: any) {
+    const myStart =
+      typeof myShift.startMinutes === 'number'
+        ? myShift.startMinutes
+        : this.parseTimeToMinutes(myShift.startTime);
+
+    const myEnd =
+      typeof myShift.endMinutes === 'number'
+        ? myShift.endMinutes
+        : this.parseTimeToMinutes(myShift.endTime);
+
+    const myDuration = myEnd - myStart;
+
+    const cwStart =
+      typeof coworker.startMinutes === 'number'
+        ? coworker.startMinutes
+        : this.parseTimeToMinutes(coworker.startTime);
+
+    const cwEnd =
+      typeof coworker.endMinutes === 'number'
+        ? coworker.endMinutes
+        : this.parseTimeToMinutes(coworker.endTime);
+
+    const overlapStart = Math.max(myStart, Math.min(myEnd, cwStart));
+    const overlapEnd = Math.max(myStart, Math.min(myEnd, cwEnd));
+
+    const redStartMins = overlapStart - myStart;
+    const greenMins = overlapEnd - overlapStart;
+    const redEndMins = myEnd - overlapEnd;
+
+    return {
+      redStart: (redStartMins / myDuration) * 100,
+      green: (greenMins / myDuration) * 100,
+      redEnd: (redEndMins / myDuration) * 100,
+    };
+  }
 }

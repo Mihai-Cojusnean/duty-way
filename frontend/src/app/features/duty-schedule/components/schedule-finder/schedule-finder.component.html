@@ -202,10 +202,27 @@
         track coworker.name + coworker.brand + coworker.startMinutes + coworker.endMinutes
         ) {
         <li class="coworker-card">
-          <strong class="coworker-name">{{ coworker.name }}</strong>
-          <div class="coworker-meta">
-            <span class="coworker-hours">{{ formatShiftHours(coworker) }}</span>
+          <div class="coworker-top-row">
+            <strong class="coworker-name">{{ coworker.name }}</strong>
+
+            <div class="timeline-bar" title="Overlap indicator">
+              @let segments = getOverlapSegments(coworker, shift);
+
+              @if (segments.redStart > 0) {
+              <span class="segment red" [style.width.%]="segments.redStart"></span>
+              }
+              @if (segments.green > 0) {
+              <span class="segment green" [style.width.%]="segments.green"></span>
+              }
+              @if (segments.redEnd > 0) {
+              <span class="segment red" [style.width.%]="segments.redEnd"></span>
+              }
+            </div>
+          </div>
+
+          <div class="coworker-bottom-row">
             <span class="coworker-brand">{{ coworker.brand }}</span>
+            <span class="coworker-hours">{{ formatShiftHours(coworker) }}</span>
           </div>
         </li>
         }
