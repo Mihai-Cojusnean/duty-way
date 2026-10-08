@@ -269,6 +269,10 @@ article:has(.shift-header) {
   margin: 0;
 }
 
+.shift-open-button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .section-label {
   display: block;
   font-size: 0.7rem;
@@ -294,7 +298,8 @@ article:has(.shift-header) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 14px;
+  padding: 4px 10px;
+  gap: 2px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -314,7 +319,7 @@ article:has(.shift-header) {
 .coworker-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 0.8rem;
 }
 
@@ -337,13 +342,8 @@ article:has(.shift-header) {
 }
 
 @media (max-width: 480px) {
-  .shift-modal {
-    padding: 16px;
-  }
-
   .coworker-card {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
   }
 }

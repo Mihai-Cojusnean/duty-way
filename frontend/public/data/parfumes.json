@@ -627,6 +627,12 @@
           "name": "Black Parfum",
           "prices": [
             {
+              "id": "150ml",
+              "label": "150ml",
+              "amountCents": 17000,
+              "currency": "EUR"
+            },
+            {
               "id": "100ml",
               "label": "100ml",
               "amountCents": 16167,
@@ -935,6 +941,12 @@
               "currency": "EUR"
             },
             {
+              "id": "150ml",
+              "label": "150ml",
+              "amountCents": 15334,
+              "currency": "EUR"
+            },
+            {
               "id": "75ml",
               "label": "75ml",
               "amountCents": 10800,
@@ -1074,7 +1086,7 @@
             {
               "id": "200ml",
               "label": "200ml",
-              "amountCents": 5800,
+              "amountCents": 5867,
               "currency": "EUR"
             }
           ],
@@ -1097,7 +1109,7 @@
             {
               "id": "200ml",
               "label": "200ml",
-              "amountCents": 6600,
+              "amountCents": 6617,
               "currency": "EUR"
             }
           ],
@@ -1217,7 +1229,7 @@
             {
               "id": "Crystalline_edp_coffret",
               "label": "110ml",
-              "amountCents": 16100,
+              "amountCents": 17667,
               "currency": "EUR"
             }
           ],
