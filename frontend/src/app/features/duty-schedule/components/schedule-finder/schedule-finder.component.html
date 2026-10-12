@@ -18,9 +18,7 @@
     (change)="onFileChange($event)"
   />
 
-  <label class="file-input-text" for="scheduleFile">
-    upload new
-  </label>
+  <label class="file-input-text" for="scheduleFile">upload new</label>
 </div>
 
 @if (records().length > 0 || scheduleDiff()) {
@@ -36,9 +34,7 @@
     <h2>Latest changes</h2>
 
     @if (!diff.added.length && !diff.removed.length && !diff.changed.length) {
-    <p class="no-changes">
-      No changes compared with your previous schedule.
-    </p>
+    <p class="no-changes">No changes compared with your previous schedule.</p>
     }
 
     @if (diff.added.length) {
@@ -105,19 +101,13 @@
 
             @if (salesForShiftGroup(record); as sale) {
             <span class="shift-sales">
-              <strong class="sale-amount">
-                {{ formatEuro(sale.totalCents) }}
-              </strong>
-              <span class="sale-count">
-                · {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}
-              </span>
+              <strong class="sale-amount">{{ formatEuro(sale.totalCents) }}</strong>
+              <span class="sale-count">· {{ sale.count }} {{ sale.count === 1 ? 'item' : 'items' }}</span>
             </span>
             }
           </div>
 
-          <p class="shift-details">
-            {{ record.brand }} · {{ record.terminal }}
-          </p>
+          <p class="shift-details">{{ record.brand }} · {{ record.terminal }}</p>
         </article>
         }
       </div>
@@ -130,9 +120,7 @@
   @if (group.isDayOff) {
   <div class="day-off-separator">
     <span class="day-off-line"></span>
-    <span class="day-off-label">
-      {{ group.dayLabel }} · Day off
-    </span>
+    <span class="day-off-label">{{ group.dayLabel }} · Day off</span>
     <span class="day-off-line"></span>
   </div>
   } @else {
@@ -153,9 +141,7 @@
             {{ formatScheduleDate(record.date) }} ·
             {{ formatShiftHours(record) }}
           </strong>
-          <strong>
-            {{ record.terminal }}
-          </strong>
+          <strong>{{ record.terminal }}</strong>
         </button>
 
         <button
