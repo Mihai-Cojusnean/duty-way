@@ -695,7 +695,7 @@
             {
               "id": "60ml",
               "label": "60ml",
-              "amountCents": 1,
+              "amountCents": 10750,
               "currency": "EUR"
             }
           ],
