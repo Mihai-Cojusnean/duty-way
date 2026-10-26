@@ -58,15 +58,10 @@ export async function getSalesToday(
 
 export async function getSalesHistoryRoute(
 	currentUser: User,
-	url: URL,
 	env: Env,
 	corsHeaders: Record<string, string>,
 ): Promise<Response> {
-	const requestedDays = Number(url.searchParams.get('days') ?? '7');
-	const days =
-		Number.isInteger(requestedDays) && requestedDays >= 1 && requestedDays <= 31 ? requestedDays : 7;
-
-	return json({ days: await getSalesHistory(env, currentUser.telegram_id, days) }, corsHeaders);
+	return json({ days: await getSalesHistory(env, currentUser.telegram_id) }, corsHeaders,);
 }
 
 export async function postSale(
@@ -149,7 +144,7 @@ async function getTodaySalesSummary(
 	};
 }
 
-export async function getSalesHistory(env: Env, telegramId: string, days: number): Promise<readonly DailySalesSummary[]> {
+export async function getSalesHistory(env: Env, telegramId: string,): Promise<readonly DailySalesSummary[]> {
 	const result = await env.DB.prepare(
 		`SELECT
 			 date(sold_at) AS date,
@@ -158,11 +153,10 @@ export async function getSalesHistory(env: Env, telegramId: string, days: number
 			 COALESCE(SUM(amount_cents), 0) AS total_cents
 		 FROM sales
 		 WHERE telegram_user_id = ?
-		   AND date(sold_at) >= date('now', ?)
 		 GROUP BY date(sold_at), shift_key
 		 ORDER BY date(sold_at) DESC`,
 	)
-		.bind(telegramId, `-${days - 1} days`)
+		.bind(telegramId)
 		.all<{ date: string; shift_key: string; count: number; total_cents: number }>();
 
 	return result.results.map((row) => ({
@@ -228,17 +222,10 @@ export async function getAdminUserSalesToday(
 export async function getAdminUserSalesHistory(
 	currentUser: User,
 	telegramId: string,
-	url: URL,
 	env: Env,
 	corsHeaders: Record<string, string>,
 ): Promise<Response> {
-	if (!currentUser.is_admin) {
-		return json({ error: 'Admin access required.' }, corsHeaders, 403);
-	}
+	if (!currentUser.is_admin) {return json({ error: 'Admin access required.' }, corsHeaders, 403);}
 
-	const requestedDays = Number(url.searchParams.get('days') ?? '7');
-	const days =
-		Number.isInteger(requestedDays) && requestedDays >= 1 && requestedDays <= 31 ? requestedDays : 7;
-
-	return json({ days: await getSalesHistory(env, telegramId, days) }, corsHeaders);
+	return json({ days: await getSalesHistory(env, telegramId) }, corsHeaders,);
 }

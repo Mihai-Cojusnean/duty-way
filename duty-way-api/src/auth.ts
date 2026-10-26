@@ -14,6 +14,8 @@ export async function authenticateTelegramUser(request: Request, env: Env): Prom
 	// 	is_admin: true,
 	// };
 
+	// npx wrangler deploy
+
 	if (!initData || !env.TELEGRAM_BOT_TOKEN) {
 		return null;
 	}

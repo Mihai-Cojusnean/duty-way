@@ -48,13 +48,10 @@ export class SalesService {
     });
   }
 
-  getRecentHistory(days = 7): Observable<readonly SalesHistoryEntry[]> {
-    const params = new HttpParams().set('days', String(days));
-
+  getRecentHistory(): Observable<readonly SalesHistoryEntry[]> {
     return this.http
       .get<{ readonly days: readonly SalesHistoryEntry[] }>(`${this.apiUrl}/api/sales/history`, {
-        headers: this.authHeaders,
-        params,
+        headers: this.authHeaders
       })
       .pipe(map((response) => response.days));
   }

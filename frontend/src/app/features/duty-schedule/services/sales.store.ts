@@ -43,10 +43,10 @@ export class SalesStore {
     });
   }
 
-  loadSalesHistory(viewed: ViewedUser, days = 31): void {
+  loadSalesHistory(viewed: ViewedUser): void {
     const request$ = viewed.isViewingSelf
-      ? this.salesService.getRecentHistory(days)
-      : this.adminService.getUserSalesHistory(viewed.user.telegram_id, days);
+      ? this.salesService.getRecentHistory()
+      : this.adminService.getUserSalesHistory(viewed.user.telegram_id);
 
     request$.subscribe({
       next: (history) => {

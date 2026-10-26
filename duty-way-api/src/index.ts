@@ -56,7 +56,7 @@ export default {
 			}
 
 			if (request.method === 'GET' && url.pathname === '/api/sales/history') {
-				return getSalesHistoryRoute(currentUser, url, env, corsHeaders);
+				return getSalesHistoryRoute(currentUser, env, corsHeaders);
 			}
 
 			if (request.method === 'POST' && url.pathname === '/api/sales') {
